@@ -14,10 +14,12 @@
     "@types/node": "^16.18.2",
     "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/parser": "^5.41.0",
     "editorconfig-checker": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "sass": "^1.55.0",
     "web-vitals": "^2.1.4"
