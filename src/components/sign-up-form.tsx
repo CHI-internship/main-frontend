@@ -12,9 +12,20 @@ import { validateEmail } from '../utils/validate-email';
 import { validatePassword } from '../utils/valdiate-password';
 import { useNavigate } from 'react-router-dom';
 
+type User = {
+  email: string;
+  name: string;
+  lastname: string;
+  password: string;
+  photo?: string;
+};
+
 const SignUpForm: FC<{}> = (): ReactElement => {
   const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [lastname, setLastname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [photo, setPhoto] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
   const [isEmailError, setIsEmailError] = useState<boolean>(false);
   const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
@@ -46,7 +57,15 @@ const SignUpForm: FC<{}> = (): ReactElement => {
   };
 
   const signUp = (): void => {
+    const user: User = {
+      email,
+      name,
+      lastname,
+      password,
+      photo,
+    };
     if (isValid()) {
+      console.log(user);
       navigate('/sign-in', { replace: true });
     }
   };
@@ -88,6 +107,31 @@ const SignUpForm: FC<{}> = (): ReactElement => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
+
+          <TextField
+            style={inputStyles.default}
+            label='Name'
+            required
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+
+          <TextField
+            style={inputStyles.default}
+            label='Lastname'
+            required
+            value={lastname}
+            onChange={e => setLastname(e.target.value)}
+          />
+
+          <TextField
+            style={inputStyles.default}
+            label='Photo'
+            required
+            value={photo}
+            onChange={e => setPhoto(e.target.value)}
+          />
+
           <TextField
             style={inputStyles.default}
             label='Password'
