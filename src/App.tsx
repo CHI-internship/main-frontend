@@ -1,4 +1,3 @@
-import React from 'react';
 import './Global.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignIn from './pages/sign-in';

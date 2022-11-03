@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { Link } from 'react-router-dom';
 import linkStyles from '../styles/link-styles';
 import { Typography } from '@mui/material';

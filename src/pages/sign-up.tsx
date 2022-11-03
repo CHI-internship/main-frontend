@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import SignUpForm from '../components/sign-up-form';
 
 const SignUp: FC<{}> = (): ReactElement => {

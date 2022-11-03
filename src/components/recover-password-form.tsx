@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../styles/input-styles';
 import { validateEmail } from '../utils/validate-email';
