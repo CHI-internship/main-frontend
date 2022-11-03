@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
-import logo from '../images/user.png';
+import logo from '../../images/user.png';
 import style from './Header.module.scss';
 
 const Header: FC = () => (
