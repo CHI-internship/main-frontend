@@ -1,7 +1,7 @@
-import { FC, ReactElement } from 'react';
+import { FC } from 'react';
 import SignUpForm from '../components/sign-up-form';
 
-const SignUp: FC<{}> = (): ReactElement => {
+const SignUp: FC = () => {
   return <SignUpForm />;
 };
 

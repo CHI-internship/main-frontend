@@ -1,11 +1,11 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../styles/input-styles';
 import FormLink from './form-link';
 import { validateEmail } from '../utils/validate-email';
 import { validatePassword } from '../utils/valdiate-password';
 
-const SignInForm: FC<{}> = (): ReactElement => {
+const SignInForm: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isEmailError, setIsEmailError] = useState<boolean>(false);

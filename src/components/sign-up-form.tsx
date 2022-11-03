@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, useState } from 'react';
 import {
   Alert,
   Box,
@@ -20,7 +20,7 @@ type User = {
   photo?: string;
 };
 
-const SignUpForm: FC<{}> = (): ReactElement => {
+const SignUpForm: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');

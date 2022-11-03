@@ -1,9 +1,9 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../styles/input-styles';
 import { validateEmail } from '../utils/validate-email';
 
-const RecoverPasswordForm: FC<{}> = (): ReactElement => {
+const RecoverPasswordForm: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [isEmailError, setIsEmailError] = useState<boolean>(false);
 

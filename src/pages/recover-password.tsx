@@ -1,7 +1,7 @@
-import { FC, ReactElement } from 'react';
+import { FC } from 'react';
 import RecoverPasswordForm from '../components/recover-password-form';
 
-const RecoverPassword: FC<{}> = (): ReactElement => {
+const RecoverPassword: FC = () => {
   return <RecoverPasswordForm />;
 };
 
