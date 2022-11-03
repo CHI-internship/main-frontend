@@ -10,7 +10,7 @@ type FormLinkProps = {
 };
 
 const FormLink: FC<FormLinkProps> = props => {
-  const [isHover, setIsHover] = useState<boolean>(false);
+  const [isHover, setIsHover] = useState(false);
 
   return (
     <Typography sx={{ textAlign: 'center' }}>

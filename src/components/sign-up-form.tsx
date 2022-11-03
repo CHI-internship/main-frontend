@@ -21,15 +21,15 @@ type User = {
 };
 
 const SignUpForm: FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [lastname, setLastname] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [photo, setPhoto] = useState<string>('');
-  const [repeatPassword, setRepeatPassword] = useState<string>('');
-  const [isEmailError, setIsEmailError] = useState<boolean>(false);
-  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
-  const [isPasswordsMatch, setIsPasswordsMatch] = useState<boolean>(true);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [password, setPassword] = useState('');
+  const [photo, setPhoto] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
+  const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
 
   const navigate = useNavigate();
 

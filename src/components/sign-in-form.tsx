@@ -6,10 +6,10 @@ import { validateEmail } from '../utils/validate-email';
 import { validatePassword } from '../utils/valdiate-password';
 
 const SignInForm: FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [isEmailError, setIsEmailError] = useState<boolean>(false);
-  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
 
   const isValid = (): boolean => {
     if (validateEmail(email)) {

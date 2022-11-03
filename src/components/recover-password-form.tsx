@@ -4,8 +4,8 @@ import inputStyles from '../styles/input-styles';
 import { validateEmail } from '../utils/validate-email';
 
 const RecoverPasswordForm: FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [isEmailError, setIsEmailError] = useState<boolean>(false);
+  const [email, setEmail] = useState('');
+  const [isEmailError, setIsEmailError] = useState(false);
 
   const isValid = (): boolean => {
     if (validateEmail(email)) {
