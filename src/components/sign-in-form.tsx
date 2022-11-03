@@ -80,7 +80,7 @@ const SignInForm: FC<{}> = (): ReactElement => {
           onChange={e => setPassword(e.target.value)}
         />
 
-        <FormLink linkConfig={{ path: '/sign-up', title: 'Sign Up' }} />
+        <FormLink path='/sign-up' title='Sign Up' />
 
         <Button
           variant='contained'
@@ -91,11 +91,9 @@ const SignInForm: FC<{}> = (): ReactElement => {
         </Button>
 
         <FormLink
-          linkConfig={{
-            path: '/recover-password',
-            title: 'Forgot password',
-            styles: { fontSize: '.75rem' },
-          }}
+          path='recover-password'
+          title='Forgot password'
+          styles={{ fontSize: '.75rem' }}
         />
       </Box>
     </Box>

@@ -1,26 +1,24 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import linkStyles from '../styles/link-styles';
 import { Typography } from '@mui/material';
 
-type PropType = {
-  linkConfig: {
-    path: string;
-    title: string;
-    styles?: {};
-  };
+type FormLinkProps = {
+  path: string;
+  title?: string;
+  styles?: {};
 };
 
-const FormLink: FC<PropType> = ({ linkConfig }: PropType): ReactElement => {
+const FormLink: FC<FormLinkProps> = props => {
   const [isHover, setIsHover] = useState<boolean>(false);
 
   return (
     <Typography sx={{ textAlign: 'center' }}>
       <Link
-        to={linkConfig.path}
+        to={props.path}
         style={{
           ...linkStyles.default,
-          ...linkConfig.styles,
+          ...props.styles,
           ...(isHover ? linkStyles.hover : null),
         }}
         onMouseEnter={() => {
@@ -30,10 +28,15 @@ const FormLink: FC<PropType> = ({ linkConfig }: PropType): ReactElement => {
           setIsHover(false);
         }}
       >
-        {linkConfig.title}
+        {props.title}
       </Link>
     </Typography>
   );
+};
+
+FormLink.defaultProps = {
+  title: 'Form Link',
+  styles: {},
 };
 
 export default FormLink;
