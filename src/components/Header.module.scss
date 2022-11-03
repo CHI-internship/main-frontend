@@ -1,0 +1,11 @@
+.profile_container{
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.avatar img{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
