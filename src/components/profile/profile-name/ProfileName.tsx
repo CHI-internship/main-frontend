@@ -6,7 +6,7 @@ import style from './ProfileName.module.scss'
 import editIcon from '../../../images/icons/edit.icon.svg'
 import confirmIcon from '../../../images/icons/confirm.icon.svg'
 import cancelIcon from '../../../images/icons/cancel.icon.svg'
-import { updateName } from '../../../api/user/update-profile-name'
+import { updatePofile } from '../../../api/user/update-profile'
 
 interface IProfileNameProps {
   userId: number
@@ -24,13 +24,14 @@ export const ProfileName: React.FC<IProfileNameProps> =
     const formik = useFormik({
       initialValues: { name, lastname },
       onSubmit: async (values) => {
-        const sendData: any = {
-          userId, name: values.name, lastname: values.lastname,
-        }
+        const sendData: any =
+          { userId, name: values.name, lastname: values.lastname }
+
         if (name !== values.name || lastname !== values.lastname) {
           if (name === values.name) sendData.name = null
           if (lastname === values.lastname) sendData.lastname = null
-          await updateName(sendData).then((data) => {
+
+          await updatePofile(sendData).then((data) => {
             setName(data.name)
             setLastname(data.lastname)
             setEditing(false)
