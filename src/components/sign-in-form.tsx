@@ -1,38 +1,36 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../styles/input-styles';
 import FormLink from './form-link';
-import { validateEmail } from '../utils/validate-email';
-import { validatePassword } from '../utils/valdiate-password';
+import * as yup from 'yup';
+import { Formik, Form, Field, FormikValues } from 'formik';
+
+type SignInType = {
+  email: string;
+  password: string;
+};
+
+const initialValues: SignInType = {
+  email: '',
+  password: '',
+};
+
+const validationSchema = yup.object({
+  email: yup.string().email('Invalid format').required('Email is required'),
+  password: yup
+    .string()
+    .matches(
+      /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+      'Password must contain 0-9 & A-Z & a-z & any special symbol'
+    )
+    .min(8)
+    .required('Password is required'),
+});
 
 const SignInForm: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
-
-  const isValid = (): boolean => {
-    if (validateEmail(email)) {
-      if (validatePassword(password)) {
-        setEmail('');
-        setPassword('');
-        setIsEmailError(false);
-        setIsPasswordError(false);
-        return true;
-      } else {
-        setIsPasswordError(true);
-        return false;
-      }
-    } else {
-      setIsEmailError(true);
-      return false;
-    }
-  };
-
-  const signIn = (): void => {
-    if (isValid()) {
-      alert('Signed In');
-    }
+  const signIn = (values: FormikValues) => {
+    console.log(values);
+    // navigate('/', { replace: true });
   };
 
   return (
@@ -56,45 +54,64 @@ const SignInForm: FC = () => {
           Sign In
         </Typography>
 
-        <TextField
-          style={inputStyles.default}
-          label='Email'
-          required
-          error={isEmailError}
-          helperText={isEmailError ? 'Wrong email format' : ''}
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <TextField
-          style={inputStyles.default}
-          label='Password'
-          required
-          type='password'
-          error={isPasswordError}
-          helperText={
-            isPasswordError
-              ? 'Password must contain 0-9 & A-Z & a-z & any special symbol'
-              : ''
-          }
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-
-        <FormLink path='/sign-up' title='Sign Up' />
-
-        <Button
-          variant='contained'
-          sx={{ margin: '1rem 0 1rem 0' }}
-          onClick={() => signIn()}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={(values, formikHelpers) => {
+            signIn(values);
+            formikHelpers.resetForm();
+          }}
         >
-          Sign In
-        </Button>
+          {({ values, errors, touched, isValid, dirty }) => {
+            return (
+              <Form
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <Field
+                  name='email'
+                  type='email'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Email'
+                  error={Boolean(errors.email) && Boolean(touched.email)}
+                  helperText={Boolean(touched.email) && errors.email}
+                />
+                <Field
+                  name='password'
+                  type='password'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Password'
+                  error={Boolean(errors.password) && Boolean(touched.password)}
+                  helperText={Boolean(touched.password) && errors.password}
+                />
 
-        <FormLink
-          path='recover-password'
-          title='Forgot password'
-          styles={{ fontSize: '.75rem' }}
-        />
+                <FormLink path='/sign-up' title='Sign Up' />
+
+                <Button
+                  type='submit'
+                  variant='contained'
+                  sx={{ margin: '1rem 0 1rem 0' }}
+                  disabled={!isValid || !dirty}
+                >
+                  Sign in
+                </Button>
+
+                <FormLink
+                  path='/recover-password'
+                  title='Forgot password'
+                  styles={{ fontSize: '.75rem' }}
+                />
+              </Form>
+            );
+          }}
+        </Formik>
       </Box>
     </Box>
   );

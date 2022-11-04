@@ -1,27 +1,25 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../styles/input-styles';
-import { validateEmail } from '../utils/validate-email';
+import * as yup from 'yup';
+import { Formik, Form, Field, FormikValues } from 'formik';
+
+type RecoverPasswordType = {
+  email: string;
+};
+
+const initialValues: RecoverPasswordType = {
+  email: '',
+};
+
+const validationSchema = yup.object({
+  email: yup.string().email('Invalid format').required('Email is required'),
+});
 
 const RecoverPasswordForm: FC = () => {
-  const [email, setEmail] = useState('');
-  const [isEmailError, setIsEmailError] = useState(false);
-
-  const isValid = (): boolean => {
-    if (validateEmail(email)) {
-      setEmail('');
-      setIsEmailError(false);
-      return true;
-    } else {
-      setIsEmailError(true);
-      return false;
-    }
-  };
-
-  const recoverPassword = (): void => {
-    if (isValid()) {
-      alert('Recovered');
-    }
+  const recoverPassword = (values: FormikValues) => {
+    console.log(values);
+    // navigate('/', { replace: true });
   };
 
   return (
@@ -45,23 +43,46 @@ const RecoverPasswordForm: FC = () => {
           Recover Password
         </Typography>
 
-        <TextField
-          style={inputStyles.default}
-          label='Email'
-          required
-          error={isEmailError}
-          helperText={isEmailError ? 'Wrong email format' : ''}
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-
-        <Button
-          variant='contained'
-          sx={{ margin: '1rem 0 1rem 0' }}
-          onClick={() => recoverPassword()}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={(values, formikHelpers) => {
+            recoverPassword(values);
+            formikHelpers.resetForm();
+          }}
         >
-          Recover Password
-        </Button>
+          {({ values, errors, touched, isValid, dirty }) => {
+            return (
+              <Form
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <Field
+                  name='email'
+                  type='email'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Email'
+                  error={Boolean(errors.email) && Boolean(touched.email)}
+                  helperText={Boolean(touched.email) && errors.email}
+                />
+
+                <Button
+                  type='submit'
+                  variant='contained'
+                  sx={{ margin: '1rem 0 1rem 0' }}
+                  disabled={!isValid || !dirty}
+                >
+                  Recover Password
+                </Button>
+              </Form>
+            );
+          }}
+        </Formik>
       </Box>
     </Box>
   );
