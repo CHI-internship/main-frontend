@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import { Input } from '@mui/material'
 import style from './ProfileName.module.scss'
+import userService from '../../../api/user.service'
 import editIcon from '../../../images/icons/edit.icon.svg'
 import confirmIcon from '../../../images/icons/confirm.icon.svg'
 import cancelIcon from '../../../images/icons/cancel.icon.svg'
-import { updatePofile } from '../../../api/user/update-profile'
 
 interface IProfileNameProps {
   userId: number
@@ -31,7 +31,7 @@ export const ProfileName: React.FC<IProfileNameProps> =
           if (name === values.name) sendData.name = null
           if (lastname === values.lastname) sendData.lastname = null
 
-          await updatePofile(sendData).then((data) => {
+          await userService.updatePofile(sendData).then((data) => {
             setName(data.name)
             setLastname(data.lastname)
             setEditing(false)
