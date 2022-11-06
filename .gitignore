@@ -2,3 +2,6 @@
 package-lock.json
 .eslintcache
 .env
+
+.prettierrc
+.idea
