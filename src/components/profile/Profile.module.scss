@@ -1,0 +1,18 @@
+.profile {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #00000024;
+
+  .email {
+    letter-spacing: 2px;
+  }
+}
