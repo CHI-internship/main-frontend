@@ -1,23 +1,34 @@
 import { FC } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import inputStyles from '../styles/input-styles';
 import * as yup from 'yup';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import inputStyles from '../../styles/input-styles';
+import FormLink from './form-link';
 import { Formik, Form, Field, FormikValues } from 'formik';
 
-type RecoverPasswordType = {
+type SignInType = {
   email: string;
+  password: string;
 };
 
-const initialValues: RecoverPasswordType = {
+const initialValues: SignInType = {
   email: '',
+  password: '',
 };
 
 const validationSchema = yup.object({
   email: yup.string().email('Invalid format').required('Email is required'),
+  password: yup
+    .string()
+    .matches(
+      /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+      'Password must contain 0-9 & A-Z & a-z & any special symbol'
+    )
+    .min(8)
+    .required('Password is required'),
 });
 
-const RecoverPasswordForm: FC = () => {
-  const recoverPassword = (values: FormikValues) => {
+const SignInForm: FC = () => {
+  const signIn = (values: FormikValues) => {
     console.log(values);
     // navigate('/', { replace: true });
   };
@@ -40,14 +51,14 @@ const RecoverPasswordForm: FC = () => {
         }}
       >
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
-          Recover Password
+          Sign In
         </Typography>
 
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, formikHelpers) => {
-            recoverPassword(values);
+            signIn(values);
             formikHelpers.resetForm();
           }}
         >
@@ -70,6 +81,18 @@ const RecoverPasswordForm: FC = () => {
                   error={Boolean(errors.email) && Boolean(touched.email)}
                   helperText={Boolean(touched.email) && errors.email}
                 />
+                <Field
+                  name='password'
+                  type='password'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Password'
+                  error={Boolean(errors.password) && Boolean(touched.password)}
+                  helperText={Boolean(touched.password) && errors.password}
+                />
+
+                <FormLink path='/sign-up' title='Sign Up' />
 
                 <Button
                   type='submit'
@@ -77,8 +100,14 @@ const RecoverPasswordForm: FC = () => {
                   sx={{ margin: '1rem 0 1rem 0' }}
                   disabled={!isValid || !dirty}
                 >
-                  Recover Password
+                  Sign in
                 </Button>
+
+                <FormLink
+                  path='/recover-password'
+                  title='Forgot password'
+                  styles={{ fontSize: '.75rem' }}
+                />
               </Form>
             );
           }}
@@ -88,4 +117,4 @@ const RecoverPasswordForm: FC = () => {
   );
 };
 
-export default RecoverPasswordForm;
+export default SignInForm;
