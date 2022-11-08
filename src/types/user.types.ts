@@ -3,3 +3,10 @@ export interface IUpdateUserProfile {
     name: string
     lastname: string
 }
+
+
+export interface IResetUserPassword {
+    resetToken: string | null
+    newPassword: string
+    newPasswordConfirm: string
+}

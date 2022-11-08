@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import inputStyles from '../styles/input-styles';
+import inputStyles from '../../styles/input-styles';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';

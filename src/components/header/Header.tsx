@@ -12,7 +12,7 @@ const Header: FC = () => (
         variant='h5'
         sx={{ flexGrow: 1 }}
       >
-            KraudDonate
+        KraudDonate
       </Typography>
       <Box className={style.profile_container}>
         <IconButton

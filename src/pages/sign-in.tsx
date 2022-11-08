@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import SignInForm from '../components/sign-in-form';
+import SignInForm from '../components/auth/sign-in-form';
+
 
 const SignIn: FC = () => {
   return <SignInForm />;
