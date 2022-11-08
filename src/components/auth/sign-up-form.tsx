@@ -1,18 +1,12 @@
 import { FC } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import inputStyles from '../styles/input-styles';
+import inputStyles from '../../styles/input-styles';
+import formStyles from '../../styles/form-styles';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
-
-type SignUpType = {
-  email: string;
-  name: string;
-  lastname: string;
-  photo?: string;
-  password: string;
-  confirmPassword: string;
-};
+import { SignUpType } from '../../types/auth.types';
+import userService from '../../api/user.service';
 
 const initialValues: SignUpType = {
   email: '',
@@ -52,9 +46,19 @@ const validationSchema = yup.object({
 const SignUpForm: FC = () => {
   const navigate = useNavigate();
 
-  const signUp = (values: FormikValues) => {
-    console.log(values);
-    navigate('/', { replace: true });
+  const signUp = async (values: FormikValues) => {
+    try {
+      await userService.register({
+        email: values.email,
+        name: values.name,
+        lastname: values.lastname,
+        photo: values.photo,
+        password: values.password,
+      });
+      navigate('/profile', { replace: true });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -65,16 +69,7 @@ const SignUpForm: FC = () => {
           justifyContent: 'center',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            border: '1px solid black',
-            borderRadius: '5px',
-            padding: '.75rem 2rem .75rem 2rem',
-          }}
-        >
+        <Box sx={formStyles}>
           <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
             Sign Up
           </Typography>
@@ -82,8 +77,8 @@ const SignUpForm: FC = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values, formikHelpers) => {
-              signUp(values);
+            onSubmit={async (values, formikHelpers) => {
+              await signUp(values);
               formikHelpers.resetForm();
             }}
           >
