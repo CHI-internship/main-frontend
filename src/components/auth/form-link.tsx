@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
-import linkStyles from '../styles/link-styles';
+import linkStyles from '../../styles/link-styles';
 import { Typography } from '@mui/material';
 
 type FormLinkProps = {
