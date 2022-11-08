@@ -1,5 +1,5 @@
-import { IUpdateUserProfile } from '../types/user.types';
-import { axiosInstance } from './axios-instance';
+import { IResetUserPassword, IUpdateUserProfile } from '../types/user.types'
+import { axiosAuthInstance, axiosInstance } from './axios-instance'
 import { RegisterType, SignInType } from '../types/auth.types';
 
 class UserService {
@@ -58,6 +58,20 @@ class UserService {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async forgotPassword(email: string) {
+    const emailSent = await axiosAuthInstance.post(
+      'password/forgot', { email })
+      .then((data: any) => data.data)
+    return emailSent
+  }
+
+  async resetPassword(data: IResetUserPassword) {
+    const passwordReseted = await axiosAuthInstance.patch(
+      'password/reset', { ...data })
+      .then((data: any) => data.data)
+    return passwordReseted
   }
 }
 

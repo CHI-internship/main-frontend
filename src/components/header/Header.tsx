@@ -9,7 +9,9 @@ const Header: FC = () => (
   <AppBar position='static' color='primary'>
     <Toolbar>
       <Typography variant='h5' sx={{ flexGrow: 1 }}>
-        KraudDonate
+        <Typography variant='h5' sx={{ flexGrow: 1 }}>
+          KraudDonate
+        </Typography>
       </Typography>
       <Box className={style.profile_container}>
         <IconButton sx={{ padding: 0 }} color='inherit'>

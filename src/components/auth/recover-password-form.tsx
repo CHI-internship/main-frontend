@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../../styles/input-styles';
 import formStyles from '../../styles/form-styles';
 import * as yup from 'yup';
-import { Formik, Form, Field, FormikValues } from 'formik';
+import { Formik, Form, Field } from 'formik';
+import userService from '../../api/user.service';
 import { RecoverPasswordType } from '../../types/auth.types';
 
 const initialValues: RecoverPasswordType = {
@@ -15,10 +16,7 @@ const validationSchema = yup.object({
 });
 
 const RecoverPasswordForm: FC = () => {
-  const recoverPassword = (values: FormikValues) => {
-    console.log(values);
-    // navigate('/', { replace: true });
-  };
+  const [success, setSuccess] = useState(false);
 
   return (
     <Box
@@ -35,8 +33,10 @@ const RecoverPasswordForm: FC = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, formikHelpers) => {
-            recoverPassword(values);
+          onSubmit={async (values, formikHelpers) => {
+            await userService
+              .forgotPassword(values.email)
+              .then(() => setSuccess(true));
             formikHelpers.resetForm();
           }}
         >
@@ -68,6 +68,12 @@ const RecoverPasswordForm: FC = () => {
                 >
                   Recover Password
                 </Button>
+
+                {success && (
+                  <Typography sx={{ textAlign: 'center', color: 'green' }}>
+                    Please check your email
+                  </Typography>
+                )}
               </Form>
             );
           }}
