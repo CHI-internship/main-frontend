@@ -1,16 +1,8 @@
-import { IResetUserPassword, IUpdateUserProfile } from '../types/user.types'
-import { axiosAuthInstance, axiosInstance } from './axios-instance'
-import { RegisterType, SignInType } from '../types/auth.types';
+import { IResetUserPassword, IUpdateUserPassword, IUpdateUserProfile } from '../types/user.types'
+import { axiosInstance } from './axios-instance'
+import { RegisterType, SignInType } from '../types/auth.types'
 
 class UserService {
-  async updatePofile({ userId, name, lastname }: IUpdateUserProfile) {
-    const updatedUser = await axiosInstance
-      .patch('user', { userId, name, lastname })
-      .then(data => data.data);
-
-    return updatedUser;
-  }
-
   async get(token: string | null) {
     if (!token) {
       return;
@@ -61,17 +53,24 @@ class UserService {
   }
 
   async forgotPassword(email: string) {
-    const emailSent = await axiosAuthInstance.post(
+    const emailSent = await axiosInstance.post(
       'password/forgot', { email })
       .then((data: any) => data.data)
     return emailSent
   }
 
   async resetPassword(data: IResetUserPassword) {
-    const passwordReseted = await axiosAuthInstance.patch(
+    const passwordReseted = await axiosInstance.patch(
       'password/reset', { ...data })
       .then((data: any) => data.data)
     return passwordReseted
+  }
+
+  async updatePassword(data: IUpdateUserPassword) {
+    const passwordUpdated = await axiosInstance.patch(
+      'password/update', { ...data })
+      .then((data: any) => data.data)
+    return passwordUpdated
   }
 }
 
