@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+}
+main {
+  width: 100%;
+  padding: 20px;
+}
+
+.sidebar {
+  background: #333393;
+  color: white;
+  height: 100vh;
+  transition: all 0.5s;
+}
+
+.top_section {
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+.title {
+  font-size: 35px;
+}
+
+.menu {
+  display: flex;
+  margin-left: 50px;
+  cursor: pointer;
+}
+
+.link {
+  display: flex;
+  color: white;
+  align-items: center;
+  padding: 15px;
+  text-decoration: none;
+  gap: 15px;
+}
+
+.link:hover {
+  background: lightblue;
+  color: black;
+}
+
+.text {
+  font-size: 26px;
+}
+

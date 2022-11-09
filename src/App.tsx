@@ -1,18 +1,19 @@
 import './Global.scss';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import SignIn from './pages/sign-in';
 import RecoverPassword from './pages/recover-password';
 import SignUp from './pages/sign-up';
-import Header from './components/Header/Header';
+import Header from './components/header/Header';
 import NoMatchPage from './pages/no-match-page';
-import Policy from './pages/Policy/Policy';
+import Policy from './pages/policy/Policy';
 import { ResetPassword } from './pages/reset-password';
+import Sidebar from './components/sidebar/Sidebar';
 
 function App() {
   return (
     <div className='app'>
       <Header />
-      <BrowserRouter>
+      <Sidebar>
         <Routes>
           <Route path='sign-in' element={<SignIn />} />
           <Route path='sign-up' element={<SignUp />} />
@@ -21,7 +22,7 @@ function App() {
           <Route path='*' element={<NoMatchPage />} />
           <Route path='policy' element={<Policy />} />
         </Routes>
-      </BrowserRouter>
+      </Sidebar>
     </div>
   );
 }
