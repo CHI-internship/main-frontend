@@ -3,10 +3,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignIn from './pages/sign-in';
 import RecoverPassword from './pages/recover-password';
 import SignUp from './pages/sign-up';
-import Header from './components/Header/Header';
 import NoMatchPage from './pages/no-match-page';
 import Policy from './pages/Policy/Policy';
 import { ResetPassword } from './pages/reset-password';
+import Header from './components/header/Header';
+import About from './pages/About/About';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='reset-password' element={<ResetPassword />} />
           <Route path='*' element={<NoMatchPage />} />
           <Route path='policy' element={<Policy />} />
+          <Route path='about' element={<About />} />
         </Routes>
       </BrowserRouter>
     </div>
