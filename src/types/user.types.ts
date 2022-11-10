@@ -1,17 +1,22 @@
-export interface IUpdateUserProfile {
+export interface IUpdateProfile {
     userId: number
     name: string
     lastname: string
 }
 
-export interface IResetUserPassword {
+export interface IResetPassword {
     resetToken: string | null
     newPassword: string
     newPasswordConfirm: string
 }
 
-export interface IUpdateUserPassword {
+export interface IUpdatePassword {
     oldPassword: string
     newPassword: string
     userId: number
+}
+
+export interface IForgotPassword {
+    email: string
+    recaptchaToken: string | undefined
 }
