@@ -47,17 +47,17 @@ const SignUpForm: FC = () => {
   const navigate = useNavigate();
 
   const signUp = async (values: FormikValues) => {
-    try {
-      await userService.register({
+    const res = await userService
+      .signUp({
         email: values.email,
         name: values.name,
         lastname: values.lastname,
         photo: values.photo,
         password: values.password,
-      });
+      })
+      .catch(err => console.log(err));
+    if (res) {
       navigate('/profile', { replace: true });
-    } catch (err) {
-      console.error(err);
     }
   };
 

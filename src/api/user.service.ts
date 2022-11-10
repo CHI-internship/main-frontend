@@ -1,76 +1,78 @@
-import { IResetUserPassword, IUpdateUserPassword, IUpdateUserProfile } from '../types/user.types'
-import { axiosInstance } from './axios-instance'
-import { RegisterType, SignInType } from '../types/auth.types'
+import {
+  IResetUserPassword,
+  IUpdateUserPassword,
+  IUpdateUserProfile,
+} from '../types/user.types';
+import { axiosInstance } from './axios-instance';
+import { RegisterType, SignInType } from '../types/auth.types';
 
 class UserService {
-  async get(token: string | null) {
+  async retrieve(token: string | null) {
     if (!token) {
       return;
     }
 
-    const res = await axiosInstance.get(
-      `${process.env.REACT_APP_BASE_SERVICE_URL}user`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const res = await axiosInstance.get('user', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return res.data;
   }
 
-  async register(user: RegisterType) {
-    try {
-      const res = await axiosInstance.post(
-        `${process.env.REACT_APP_BASE_SERVICE_URL}auth/sign-up`,
-        user
+  async signUp(user: RegisterType) {
+    const res = await axiosInstance.post('auth/sign-up', user).catch(err => {
+      throw new Error(err);
+    });
+    if (res.headers.authorization) {
+      localStorage.setItem(
+        'token',
+        res.headers.authorization.replace('Bearer ', '')
       );
-      if (res.headers.authorization) {
-        localStorage.setItem(
-          'token',
-          res.headers.authorization.replace('Bearer ', '')
-        );
-      }
-    } catch (err) {
-      console.error(err);
     }
+    return res.data;
   }
 
-  async login(credentials: SignInType) {
-    try {
-      const res = await axiosInstance.post(
-        `${process.env.REACT_APP_BASE_SERVICE_URL}auth/sign-in`,
-        credentials
+  async signIn(credentials: SignInType) {
+    const res = await axiosInstance
+      .post('auth/sign-in', credentials)
+      .catch(err => {
+        throw new Error(err);
+      });
+
+    if (res.headers.authorization) {
+      localStorage.setItem(
+        'token',
+        res.headers.authorization.replace('Bearer ', '')
       );
-      if (res.headers.authorization) {
-        localStorage.setItem(
-          'token',
-          res.headers.authorization.replace('Bearer ', '')
-        );
-      }
-      return res.data;
-    } catch (err) {
-      console.error(err);
     }
+    return res.data;
+  }
+
+  async updatePofile({ userId, name, lastname }: IUpdateUserProfile) {
+    const updatedUser = await axiosInstance
+      .patch('user', { userId, name, lastname })
+      .then((data: any) => data.data);
+    return updatedUser;
   }
 
   async forgotPassword(email: string) {
-    const emailSent = await axiosInstance.post(
-      'password/forgot', { email })
-      .then((data: any) => data.data)
-    return emailSent
+    const emailSent = await axiosInstance
+      .post('password/forgot', { email })
+      .then((data: any) => data.data);
+    return emailSent;
   }
 
   async resetPassword(data: IResetUserPassword) {
-    const passwordReseted = await axiosInstance.patch(
-      'password/reset', { ...data })
-      .then((data: any) => data.data)
-    return passwordReseted
+    const passwordReseted = await axiosInstance
+      .patch('password/reset', { ...data })
+      .then((data: any) => data.data);
+    return passwordReseted;
   }
 
   async updatePassword(data: IUpdateUserPassword) {
-    const passwordUpdated = await axiosInstance.patch(
-      'password/update', { ...data })
-      .then((data: any) => data.data)
-    return passwordUpdated
+    const passwordUpdated = await axiosInstance
+      .patch('password/update', { ...data })
+      .then((data: any) => data.data);
+    return passwordUpdated;
   }
 }
 

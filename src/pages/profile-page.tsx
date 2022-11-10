@@ -11,7 +11,7 @@ const ProfilePage: FC = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      const rawUser = await userService.get(localStorage.getItem('token'));
+      const rawUser = await userService.retrieve(localStorage.getItem('token'));
       setUser(rawUser);
     };
 
@@ -30,7 +30,7 @@ const ProfilePage: FC = () => {
           name={user.name}
           lastname={user.lastname}
           email={user.email}
-          orders={[{ id: 1, title: 'qwe', info: 'dfsdfgsdf' }]}
+          orders={[{ id: 1, title: 'Test title', info: 'sho-to' }]}
         />
       ) : null}
     </>

@@ -32,10 +32,12 @@ const SignInForm: FC = () => {
   const navigate = useNavigate();
 
   const signIn = async (values: FormikValues) => {
-    const res = await userService.login({
-      email: values.email,
-      password: values.password,
-    });
+    const res = await userService
+      .signIn({
+        email: values.email,
+        password: values.password,
+      })
+      .catch(err => console.log(err));
     if (res) {
       setIsError(false);
       navigate('/profile', { replace: true });
