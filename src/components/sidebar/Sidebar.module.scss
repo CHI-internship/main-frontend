@@ -6,10 +6,19 @@ main {
   padding: 20px;
 }
 
-.sidebar {
+.sidebar_open {
   background: #333393;
   color: white;
   height: 100vh;
+  width: 250px;
+  transition: all 0.5s;
+}
+
+.sidebar_close {
+  background: #333393;
+  color: white;
+  height: 100vh;
+  width: 70px;
   transition: all 0.5s;
 }
 
@@ -19,13 +28,25 @@ main {
   padding: 20px 15px;
 }
 
-.title {
+.title_open {
   font-size: 35px;
+  display: block;
 }
 
-.menu {
+.title_close {
+  font-size: 35px;
+  display: none;
+}
+
+.menu_open {
   display: flex;
   margin-left: 50px;
+  cursor: pointer;
+}
+
+.menu_close {
+  display: flex;
+  margin-left: 0;
   cursor: pointer;
 }
 
@@ -43,7 +64,13 @@ main {
   color: black;
 }
 
-.text {
+.text_open {
   font-size: 26px;
+  display: block;
+}
+
+.text_close {
+  font-size: 26px;
+  display: none;
 }
 

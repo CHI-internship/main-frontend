@@ -48,10 +48,10 @@ const Sidebar: FC<IChildren> = ({ children }) => {
 
   return (
     <div className={style.container}>
-      <div style={{ width: isOpen ? '250px' : '70px' }} className={style.sidebar}>
+      <div className={isOpen ? style.sidebar_open : style.sidebar_close}>
         <div className={style.top_section}>
-          <h1 style={{ display: isOpen ? 'block' : 'none' }} className={style.title}>Menu</h1>
-          <div style={{ marginLeft: isOpen ? '50px' : '0px' }} className={style.menu}>
+          <h1 className={isOpen ? style.title_open : style.title_close}>Menu</h1>
+          <div className={isOpen ?  style.menu_open : style.menu_close}>
             <MenuIcon onClick={toggle} fontSize={'large'}/>
           </div>
         </div>
@@ -59,8 +59,7 @@ const Sidebar: FC<IChildren> = ({ children }) => {
           menuItem.map((item, index) => (
             <NavLink to={item.path} key={index} className={style.link}>
               <div className={style.icon} >{item.icon}</div>
-              <div style={{ display: isOpen ? 'block' : 'none' }}
-                className={style.text}>{item.name}</div>
+              <div className={isOpen ? style.text_open : style.text_close}>{item.name}</div>
             </NavLink>
           ))
         }
