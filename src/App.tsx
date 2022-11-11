@@ -5,9 +5,10 @@ import RecoverPassword from './pages/auth/recover-password';
 import SignUp from './pages/auth/sign-up';
 import Header from './components/header/Header';
 import NoMatchPage from './pages/no-match-page';
-import Policy from './pages/Policy/Policy';
+import Policy from './pages/policy/Policy';
 import ProfilePage from './pages/profile-page';
 import { ResetPassword } from './pages/reset-password';
+import About from './pages/About/About';
 import Sidebar from './components/sidebar/Sidebar';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='reset-password' element={<ResetPassword />} />
             <Route path='*' element={<NoMatchPage />} />
             <Route path='policy' element={<Policy />} />
+            <Route path='about' element={<About />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>
