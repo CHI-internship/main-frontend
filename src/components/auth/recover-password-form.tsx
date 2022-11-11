@@ -1,13 +1,11 @@
-import * as yup from 'yup';
 import { FC, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../../styles/input-styles';
+import formStyles from '../../styles/form-styles';
+import * as yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import userService from '../../api/user.service';
-
-type RecoverPasswordType = {
-  email: string;
-};
+import { RecoverPasswordType } from '../../types/auth.types';
 
 const initialValues: RecoverPasswordType = {
   email: '',
@@ -18,7 +16,7 @@ const validationSchema = yup.object({
 });
 
 const RecoverPasswordForm: FC = () => {
-  const [success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false);
 
   return (
     <Box
@@ -27,16 +25,7 @@ const RecoverPasswordForm: FC = () => {
         justifyContent: 'center',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          border: '1px solid black',
-          borderRadius: '5px',
-          padding: '.75rem 2rem .75rem 2rem',
-        }}
-      >
+      <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Recover Password
         </Typography>
@@ -45,7 +34,9 @@ const RecoverPasswordForm: FC = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, formikHelpers) => {
-            await userService.forgotPassword(values.email).then(() => setSuccess(true))
+            await userService
+              .forgotPassword(values.email)
+              .then(() => setSuccess(true));
             formikHelpers.resetForm();
           }}
         >
@@ -78,9 +69,11 @@ const RecoverPasswordForm: FC = () => {
                   Recover Password
                 </Button>
 
-                {success && <Typography sx={{ textAlign: 'center', color: 'green' }}>
-                  Please check your email
-                </Typography>}
+                {success && (
+                  <Typography sx={{ textAlign: 'center', color: 'green' }}>
+                    Please check your email
+                  </Typography>
+                )}
               </Form>
             );
           }}
