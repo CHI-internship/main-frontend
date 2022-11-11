@@ -1,6 +1,7 @@
 type SignInType = {
   email: string;
   password: string;
+  recaptchaToken?: string;
 };
 
 type SignUpType = {
@@ -18,6 +19,7 @@ type RegisterType = {
   lastname: string;
   photo?: string;
   password: string;
+  recaptchaToken?: string;
 };
 
 type RecoverPasswordType = {

@@ -8,6 +8,7 @@ export interface IResetPassword {
     resetToken: string | null
     newPassword: string
     newPasswordConfirm: string
+    recaptchaToken: string | undefined
 }
 
 export interface IUpdatePassword {

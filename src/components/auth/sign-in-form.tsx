@@ -1,13 +1,15 @@
+import * as yup from 'yup';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { FC, useState } from 'react';
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../../styles/input-styles';
 import formStyles from '../../styles/form-styles';
 import FormLink from './form-link';
-import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
 import { SignInType } from '../../types/auth.types';
 import userService from '../../api/user.service';
 import { useNavigate } from 'react-router-dom';
+import { recaptchaVerify } from '../../utils/recaptcha';
 
 const initialValues: SignInType = {
   email: '',
@@ -28,14 +30,17 @@ const validationSchema = yup.object({
 
 const SignInForm: FC = () => {
   const [isError, setIsError] = useState(false);
-
+  const [disableSend, setDisableSend] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const navigate = useNavigate();
 
   const signIn = async (values: FormikValues) => {
+    const recaptchaToken = await recaptchaVerify(executeRecaptcha)
     const res = await userService
       .signIn({
         email: values.email,
         password: values.password,
+        recaptchaToken
       })
       .catch(err => console.log(err));
     if (res) {
@@ -66,11 +71,12 @@ const SignInForm: FC = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, formikHelpers) => {
-            await signIn(values);
+            setDisableSend(true)
+            await signIn(values).finally(() => setDisableSend(false))
             formikHelpers.resetForm();
           }}
         >
-          {({ values, errors, touched, isValid, dirty }) => {
+          {({ errors, touched, isValid, dirty }) => {
             return (
               <Form
                 style={{
@@ -106,7 +112,7 @@ const SignInForm: FC = () => {
                   type='submit'
                   variant='contained'
                   sx={{ margin: '1rem 0 1rem 0' }}
-                  disabled={!isValid || !dirty}
+                  disabled={!isValid || !dirty || disableSend}
                 >
                   Sign in
                 </Button>

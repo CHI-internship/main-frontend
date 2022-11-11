@@ -7,6 +7,8 @@ import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
 import { SignUpType } from '../../types/auth.types';
 import userService from '../../api/user.service';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { recaptchaVerify } from '../../utils/recaptcha';
 
 const initialValues: SignUpType = {
   email: '',
@@ -34,10 +36,6 @@ const validationSchema = yup.object({
     .required('Password is required'),
   confirmPassword: yup
     .string()
-    .matches(
-      /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-      'Password must contain 0-9 & A-Z & a-z & any special symbol'
-    )
     .min(8)
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
@@ -45,8 +43,10 @@ const validationSchema = yup.object({
 
 const SignUpForm: FC = () => {
   const navigate = useNavigate();
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const signUp = async (values: FormikValues) => {
+    const recaptchaToken = await recaptchaVerify(executeRecaptcha)
     const res = await userService
       .signUp({
         email: values.email,
@@ -54,6 +54,7 @@ const SignUpForm: FC = () => {
         lastname: values.lastname,
         photo: values.photo,
         password: values.password,
+        recaptchaToken
       })
       .catch(err => console.log(err));
     if (res) {

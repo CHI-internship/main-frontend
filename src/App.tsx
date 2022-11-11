@@ -7,7 +7,7 @@ import Header from './components/Header/Header';
 import NoMatchPage from './pages/no-match-page';
 import Policy from './pages/Policy/Policy';
 import ProfilePage from './pages/profile-page';
-import { ResetPassword } from './pages/reset-password';
+import { ResetPassword } from './pages/auth/reset-password';
 
 function App() {
   return (
