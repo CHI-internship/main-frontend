@@ -1,16 +1,12 @@
 import * as yup from 'yup';
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { FC, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../../styles/input-styles';
 import { Formik, Form, Field } from 'formik';
 import userService from '../../api/user.service';
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { recaptchaVerify } from '../../utils/recaptcha';
-
-
-type RecoverPasswordType = {
-  email: string;
-};
+import { RecoverPasswordType } from '../../types/auth.types';
 
 const initialValues: RecoverPasswordType = {
   email: '',

@@ -1,14 +1,13 @@
-import { FC } from 'react';
-import * as yup from 'yup';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { FC, useState } from 'react';
+import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import inputStyles from '../../styles/input-styles';
+import formStyles from '../../styles/form-styles';
 import FormLink from './form-link';
+import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
-
-type SignInType = {
-  email: string;
-  password: string;
-};
+import { SignInType } from '../../types/auth.types';
+import userService from '../../api/user.service';
+import { useNavigate } from 'react-router-dom';
 
 const initialValues: SignInType = {
   email: '',
@@ -28,9 +27,23 @@ const validationSchema = yup.object({
 });
 
 const SignInForm: FC = () => {
-  const signIn = (values: FormikValues) => {
-    console.log(values);
-    // navigate('/', { replace: true });
+  const [isError, setIsError] = useState(false);
+
+  const navigate = useNavigate();
+
+  const signIn = async (values: FormikValues) => {
+    const res = await userService
+      .signIn({
+        email: values.email,
+        password: values.password,
+      })
+      .catch(err => console.log(err));
+    if (res) {
+      setIsError(false);
+      navigate('/profile', { replace: true });
+    } else {
+      setIsError(true);
+    }
   };
 
   return (
@@ -40,25 +53,20 @@ const SignInForm: FC = () => {
         justifyContent: 'center',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          border: '1px solid black',
-          borderRadius: '5px',
-          padding: '.75rem 2rem .75rem 2rem',
-        }}
-      >
+      <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Sign In
         </Typography>
 
+        {isError ? (
+          <Alert severity='error'>Wrong email or password</Alert>
+        ) : null}
+
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, formikHelpers) => {
-            signIn(values);
+          onSubmit={async (values, formikHelpers) => {
+            await signIn(values);
             formikHelpers.resetForm();
           }}
         >
