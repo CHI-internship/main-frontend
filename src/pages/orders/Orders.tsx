@@ -14,8 +14,7 @@ export const Orders: React.FC = () => {
     useEffect(() => { getOrders() }, [])
     return (
         <div className={style.orders}>
-            {orders.map((item: any) => <OrderCard key={item.id} id={item.id}
-                info={item.short_info} title={item.title} img={item.photo} />)}
+            {orders.map((item: any) => <OrderCard key={item.id} order={item} />)}
         </div>
     )
 }

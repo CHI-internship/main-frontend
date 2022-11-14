@@ -28,6 +28,7 @@ function App() {
             <Route path='policy' element={<Policy />} />
             <Route path='about' element={<About />} />
             <Route path='orders' element={<Orders />} />
+            <Route path='orders/:id' element={'Single order page'} />
           </Routes>
         </Sidebar>
       </BrowserRouter>

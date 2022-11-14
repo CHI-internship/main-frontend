@@ -1,24 +1,23 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { IOrder } from '../../types/order.types'
 import style from './OrderCard.module.scss'
 
 interface IOrderCardProps {
-    id: number
-    title: string
-    info: string
-    process?: string
-    img: string
+    order: IOrder
 }
 
 export const OrderCard: React.FC<IOrderCardProps> =
-    ({ id, title, info, img }: IOrderCardProps) => {
-        const navigate = useNavigate()
+    ({ order }: IOrderCardProps) => {
 
         return (
-            <div className={style.card} onClick={() => navigate(`/orders/${id}`)}>
-                <div className={style.img} style={{ backgroundImage: `url(${img})` }}></div>
-                <div className={style.title}>{title}</div>
-                <div className={style.info}>{info}</div>
-                <div className={style.process}></div>
-            </div>
+            <Link to={String(order.id)} state={order}>
+                <div className={style.card}>
+                    <div className={style.img}
+                        style={{ backgroundImage: `url(${order.photo})` }}></div>
+                    <div className={style.title}>{order.title}</div>
+                    <div className={style.info}>{order.info}</div>
+                    <div className={style.process}></div>
+                </div>
+            </Link >
         )
     }
