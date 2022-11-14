@@ -10,6 +10,7 @@ import ProfilePage from './pages/profile-page';
 import { ResetPassword } from './pages/reset-password';
 import About from './pages/About/About';
 import Sidebar from './components/sidebar/Sidebar';
+import { Orders } from './pages/orders/Orders';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path='*' element={<NoMatchPage />} />
             <Route path='policy' element={<Policy />} />
             <Route path='about' element={<About />} />
+            <Route path='orders' element={<Orders />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>
