@@ -27,7 +27,7 @@ function App() {
             <Route path='*' element={<NoMatchPage />} />
             <Route path='policy' element={<Policy />} />
             <Route path='about' element={<About />} />
-            <Route path='progress' element={<ProgressBar/>} />
+            <Route path='progress' element={<ProgressBar moneyHave={30000} moneyNeed={300000} closedAt={new Date('November, 16, 2022 00:00:00')}/>} />
           </Routes>
         </Sidebar>
       </BrowserRouter>
