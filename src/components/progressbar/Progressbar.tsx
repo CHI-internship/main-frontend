@@ -42,7 +42,7 @@ const ProgressBar: FC<IProgressBarProps> = ({
     setPercentPrg(calculatePercent(moneyHave, moneyNeed));
     setDaysLeft(calculateDays(closedAt));
     setHoursLeft(calculateHours(closedAt));
-  }, []);
+  }, [moneyHave]);
 
   return (
     <Container>
@@ -66,7 +66,7 @@ const ProgressBar: FC<IProgressBarProps> = ({
             fontSize: 'h6.fontSize',
             marginLeft: 'auto'
           }}>
-            {percentPrg}% суми
+            {percentPrg.toFixed(2)}% суми
           </Box>
         </Box>
         <Line
