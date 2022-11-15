@@ -1,4 +1,5 @@
 import style from './Profile.module.scss';
+import { FC } from 'react';
 import ProfileName from './profile-name';
 import ProfileAvatar from './profile-avatar';
 import Order from '../common/order';
@@ -14,15 +15,20 @@ interface IProfileProps {
   orders: Array<{ id: number; title: string; info: string }>;
 }
 
-export const Profile: React.FC<IProfileProps> = ({
+export const Profile: FC<IProfileProps> = ({
   id,
   avatar,
   name,
   lastname,
   email,
   orders,
-}: IProfileProps) => {
+}) => {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/sign-in');
+  };
 
   return (
     <div className={style.profile}>
@@ -34,13 +40,7 @@ export const Profile: React.FC<IProfileProps> = ({
           initialLastname={lastname}
         />
         <div className={style.email}>{email}</div>
-        <Button
-          variant='contained'
-          onClick={() => {
-            localStorage.removeItem('token');
-            navigate('/sign-in');
-          }}
-        >
+        <Button variant='contained' onClick={handleLogout}>
           Logout
         </Button>
       </div>

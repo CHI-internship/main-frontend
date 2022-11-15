@@ -24,7 +24,7 @@ const ProfilePage: FC = () => {
 
   return (
     <>
-      {user ? (
+      {user && (
         <Profile
           id={user.id}
           name={user.name}
@@ -32,7 +32,7 @@ const ProfilePage: FC = () => {
           email={user.email}
           orders={[{ id: 1, title: 'Test title', info: 'sho-to' }]}
         />
-      ) : null}
+      )}
     </>
   );
 };
