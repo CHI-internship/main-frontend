@@ -1,10 +1,10 @@
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { Box, Button } from '@mui/material';
 
 const FileUpload: FC = () => {
-  const [files, setFiles] = useState<Array<string | ArrayBuffer | null>>();
+  const [files, setFiles] = useState<Array<string | ArrayBuffer | null>>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
@@ -49,27 +49,25 @@ const FileUpload: FC = () => {
             justifyContent: 'center',
           }}
         >
-          {files
-            ? files.map((file, index) => {
-              return (
-                <Box
-                  sx={{
-                    padding: '.25rem',
+          {files?.map((file, index) => {
+            return (
+              <Box
+                sx={{
+                  padding: '.25rem',
+                }}
+                key={index}
+              >
+                <img
+                  src={file as string}
+                  alt='selected image preview'
+                  style={{
+                    maxWidth: '250px',
+                    maxHeight: '250px',
                   }}
-                  key={index}
-                >
-                  <img
-                    src={file as string}
-                    alt='selected image preview'
-                    style={{
-                      maxWidth: '250px',
-                      maxHeight: '250px',
-                    }}
-                  />
-                </Box>
-              );
-            })
-            : null}
+                />
+              </Box>
+            );
+          })}
         </Box>
         <Box
           sx={{
