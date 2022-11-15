@@ -1,0 +1,30 @@
+.wrapper {
+  box-shadow: 0px 5px 5px silver;
+  display: flex;
+  justify-content: center;
+
+  background: rgb(0,91,187);
+  background: linear-gradient(180deg, rgba(0,91,187,0.60) 50%, rgba(255,213,0,0.60) 50%);
+}
+
+.element {
+  max-width: 45%;
+}
+
+.text {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.link {
+  text-align: center;
+
+  &_text {
+    text-decoration: none;
+    color: black;
+    font-size: .75rem;
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}
