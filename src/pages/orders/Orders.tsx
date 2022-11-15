@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import orderService from '../../api/orders.service';
 import { OrderCard } from '../../components/orders/OrderCard';
+import { IOrder } from '../../types/order.types';
 import style from './Orders.module.scss'
 
 
@@ -14,7 +15,7 @@ export const Orders: React.FC = () => {
     useEffect(() => { getOrders() }, [])
     return (
         <div className={style.orders}>
-            {orders.map((item: any) => <OrderCard key={item.id} order={item} />)}
+            {orders.map((item: IOrder) => <OrderCard key={item.id} order={item} />)}
         </div>
     )
 }
