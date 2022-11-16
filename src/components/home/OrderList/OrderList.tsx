@@ -26,7 +26,7 @@ const OrderList: FC = () => {
       </Box>
       <Box>
         <Typography className={style.link}>
-          <Link to='about' className={style.link_text}>
+          <Link to='orders' className={style.link_text}>
             See more...
           </Link>
         </Typography>
