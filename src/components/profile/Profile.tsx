@@ -2,7 +2,6 @@ import style from './Profile.module.scss';
 import { FC } from 'react';
 import ProfileName from './profile-name';
 import ProfileAvatar from './profile-avatar';
-import Order from '../common/order';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,9 +44,6 @@ export const Profile: FC<IProfileProps> = ({
         </Button>
       </div>
       <div className={style.orders}>
-        {orders.map(el => (
-          <Order key={el.id} id={el.id} title={el.title} info={el.info} />
-        ))}
         {!orders.length && <div>No orders</div>}
       </div>
     </div>
