@@ -8,7 +8,9 @@ type PaginationProp = {
 
 const Pagination: FC<PaginationProp> = (props: PaginationProp) => {
   return (
-    <Box>
+    <Box
+      sx={{ display: 'flex', justifyContent: 'center', margin: '1rem 0 0 0' }}
+    >
       <PaginationMUI
         count={props.totalCount}
         shape='rounded'
