@@ -47,9 +47,9 @@ class UserService {
     return res.data;
   }
 
-  async updatePofile({ userId, name, lastname }: IUpdateUserProfile) {
+  async updatePofile({ userId, name, lastname, imgBase64 }: IUpdateUserProfile) {
     const updatedUser = await axiosInstance
-      .patch('user', { userId, name, lastname })
+      .patch('user', { userId, name, lastname, imgBase64 })
       .then((data: any) => data.data);
     return updatedUser;
   }
