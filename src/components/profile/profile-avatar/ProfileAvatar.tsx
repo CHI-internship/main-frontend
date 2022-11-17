@@ -21,7 +21,7 @@ export const ProfileAvatar: React.FC<IProfileAvatarProps> =
         const reader = new FileReader()
         reader.onloadend = async function () {
           setDisableSend(true)
-          await userService.updatePofile({ userId, imgBase64: reader.result })
+          await userService.updatePofile({ userId, image: reader.result })
             .then((data => setAvatarUrl(data.photo)))
             .finally(() => setDisableSend(false))
         }
