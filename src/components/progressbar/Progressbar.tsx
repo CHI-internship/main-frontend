@@ -50,25 +50,25 @@ const ProgressBar: FC<IProgressBarProps> = ({
       <Box sx={{ display: 'flex', flexDirection: 'row' }} >
         <Box component='div' sx={{
           display: 'inline',
-          fontSize: `${size === 'small' ? '14px' : 'h5.fontSize'}`
+          fontSize: `${size === 'small' ? '14px' : '20px'}`
         }}>
           {moneyHave} Зібрано
         </Box>
         <Box component='div' sx={{
           display: 'inline',
-          fontSize: `${size === 'small' ? '14px' : 'h5.fontSize'}`,
+          fontSize: `${size === 'small' ? '14px' : '20px'}`,
           marginLeft: 'auto'
         }}>
           {percentPrg.toFixed(2)}% суми
         </Box>
       </Box>
-      <Line style={{ height: `${size === 'small' ? '9px' : '15px'}`, width: '100%' }}
+      <Line style={{ height: `${size === 'small' ? '9px' : '24px'}`, width: '100%' }}
         percent={percentPrg}
         strokeWidth={4}
         trailWidth={4}
         trailColor='#fcd700'
         strokeColor='#005aa9' />
-      <Box sx={{ fontSize: `${size === 'small' ? '12px' : 'h5.fontSize'}` }}>
+      <Box sx={{ fontSize: `${size === 'small' ? '12px' : '20px'}` }}>
         Left: {daysLeft} day(s) {hoursLeft} hour(s)
       </Box>
     </div>
