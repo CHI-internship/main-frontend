@@ -1,7 +1,8 @@
 export interface IUpdateUserProfile {
     userId: number
-    name: string
-    lastname: string
+    name?: string
+    lastname?: string
+    image?: any
 }
 
 export interface IResetUserPassword {
