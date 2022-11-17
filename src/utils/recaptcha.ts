@@ -1,3 +1,3 @@
 export async function recaptchaVerify(executeRecaptcha: any) {
-    if (executeRecaptcha) return await executeRecaptcha('action')
+    if (executeRecaptcha) return executeRecaptcha('action')
 }
