@@ -1,0 +1,18 @@
+.orderList {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem 0 0 0;
+}
+
+.link {
+  text-align: center;
+
+  &_text {
+    text-decoration: none;
+    color: black;
+    font-size: 1.5rem;
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}
