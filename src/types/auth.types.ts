@@ -8,7 +8,6 @@ type SignUpType = {
   email: string;
   name: string;
   lastname: string;
-  photo?: string;
   password: string;
   confirmPassword: string;
 };

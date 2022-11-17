@@ -1,0 +1,49 @@
+.card {
+    padding: 10px;
+    width: 270px;
+    height: 305px;
+    border: 2px solid #c2c7ce;
+    border-radius: 6px;
+    cursor: pointer;
+
+    .img {
+        height: 140px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .title {
+        height: 40px;
+        overflow: hidden;
+        font-weight: 600;
+        font-size: 18px;
+        margin: 7px 0px;
+    }
+
+    .info {
+        height: 35px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding-right: 10px;
+        font-size: 15px;
+        margin-bottom: 25px;
+
+        &::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background: rgb(180, 179, 179);
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: rgb(139, 139, 139);
+        }
+    }
+}

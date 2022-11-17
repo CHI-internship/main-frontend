@@ -14,7 +14,6 @@ const initialValues: SignUpType = {
   email: '',
   name: '',
   lastname: '',
-  photo: '',
   password: '',
   confirmPassword: '',
 };
@@ -23,9 +22,6 @@ const validationSchema = yup.object({
   email: yup.string().email('Invalid format').required('Email is required'),
   name: yup.string().required('Name is required'),
   lastname: yup.string().required('Lastname is required'),
-  photo: yup
-    .string()
-    .matches(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/, 'Must be URL'),
   password: yup
     .string()
     .matches(
@@ -52,7 +48,6 @@ const SignUpForm: FC = () => {
         email: values.email,
         name: values.name,
         lastname: values.lastname,
-        photo: values.photo,
         password: values.password,
         recaptchaToken
       })
@@ -123,15 +118,6 @@ const SignUpForm: FC = () => {
                       Boolean(errors.lastname) && Boolean(touched.lastname)
                     }
                     helperText={Boolean(touched.lastname) && errors.lastname}
-                  />
-                  <Field
-                    name='photo'
-                    type='photo'
-                    as={TextField}
-                    style={inputStyles.default}
-                    label='Photo'
-                    error={Boolean(errors.photo) && Boolean(touched.photo)}
-                    helperText={Boolean(touched.photo) && errors.photo}
                   />
                   <Field
                     name='password'
