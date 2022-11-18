@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
-import Profile from '../components/profile';
-import userService from '../api/user.service';
-import { UserType } from '../types/auth.types';
+import Profile from '../../components/profile';
+import userService from '../../api/user.service';
+import { UserType } from '../../types/auth.types';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage: FC = () => {

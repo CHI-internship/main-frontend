@@ -43,6 +43,14 @@ export const Profile: React.FC<IProfileProps> = ({
         >
           Logout
         </Button>
+        <Button 
+          variant='contained'
+          onClick={() => {
+            navigate(`/profile/${id}/activate`);
+          }}
+        >
+          Activate profile
+        </Button>
       </div>
       <div className={style.orders}>
         {orders.map(el => (

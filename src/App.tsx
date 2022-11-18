@@ -6,11 +6,12 @@ import SignUp from './pages/auth/sign-up';
 import Header from './components/header/Header';
 import NoMatchPage from './pages/no-match-page';
 import Policy from './pages/policy/Policy';
-import ProfilePage from './pages/profile-page';
+import ProfilePage from './pages/profile/profile-page';
 import { ResetPassword } from './pages/reset-password';
 import About from './pages/About/About';
 import Sidebar from './components/sidebar/Sidebar';
 import ProgressBar from './components/progressbar/Progressbar';
+import ProfileUpdatePage from './pages/profile/profile-update-page';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Sidebar>
           <Routes>
             <Route path='profile' element={<ProfilePage />} />
+            <Route path='profile/:id/activate' element={<ProfileUpdatePage />} />
             <Route path='sign-in' element={<SignIn />} />
             <Route path='sign-up' element={<SignUp />} />
             <Route path='recover-password' element={<RecoverPassword />} />
