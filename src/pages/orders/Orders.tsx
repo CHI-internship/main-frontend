@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import orderService from '../../api/orders.service';
-import { OrderCard } from '../../components/orders/OrderCard';
+import { OrderCard } from '../../components/orders/OrderCard/OrderCard';
 import { IOrder } from '../../types/order.types';
 import style from './Orders.module.scss';
 import Pagination from '../../components/pagination/Pagination';

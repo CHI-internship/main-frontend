@@ -12,6 +12,7 @@ import About from './pages/About/About';
 import Sidebar from './components/sidebar/Sidebar';
 import { Orders } from './pages/orders/Orders';
 import ProgressBar from './components/progressbar/Progressbar';
+import Order from './pages/order/Order';
 
 function App() {
   return (
@@ -29,8 +30,7 @@ function App() {
             <Route path='policy' element={<Policy />} />
             <Route path='about' element={<About />} />
             <Route path='orders' element={<Orders />} />
-            <Route path='orders/:id' element={'Single order page'} />
-            <Route path='progress' element={<ProgressBar moneyHave={30000} moneyNeed={300000} closedAt={new Date('November, 16, 2022 00:00:00')} />} />
+            <Route path='orders/:id' element={<Order />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>
