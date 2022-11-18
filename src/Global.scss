@@ -1,5 +1,8 @@
 .app {
   font-family: 'open sans', Helvetica, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 * {
