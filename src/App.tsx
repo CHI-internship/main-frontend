@@ -10,8 +10,13 @@ import ProfilePage from './pages/profile/profile-page';
 import { ResetPassword } from './pages/reset-password';
 import About from './pages/About/About';
 import Sidebar from './components/sidebar/Sidebar';
+import Home from './pages/Home';
+import Footer from './components/footer/Footer';
+import { Orders } from './pages/orders/Orders';
 import ProgressBar from './components/progressbar/Progressbar';
 import ProfileUpdatePage from './pages/profile/profile-update-page';
+import Order from './pages/order/Order';
+
 
 function App() {
   return (
@@ -20,6 +25,7 @@ function App() {
       <BrowserRouter>
         <Sidebar>
           <Routes>
+            <Route path='/' element={<Home />} />
             <Route path='profile' element={<ProfilePage />} />
             <Route path='profile/:id/activate' element={<ProfileUpdatePage />} />
             <Route path='sign-in' element={<SignIn />} />
@@ -29,10 +35,12 @@ function App() {
             <Route path='*' element={<NoMatchPage />} />
             <Route path='policy' element={<Policy />} />
             <Route path='about' element={<About />} />
-            <Route path='progress' element={<ProgressBar moneyHave={30000} moneyNeed={300000} closedAt={new Date('November, 16, 2022 00:00:00')}/>} />
+            <Route path='orders' element={<Orders />} />
+            <Route path='orders/:id' element={<Order />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>
+      <Footer />
     </div>
   );
 }

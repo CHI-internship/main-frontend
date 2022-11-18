@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { Line } from 'rc-progress';
 import { FC, useEffect, useState } from 'react';
 
@@ -6,6 +6,7 @@ interface IProgressBarProps {
   moneyHave: number
   moneyNeed: number
   closedAt: Date
+  size?: 'small' | 'large'
 }
 
 function calculatePercent (moneyHave: number, moneyNeed: number) {
@@ -32,7 +33,7 @@ function calculateHours (date: Date) {
 }
 
 const ProgressBar: FC<IProgressBarProps> = ({
-  moneyHave, moneyNeed, closedAt}: IProgressBarProps) => {
+  moneyHave, moneyNeed, closedAt, size }) => {
 
   const [percentPrg, setPercentPrg] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
@@ -42,45 +43,39 @@ const ProgressBar: FC<IProgressBarProps> = ({
     setPercentPrg(calculatePercent(moneyHave, moneyNeed));
     setDaysLeft(calculateDays(closedAt));
     setHoursLeft(calculateHours(closedAt));
-  }, []);
+  }, [moneyHave]);
 
   return (
-    <Container>
-      <Box sx={{
-        width: 500,
-        marginTop: 10,
-        ml: 15,
-      }}>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row'
+    <div>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }} >
+        <Box component='div' sx={{
+          display: 'inline',
+          fontSize: `${size === 'small' ? '14px' : '20px'}`
         }}>
-          <Box component='div' sx={{
-            display: 'inline',
-            fontSize: 'h5.fontSize'
-          }}>
-            {moneyHave} Зібрано
-          </Box>
-          <Box component='div' sx={{
-            display: 'inline',
-            fontSize: 'h6.fontSize',
-            marginLeft: 'auto'
-          }}>
-            {percentPrg}% суми
-          </Box>
+          {moneyHave} Зібрано
         </Box>
-        <Line
-          percent={percentPrg}
-          strokeWidth={4}
-          trailWidth={4}
-          trailColor='#fcd700'
-          strokeColor='#005aa9' />
-        <Box>
-          Left: {daysLeft} day(s) {hoursLeft} hour(s)
+        <Box component='div' sx={{
+          display: 'inline',
+          fontSize: `${size === 'small' ? '14px' : '20px'}`,
+          marginLeft: 'auto'
+        }}>
+          {percentPrg.toFixed(2)}% суми
         </Box>
       </Box>
-    </Container>
+      <Line style={{ height: `${size === 'small' ? '9px' : '24px'}`, width: '100%' }}
+        percent={percentPrg}
+        strokeWidth={4}
+        trailWidth={4}
+        trailColor='#fcd700'
+        strokeColor='#005aa9' />
+      <Box sx={{ fontSize: `${size === 'small' ? '12px' : '20px'}` }}>
+        Left: {daysLeft} day(s) {hoursLeft} hour(s)
+      </Box>
+    </div>
   );
 };
 
+ProgressBar.defaultProps = {
+  size: 'small'
+}
 export default ProgressBar;

@@ -27,6 +27,7 @@
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "react/prop-types":"off",
     "quotes": [
       "warn",
       "single"
