@@ -4,7 +4,7 @@ import { UserType } from '../../types/auth.types';
 import { useNavigate } from 'react-router-dom';
 import ProfileUpdate from '../../components/profile/profile-update';
 
-const ProfileUpdatePage: FC = () => {
+const ProfileActivatePage: FC = () => {
   const [user, setUser] = useState<UserType>();
 
   const navigate = useNavigate();
@@ -31,4 +31,4 @@ const ProfileUpdatePage: FC = () => {
   );
 };
 
-export default ProfileUpdatePage;
+export default ProfileActivatePage;

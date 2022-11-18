@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import orderService from '../../../api/orders.service';
 import { IOrder } from '../../../types/order.types';
-import { OrderCard } from '../../orders/OrderCard';
 import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import style from './OrderList.module.scss';
+import { OrderCard } from '../../orders/OrderCard/OrderCard';
 
 const OrderList: FC = () => {
   const [orders, setOrders] = useState([]);

@@ -1,4 +1,5 @@
 import {
+  IActivateVolunteer,
   IResetUserPassword,
   IUpdateUserPassword,
   IUpdateUserProfile,
@@ -52,6 +53,15 @@ class UserService {
       .patch('user', { userId, name, lastname, image })
       .then((data: any) => data.data);
     return updatedUser;
+  }
+
+  async activateVolunteer(volunteer: IActivateVolunteer) {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const {userId, country, city, card_number, document} = volunteer;
+    const acvivatedVolunteer = await axiosInstance
+      .post('volunteer', {userId, country, city, card_number, document})
+      .then((data: any) => data.data);
+    return acvivatedVolunteer;
   }
 
   async forgotPassword(email: string) {
