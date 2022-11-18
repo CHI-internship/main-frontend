@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import orderService from '../../api/orders.service';
 import { OrderCard } from '../../components/orders/OrderCard/OrderCard';
-import { IOrder } from '../../types/order.types';
-import style from './Orders.module.scss';
 import Pagination from '../../components/pagination/Pagination';
+import { IOrder, IOrderResponse } from '../../types/order.types';
+import orderService from '../../api/orders.service';
+import style from './Orders.module.scss';
 
 export const Orders: React.FC = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<IOrder[]>([]);
   const [totalPages, setTotalPages] = useState(0);
 
   const handlePagination = (page: number) => {
@@ -16,11 +16,11 @@ export const Orders: React.FC = () => {
   const getOrders = async (page = 1) => {
     await orderService
       .getOrders(undefined, page, undefined)
-      .then((data: any) => {
+      .then((data: IOrderResponse) => {
         setTotalPages(data.totalPages);
         return data;
       })
-      .then((data: any) => setOrders(data.data));
+      .then((data: IOrderResponse) => setOrders(data.data));
   };
 
   useEffect(() => {
