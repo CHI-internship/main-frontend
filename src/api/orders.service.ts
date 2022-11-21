@@ -5,14 +5,18 @@ class OrderService {
     return await axiosInstance
       .get('orders', { params: { limit, page } })
       .then(data => data.data)
-      .catch(() => []);
+      .catch(err => {
+        throw err;
+      });
   }
 
   async getOrderById(id: string) {
     return await axiosInstance
       .get(`orders/${id}`)
       .then(value => value.data)
-      .catch(() => []);
+      .catch(err => {
+        throw err;
+      });
   }
 }
 

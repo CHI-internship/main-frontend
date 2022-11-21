@@ -12,15 +12,26 @@ class UserService {
       return;
     }
 
-    const res = await axiosInstance.get('user', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axiosInstance
+      .get('user', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .catch(err => {
+        if (
+          err.response.data.length !== 0 &&
+          err.response.data.message === 'no access rights'
+        ) {
+          throw err.response.data.message;
+        } else {
+          throw err;
+        }
+      });
     return res.data;
   }
 
   async signUp(user: RegisterType) {
     const res = await axiosInstance.post('auth/sign-up', user).catch(err => {
-      throw new Error(err);
+      throw err;
     });
     if (res.headers.authorization) {
       localStorage.setItem(
@@ -35,7 +46,14 @@ class UserService {
     const res = await axiosInstance
       .post('auth/sign-in', credentials)
       .catch(err => {
-        throw new Error(err);
+        if (
+          err.response.data.length !== 0 &&
+          err.response.data.message === 'Invalid email or password'
+        ) {
+          throw err.response.data.message;
+        } else {
+          throw err;
+        }
       });
 
     if (res.headers.authorization) {
@@ -50,14 +68,20 @@ class UserService {
   async updatePofile({ userId, name, lastname, image }: IUpdateUserProfile) {
     const updatedUser = await axiosInstance
       .patch('user', { userId, name, lastname, image })
-      .then((data: any) => data.data);
+      .then((data: any) => data.data)
+      .catch(err => {
+        throw err;
+      });
     return updatedUser;
   }
 
   async forgotPassword(email: string) {
     const emailSent = await axiosInstance
       .post('password/forgot', { email })
-      .then((data: any) => data.data);
+      .then((data: any) => data.data)
+      .catch(err => {
+        throw err;
+      });
     return emailSent;
   }
 
