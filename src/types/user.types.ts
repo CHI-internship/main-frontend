@@ -16,3 +16,14 @@ export interface IUpdateUserPassword {
     newPassword: string
     userId: number
 }
+
+export interface IUser {
+  id: number,
+  name: string,
+  lastname: string,
+  email: string,
+  photo: string,
+  role: string,
+  createdAt: Date,
+  updatedAt: Date
+}

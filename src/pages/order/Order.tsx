@@ -20,7 +20,7 @@ const Order: FC = () => {
   }, []);
 
   return (
-    <OrderDetails order={order}/>
+    <OrderDetails order={order} setOrder={setOrder}/>
   );
 };
 export default Order;

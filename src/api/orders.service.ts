@@ -14,6 +14,12 @@ class OrderService {
       .then(value => value.data)
       .catch(() => []);
   }
+
+  async updateOrder(id:number,data:any) {
+    return await axiosInstance
+      .patch(`orders/${id}`, data)
+      .then(value => value.data).catch(() => []);
+  }
 }
 
 const orderService = new OrderService();

@@ -1,33 +1,80 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 import style from './OrderDetails.module.scss';
 import ProgressBar from '../../progressbar/Progressbar';
 import { IOrder } from '../../../types/order.types';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton } from '@mui/material';
+import userService from '../../../api/user.service';
+import { useNavigate } from 'react-router-dom';
+import { IUser } from '../../../types/user.types';
+import UpdateOrder from '../UpdateOrder/UpdateOrder';
 
 interface IOrderCardProps {
-  order: IOrder
+  order: IOrder;
+  setOrder:Dispatch<SetStateAction<IOrder>>
 }
-const OrderDetails: FC<IOrderCardProps> = ({ order }) => (
-  <div className={style.container}>
-    <div className={style.title}>
-      <h1>{order?.title}</h1>
-      <p>{order?.info}</p>
-    </div>
-    <div className={style.main}>
-      <div className={style.image}
-        style={{ backgroundImage: `url(${order?.photo})` }}>
+
+const OrderDetails: FC<IOrderCardProps> = ({ order,setOrder }) => {
+
+  const [user,setUser] = useState<IUser>();
+  const [open,setOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userFromDb = await userService.retrieve(localStorage.getItem('token'));
+      if (userFromDb.role === 'volunteer') {
+        setUser(userFromDb)
+      }
+    };
+    if (localStorage.getItem('token')){
+      getUser();
+    }else {
+      navigate('/sign-in')
+    }
+  },[])
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  return(
+    <div className={style.container}>
+      <div className={style.title}>
+        <h1>{order?.title}</h1>
+        <p>{order?.info}</p>
       </div>
-      <div className={style.content}>
-        <div className={order?.status === 'open' ? style.gathering_open : style.gathering_close}>
-          <h4>{order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}</h4>
+      <div className={style.main}>
+        <div className={style.image}
+          style={{ backgroundImage: `url(${order?.photo})` }}>
         </div>
-        <ProgressBar moneyHave={order?.sum} moneyNeed={order?.goal_amount}
-          closedAt={new Date(order?.finished_at)} size='large' />
-        <p>{order?.short_info}</p>
-        <button>Підтримати</button>
+        <div className={style.content}>
+          <div className={style.content_header}>
+            <div className=
+              {order?.status === 'open' ?
+                style.gathering_open : style.gathering_close}>
+              <h4>{order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}</h4>
+            </div>
+            <IconButton
+              style={{display: user ? 'block' : 'none' }}
+              onClick={handleOpen}
+            >
+              <EditIcon/>
+            </IconButton>
+          </div>
+          <ProgressBar moneyHave={order?.sum} moneyNeed={order?.goal_amount}
+            closedAt={new Date(order?.finished_at)} size='large' />
+          <p>{order?.short_info}</p>
+          <button className={style.gather_button}>Підтримати</button>
+        </div>
       </div>
+      <UpdateOrder open={open} handleClose={handleClose} order={order} setOrder={setOrder}/>
     </div>
-  </div>
-);
+  );
+}
 
 export default OrderDetails;
