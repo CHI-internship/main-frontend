@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import userService from '../../api/user.service';
 import { UserType } from '../../types/auth.types';
 import { useNavigate } from 'react-router-dom';
-import ProfileUpdate from '../../components/profile/profile-update';
+import ProfileUpdate from '../../components/profile/profile-activate';
 
 const ProfileActivatePage: FC = () => {
   const [user, setUser] = useState<UserType>();
@@ -24,7 +24,7 @@ const ProfileActivatePage: FC = () => {
 
   return (
     <>
-      {user ? (
+      {user ?  (
         <ProfileUpdate/>
       ) : null}
     </>

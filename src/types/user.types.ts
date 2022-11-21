@@ -9,7 +9,8 @@ export interface IActivateVolunteer {
     country: string,
     city: string,
     card_number: string,
-    document: string
+    document: string,
+    expansion: string
 }
 
 export interface IResetUserPassword {

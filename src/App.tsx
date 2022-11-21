@@ -13,7 +13,7 @@ import Sidebar from './components/sidebar/Sidebar';
 import Home from './pages/Home';
 import Footer from './components/footer/Footer';
 import ProgressBar from './components/progressbar/Progressbar';
-import ProfileActivatePage from './pages/profile/profile-update-page';
+import ProfileActivatePage from './pages/profile/profile-activate-page';
 import Order from './pages/order/Order';
 
 

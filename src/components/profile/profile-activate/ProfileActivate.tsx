@@ -1,4 +1,4 @@
-import { Field, Form, Formik, useFormik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextField from '@material-ui/core/TextField';
 import { FC, useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserType } from '../../../types/auth.types';
 
 
+
 const toBase64 = async (file: Blob): Promise<string> => await new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -17,8 +18,8 @@ const toBase64 = async (file: Blob): Promise<string> => await new Promise((resol
   reader.onerror = error => reject(error);
 });
 
-export const ProfileUpdate: FC = () => {
-  const [success, setSuccess] = useState(false);
+export const ProfileActivate: FC = () => {
+  const [error, setError] = useState('');
   const [user, setUser] = useState<UserType>();
   const navigate = useNavigate();
 
@@ -27,13 +28,14 @@ export const ProfileUpdate: FC = () => {
     country: '',
     city: '',
     card_number: '',
-    document: ''
+    document: '',
+    expansion: '',
   }
 
   const validationSchema = yup.object({
     document: yup
       .string()
-      .min(1, "Select at least 1 file")
+      .min(1, 'Select at least 1 file')
       .required('Document is required'),
     card_number: yup
       .number()
@@ -59,6 +61,17 @@ export const ProfileUpdate: FC = () => {
     getUser(token);
   }, [])
 
+  async function submitRequest(values: any, formikHelpers: any) {
+    try {
+      formikHelpers.resetForm();
+      values.userId = user?.id; 
+      await userService.activateVolunteer(values)
+      formikHelpers.resetForm(); 
+      if (!error) navigate('/profile');
+    } catch(e: any) {
+      setError(e.message);
+    }
+  }
   return (
     <Box
       sx={{
@@ -75,13 +88,7 @@ export const ProfileUpdate: FC = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, formikHelpers) => {
-            formikHelpers.resetForm();
-            values.userId = user?.id;
-            console.log('submit', values)
-            
-            // await userService.activateVolunteer(values)
-            formikHelpers.resetForm();
-            navigate('/profile');
+            await submitRequest(values, formikHelpers);
           }}
         >
           {({ values, errors, touched, isValid, dirty, setFieldValue }) => {
@@ -91,9 +98,11 @@ export const ProfileUpdate: FC = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   flexDirection: 'column',
+                  alignItems: 'center'
                 }}
               >
                 <Field
+                  fullWidth
                   name='country'
                   type='country'
                   as={TextField}
@@ -104,6 +113,7 @@ export const ProfileUpdate: FC = () => {
                   helperText={Boolean(touched.country) && errors.country}
                 />
                 <Field
+                  fullWidth
                   name='city'
                   type='city'
                   as={TextField}
@@ -114,6 +124,7 @@ export const ProfileUpdate: FC = () => {
                   helperText={Boolean(touched.city) && errors.city}
                 />
                 <Field
+                  fullWidth
                   name='card_number'
                   type='card_number'
                   as={TextField}
@@ -125,29 +136,25 @@ export const ProfileUpdate: FC = () => {
                 />
             
                 <input
-                  accept="application/pdf, image/*"
+                  accept='application/pdf, image/*'
                   style={{ display: 'none' }}
-                  id="raised-button-file"
+                  id='raised-button-file'
                   multiple
-                  type="file"
-                  name="document"
+                  type='file'
+                  name='document'
                   onChange={(event) => {
                     if (!event.currentTarget.files) return;
                     
-                    // const reader = new FileReader();
-                    // reader.readAsDataURL(event.currentTarget.files[0])
-              
-                  toBase64(event.currentTarget.files[0]).then(data => console.log(data.replace('data:*/*;base64,', '')))
-                  toBase64(event.currentTarget.files[0]).then(data => {
-                    const base64 = data.replace('data:*/*;base64,', '');
-                    setFieldValue("document", base64);
-                  })
-                    // console.log('reader', reader, reader.result);
-                    // setFieldValue("document", event.currentTarget.files[0]);
+                    const type = event.currentTarget.files[0].type.split('/')[1];
+
+                    setFieldValue('expansion', type);
+                    toBase64(event.currentTarget.files[0]).then(data => {
+                      setFieldValue('document', data);
+                    })
                   }} 
                 />
-                <label htmlFor="raised-button-file">
-                  <Button variant="outlined" component="span" >
+                <label htmlFor='raised-button-file'>
+                  <Button variant='outlined' component='span'  >
                      Upload  an  identity  document 
                   </Button>
                 </label> 
@@ -162,15 +169,17 @@ export const ProfileUpdate: FC = () => {
                   Activate Profile
                 </Button>
 
-                {success && (
-                  <Typography sx={{ textAlign: 'center', color: 'green' }}>
-                    Your information will be verified soon
+                {error && (
+                  <Typography sx={{ textAlign: 'center', color: 'red' }}>
+                    {error}
                   </Typography>
                 )}
+                
               </Form>
             );
           }}
         </Formik>
+       
       </Box>
     </Box>
   );

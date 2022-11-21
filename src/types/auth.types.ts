@@ -29,6 +29,7 @@ type UserType = {
   name: string;
   lastname: string;
   orders?: any;
+  volunteer?: any;
 };
 
 export type {
