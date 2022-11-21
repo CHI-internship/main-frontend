@@ -13,7 +13,6 @@ import Sidebar from './components/sidebar/Sidebar';
 import Home from './pages/Home';
 import Footer from './components/footer/Footer';
 import { Orders } from './pages/orders/Orders';
-import ProgressBar from './components/progressbar/Progressbar';
 import Order from './pages/order/Order';
 
 function App() {
