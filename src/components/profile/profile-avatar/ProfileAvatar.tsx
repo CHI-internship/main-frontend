@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import style from './ProfileAvatar.module.scss'
 import addIcon from '../../../images/icons/add.icon.svg'
 import userService from '../../../api/user.service'
+import { base64 } from '../../../utils'
 
 interface IProfileAvatarProps {
   userId: number
@@ -15,17 +16,12 @@ export const ProfileAvatar: React.FC<IProfileAvatarProps> =
     const [disableSend, setDisableSend] = useState(false)
     const ref = useRef<HTMLInputElement>(null)
 
-    function handleUpload(e: any) {
-      const file = e.target.files[0]
-      if (file) {
-        const reader = new FileReader()
-        reader.onloadend = async function () {
-          setDisableSend(true)
-          await userService.updatePofile({ userId, image: reader.result })
-            .then((data => setAvatarUrl(data.photo)))
-            .finally(() => setDisableSend(false))
-        }
-        reader.readAsDataURL(file)
+    async function handleUpload(e: any) {
+      if (e.target.files[0]) {
+        const image = await base64(e.target.files[0])
+        if (image) await userService.updatePofile({ userId, image })
+          .then((data => setAvatarUrl(data.photo)))
+          .finally(() => setDisableSend(false))
       }
     }
 
