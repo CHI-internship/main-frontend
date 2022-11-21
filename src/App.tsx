@@ -15,6 +15,7 @@ import Footer from './components/footer/Footer';
 import { Orders } from './pages/orders/Orders';
 import ProgressBar from './components/progressbar/Progressbar';
 import Order from './pages/order/Order';
+import { CreateOrder } from './pages';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path='about' element={<About />} />
             <Route path='orders' element={<Orders />} />
             <Route path='orders/:id' element={<Order />} />
+            <Route path='orders/create' element={<CreateOrder />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>

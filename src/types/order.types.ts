@@ -12,3 +12,12 @@ export interface IOrder {
     createdAt: Date
     updatedAt: Date
 }
+
+export interface IOrderDto {
+    title: string
+    info: string
+    photo: string
+    goal_amount: number
+    short_info: string
+    finished_at: string
+}
