@@ -1,12 +1,15 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { Formik, Form, Field, FormikValues } from 'formik';
+import * as yup from 'yup';
+import { AxiosError } from 'axios';
 import inputStyles from '../../styles/input-styles';
 import formStyles from '../../styles/form-styles';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { Formik, Form, Field, FormikValues } from 'formik';
+
 import { SignUpType } from '../../types/auth.types';
 import userService from '../../api/user.service';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 const initialValues: SignUpType = {
   email: '',
@@ -40,6 +43,8 @@ const validationSchema = yup.object({
 });
 
 const SignUpForm: FC = () => {
+  const [error, setError] = useState<AxiosError>(undefined);
+
   const navigate = useNavigate();
 
   const signUp = async (values: FormikValues) => {
@@ -50,7 +55,9 @@ const SignUpForm: FC = () => {
         lastname: values.lastname,
         password: values.password,
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setError(err);
+      });
     if (res) {
       navigate('/profile', { replace: true });
     }
@@ -58,6 +65,7 @@ const SignUpForm: FC = () => {
 
   return (
     <Box>
+      {error && <ErrorAlert error={error} />}
       <Box
         sx={{
           display: 'flex',

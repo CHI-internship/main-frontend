@@ -1,16 +1,25 @@
 import { FC, useEffect, useState } from 'react';
-import orderService from '../../../api/orders.service';
-import { IOrder } from '../../../types/order.types';
-import { OrderCard } from '../../orders/OrderCard';
 import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import orderService from '../../../api/orders.service';
+import { IOrder } from '../../../types/order.types';
+import { OrderCard } from '../../orders/OrderCard/OrderCard';
+import ErrorAlert from '../../ErrorAlert/ErrorAlert';
 import style from './OrderList.module.scss';
 
 const OrderList: FC = () => {
   const [orders, setOrders] = useState([]);
+  const [error, setError] = useState<AxiosError>(undefined);
 
   const getOrders = async () => {
-    await orderService.getOrders(3).then((data: any) => setOrders(data.data));
+    await orderService
+      .getOrders(3)
+      .then((data: any) => setOrders(data.data))
+      .catch(err => {
+        setError(err);
+        setOrders([]);
+      });
   };
 
   useEffect(() => {
@@ -19,6 +28,7 @@ const OrderList: FC = () => {
 
   return (
     <Box>
+      {error && <ErrorAlert error={error} />}
       <Box className={style.orderList}>
         {orders.map((item: IOrder) => (
           <OrderCard key={item.id} order={item} />
