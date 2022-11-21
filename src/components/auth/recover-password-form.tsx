@@ -5,7 +5,7 @@ import formStyles from '../../styles/form-styles';
 import * as yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import userService from '../../api/user.service';
-import { RecoverPasswordType } from '../../types/auth.types';
+import { RecoverPasswordType } from '../../types';
 
 const initialValues: RecoverPasswordType = {
   email: '',

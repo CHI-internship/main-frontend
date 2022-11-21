@@ -1,12 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-
 import orderService from '../../api/orders.service';
-import { IOrder } from '../../types/order.types';
-import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';
+import { OrderDetails } from '../../components/orders';
+import { IOrder } from '../../types';
+
 
 const Order: FC = () => {
-
   const [order, setOrder] = useState<IOrder>();
   const { state } = useLocation();
   const { id } = useParams() as { id: string };
@@ -20,7 +19,7 @@ const Order: FC = () => {
   }, []);
 
   return (
-    <OrderDetails order={order}/>
+    <OrderDetails order={order} />
   );
 };
 export default Order;

@@ -7,7 +7,7 @@ import userService from '../../../api/user.service'
 import editIcon from '../../../images/icons/edit.icon.svg'
 import confirmIcon from '../../../images/icons/confirm.icon.svg'
 import cancelIcon from '../../../images/icons/cancel.icon.svg'
-import { IUpdateUserProfile } from '../../../types/user.types'
+import { IUpdateUserProfile } from '../../../types'
 
 interface IProfileNameProps {
   userId: number
