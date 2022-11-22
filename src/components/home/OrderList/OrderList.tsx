@@ -30,7 +30,7 @@ const OrderList: FC = () => {
     <Box>
       {error && <ErrorAlert error={error} />}
       <Box className={style.orderList}>
-        {orders.map((item: IOrder) => (
+        {orders?.map((item: IOrder) => (
           <OrderCard key={item.id} order={item} />
         ))}
       </Box>

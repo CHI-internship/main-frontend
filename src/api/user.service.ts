@@ -1,10 +1,8 @@
 import {
-  IResetUserPassword,
-  IUpdateUserPassword,
-  IUpdateUserProfile,
-} from '../types/user.types';
+  IResetUserPassword, IUpdateUserPassword,
+  IUpdateUserProfile, RegisterType, SignInType
+} from '../types';
 import { axiosInstance } from './axios-instance';
-import { RegisterType, SignInType } from '../types/auth.types';
 
 class UserService {
   async retrieve(token: string | null) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import orderService from '../../api/orders.service';
 import { OrderCard } from '../../components/orders/OrderCard/OrderCard';
 import { IOrder } from '../../types/order.types';

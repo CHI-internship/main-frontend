@@ -1,9 +1,6 @@
 import { FC } from 'react';
-import ShortAbout from '../components/home/ShortAbout/ShortAbout';
 import { Box, Typography } from '@mui/material';
-import GetStarted from '../components/home/GetStarted/GetStarted';
-import OrderList from '../components/home/OrderList/OrderList';
-import LastReports from '../components/home/LastReports/LastReports';
+import { GetStarted, LastReports, OrderList, ShortAbout } from '../components/home';
 
 const Home: FC = () => {
   return (
