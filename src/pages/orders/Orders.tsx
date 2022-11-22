@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import orderService from '../../api/orders.service';
-import { OrderCard } from '../../components/orders/OrderCard/OrderCard';
-import { IOrder } from '../../types/order.types';
+import { OrderCard } from '../../components/orders';
+import { IOrder } from '../../types';
 import style from './Orders.module.scss';
 import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 import { AxiosError } from 'axios';
 
 export const Orders: React.FC = () => {
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState<AxiosError>(undefined);
+  const [error, setError] = useState(null as AxiosError);
 
   const getOrders = async () => {
     await orderService

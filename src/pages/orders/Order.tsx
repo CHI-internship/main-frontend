@@ -3,12 +3,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 import orderService from '../../api/orders.service';
-import { IOrder } from '../../types/order.types';
+import { IOrder } from '../../types';
 import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';
 import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 
 const Order: FC = () => {
-  const [error, setError] = useState<AxiosError>(undefined);
+  const [error, setError] = useState(null as AxiosError);
 
   const [order, setOrder] = useState<IOrder>();
   const { state } = useLocation();

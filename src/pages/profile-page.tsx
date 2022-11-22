@@ -8,7 +8,7 @@ import ErrorAlert from '../components/ErrorAlert/ErrorAlert';
 
 const ProfilePage: FC = () => {
   const [user, setUser] = useState<UserType>();
-  const [error, setError] = useState<AxiosError>(undefined);
+  const [error, setError] = useState(null as AxiosError);
 
   const navigate = useNavigate();
 
