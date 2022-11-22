@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
-import SignInForm from '../../components/auth/sign-in-form';
 import { useNavigate } from 'react-router-dom';
+import { SignInForm } from '../../components/auth';
 
 const SignIn: FC = () => {
   const navigate = useNavigate();

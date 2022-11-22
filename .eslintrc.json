@@ -40,7 +40,7 @@
       "prefer-single"
     ],
     "indent": [
-      "warn",
+      "off",
       2
     ],
     "max-len": [

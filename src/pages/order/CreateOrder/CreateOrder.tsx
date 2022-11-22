@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import { Button, TextField } from '@mui/material'
 import style from './CreateOrder.module.scss'
-import { FileUpload } from '../../../components/upload/file-upload'
 import orderService from '../../../api/orders.service'
+import { FileUpload } from '../../../components/common'
 
 
 interface ICreateOrderProps {
