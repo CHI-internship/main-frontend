@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import orderService from '../../../api/orders.service';
-import { IOrder } from '../../../types/order.types';
+import { IOrder } from '../../../types';
 import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import style from './OrderList.module.scss';
-import { OrderCard } from '../../orders/OrderCard/OrderCard';
+import { OrderCard } from '../../orders';
 
 const OrderList: FC = () => {
   const [orders, setOrders] = useState([]);
@@ -20,7 +20,7 @@ const OrderList: FC = () => {
   return (
     <Box>
       <Box className={style.orderList}>
-        {orders.map((item: IOrder) => (
+        {orders?.map((item: IOrder) => (
           <OrderCard key={item.id} order={item} />
         ))}
       </Box>
