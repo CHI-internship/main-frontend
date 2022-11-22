@@ -60,7 +60,7 @@ const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
         formikHelpers.resetForm();
       }
     }catch (e:any) {
-      (setError(e.response.data.message));
+      setError(e.response.data.message);
     }
   };
 
