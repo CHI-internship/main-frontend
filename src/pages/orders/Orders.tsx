@@ -7,18 +7,16 @@ import { IOrder, IOrderResponse } from '../../types';
 import orderService from '../../api/orders.service';
 import style from './Orders.module.scss';
 
-
 export const Orders: React.FC = () => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
 
-
   const getOrders = async (page = 1) => {
     await orderService
-      .getOrders(undefined, page, undefined)
+      .getOrders(page)
       .then((data: IOrderResponse) => {
-        setOrders(data.data)
+        setOrders(data.data);
         setTotalPages(data.totalPages);
         return data;
       })
