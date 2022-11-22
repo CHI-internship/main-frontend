@@ -68,9 +68,7 @@ const SignInForm: FC = () => {
             Sign In
           </Typography>
 
-          {isError ? (
-            <Alert severity='error'>Wrong email or password</Alert>
-          ) : null}
+          {isError && <Alert severity='error'>Wrong email or password</Alert>}
 
           <Formik
             initialValues={initialValues}
