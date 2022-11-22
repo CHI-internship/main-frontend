@@ -10,7 +10,7 @@ import {
 import * as yup from 'yup';
 import { Field, Form, Formik, FormikValues } from 'formik';
 import orderService from '../../../api/orders.service';
-import { IOrder } from '../../../types/order.types';
+import { IOrder } from '../../../types';
 import styles from './UpdateOrder.module.scss';
 import { toBase64 } from '../../../helpers';
 

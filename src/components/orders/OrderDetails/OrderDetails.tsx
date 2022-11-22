@@ -1,14 +1,13 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ProgressBar from '../../progressbar/Progressbar';
 import UpdateOrder from '../UpdateOrder/UpdateOrder';
-import { IOrder } from '../../../types/order.types';
-import { IUser } from '../../../types/user.types';
 import style from './OrderDetails.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 import userService from '../../../api/user.service';
+import { IOrder, IUser } from '../../../types';
+import { ProgressBar } from '../../common';
 
 interface IOrderCardProps {
   order: IOrder;
