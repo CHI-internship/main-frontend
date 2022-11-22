@@ -6,7 +6,6 @@ import * as yup from 'yup';
 import { AxiosError } from 'axios';
 import inputStyles from '../../styles/input-styles';
 import formStyles from '../../styles/form-styles';
-
 import { SignUpType } from '../../types/auth.types';
 import userService from '../../api/user.service';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
