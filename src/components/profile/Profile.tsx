@@ -5,7 +5,7 @@ import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../../types/auth.types';
-import userService from '../../api/user.service';
+import { retrieveUser } from '../../helpers/retrieveUser';
 
 interface IProfileProps {
   id: number;
@@ -28,12 +28,7 @@ export const Profile: FC<IProfileProps> = ({
   const [user, setUser] = useState<UserType>();
 
   useEffect(() => {
-    const getUser = async () => {
-      const rawUser = await userService.retrieve(localStorage.getItem('token'));
-      setUser(rawUser);
-    }
-
-    getUser();
+    retrieveUser(setUser);
   }, []);
 
   const handleLogout = () => {

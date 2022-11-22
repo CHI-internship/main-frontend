@@ -8,21 +8,14 @@ import formStyles from '../../../styles/form-styles';
 import inputStyles from '../../../styles/input-styles';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../../../types/auth.types';
-
-
-
-const toBase64 = async (file: Blob): Promise<string> => await new Promise((resolve, reject) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(String(reader.result));
-  reader.onerror = error => reject(error);
-});
+import { toBase64 } from '../../../helpers/tobase64';
+import { retrieveUser } from '../../../helpers/retrieveUser';
 
 export const ProfileActivate: FC = () => {
   const [error, setError] = useState('');
   const [user, setUser] = useState<UserType>();
   const navigate = useNavigate();
-
+  
   const initialValues = {
     userId: user?.id,
     country: '',
@@ -31,7 +24,7 @@ export const ProfileActivate: FC = () => {
     document: '',
     expansion: '',
   }
-
+  
   const validationSchema = yup.object({
     document: yup
       .string()
@@ -53,12 +46,7 @@ export const ProfileActivate: FC = () => {
   });
         
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    async function getUser(token: string | null) {
-      const user = await userService.retrieve(token);
-      setUser(user);
-    }
-    getUser(token);
+    retrieveUser(setUser);
   }, [])
 
   async function submitRequest(values: any, formikHelpers: any) {
@@ -81,7 +69,7 @@ export const ProfileActivate: FC = () => {
     >
       <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
-        Activate Profile
+          Activate Profile
         </Typography>
 
         <Formik
