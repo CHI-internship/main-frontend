@@ -12,6 +12,6 @@ import SignUp from './auth/sign-up'
 import AboutPage from './About/About'
 
 export {
-    ResetPassword, ProfilePage, NoMatchPage, Home, Policy, Orders,
-    Order, RecoverPassword, SignIn, SignUp, AboutPage, CreateOrder
+  ResetPassword, ProfilePage, NoMatchPage, Home, Policy, Orders,
+  Order, RecoverPassword, SignIn, SignUp, AboutPage, CreateOrder
 }
