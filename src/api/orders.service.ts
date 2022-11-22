@@ -1,18 +1,23 @@
 import { axiosInstance } from './axios-instance';
+import { AxiosError, AxiosResponse } from 'axios';
 
 class OrderService {
   async getOrders(limit = 10, page = 1, sort = 'asc') {
     return await axiosInstance
       .get('orders', { params: { limit, page, sort } })
-      .then(data => data.data)
-      .catch(() => []);
+      .then((data: AxiosResponse) => data.data)
+      .catch((err: AxiosError) => {
+        throw err;
+      });
   }
 
   async getOrderById(id: string) {
     return await axiosInstance
       .get(`orders/${id}`)
-      .then(value => value.data)
-      .catch(() => []);
+      .then((value: AxiosResponse) => value.data)
+      .catch((err: AxiosError) => {
+        throw err;
+      });
   }
 }
 

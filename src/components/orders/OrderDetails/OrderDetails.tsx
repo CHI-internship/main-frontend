@@ -1,8 +1,7 @@
 import { FC } from 'react';
-
 import style from './OrderDetails.module.scss';
-import ProgressBar from '../../progressbar/Progressbar';
-import { IOrder } from '../../../types/order.types';
+import { IOrder } from '../../../types';
+import { ProgressBar } from '../../common';
 
 interface IOrderCardProps {
   order: IOrder

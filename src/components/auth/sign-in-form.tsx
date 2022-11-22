@@ -5,9 +5,11 @@ import formStyles from '../../styles/form-styles';
 import FormLink from './form-link';
 import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import { SignInType } from '../../types/auth.types';
 import userService from '../../api/user.service';
-import { useNavigate } from 'react-router-dom';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 const initialValues: SignInType = {
   email: '',
@@ -28,6 +30,7 @@ const validationSchema = yup.object({
 
 const SignInForm: FC = () => {
   const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null as AxiosError);
 
   const navigate = useNavigate();
 
@@ -37,41 +40,45 @@ const SignInForm: FC = () => {
         email: values.email,
         password: values.password,
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (typeof err === 'string') {
+          setIsError(true);
+          setTimeout(() => setIsError(false), 3000);
+        } else {
+          setError(err);
+        }
+      });
     if (res) {
       setIsError(false);
       navigate('/profile', { replace: true });
-    } else {
-      setIsError(true);
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <Box sx={formStyles}>
-        <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
-          Sign In
-        </Typography>
+    <>
+      {error && <ErrorAlert error={error} />}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Box sx={formStyles}>
+          <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
+            Sign In
+          </Typography>
 
-        {isError ? (
-          <Alert severity='error'>Wrong email or password</Alert>
-        ) : null}
+          {isError && <Alert severity='error'>Wrong email or password</Alert>}
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={async (values, formikHelpers) => {
-            await signIn(values);
-            formikHelpers.resetForm();
-          }}
-        >
-          {({ values, errors, touched, isValid, dirty }) => {
-            return (
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={async (values, formikHelpers) => {
+              await signIn(values);
+              formikHelpers.resetForm();
+            }}
+          >
+            {({ values, errors, touched, isValid, dirty }) => (
               <Form
                 style={{
                   display: 'flex',
@@ -117,11 +124,11 @@ const SignInForm: FC = () => {
                   styles={{ fontSize: '.75rem' }}
                 />
               </Form>
-            );
-          }}
-        </Formik>
+            )}
+          </Formik>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

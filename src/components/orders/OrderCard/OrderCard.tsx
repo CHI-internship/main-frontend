@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { IOrder } from '../../../types/order.types';
-import ProgressBar from '../../progressbar/Progressbar';
+import { ProgressBar } from '../../common'
 import style from './OrderCard.module.scss';
 
 interface IOrderCardProps {
