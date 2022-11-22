@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import RecoverPasswordForm from '../../components/auth/recover-password-form';
+import { RecoverPasswordForm } from '../../components/auth';
 
 
 const RecoverPassword: FC = () => {

@@ -6,7 +6,7 @@ import inputStyles from '../../styles/input-styles';
 import { Formik, Form, Field } from 'formik';
 import userService from '../../api/user.service';
 import { recaptchaVerify } from '../../utils/recaptcha';
-import { RecoverPasswordType } from '../../types/auth.types';
+import { RecoverPasswordType } from '../../types';
 
 const initialValues: RecoverPasswordType = {
   email: '',

@@ -5,7 +5,7 @@ import formStyles from '../../styles/form-styles';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
-import { SignUpType } from '../../types/auth.types';
+import { SignUpType } from '../../types';
 import userService from '../../api/user.service';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { recaptchaVerify } from '../../utils/recaptcha';

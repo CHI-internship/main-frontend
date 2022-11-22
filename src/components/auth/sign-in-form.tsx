@@ -6,7 +6,7 @@ import inputStyles from '../../styles/input-styles';
 import formStyles from '../../styles/form-styles';
 import FormLink from './form-link';
 import { Formik, Form, Field, FormikValues } from 'formik';
-import { SignInType } from '../../types/auth.types';
+import { SignInType } from '../../types';
 import userService from '../../api/user.service';
 import { useNavigate } from 'react-router-dom';
 import { recaptchaVerify } from '../../utils/recaptcha';
