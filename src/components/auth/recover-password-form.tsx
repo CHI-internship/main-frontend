@@ -19,7 +19,7 @@ const validationSchema = yup.object({
 
 const RecoverPasswordForm: FC = () => {
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<AxiosError>(undefined);
+  const [error, setError] = useState(null as AxiosError);
 
   return (
     <>

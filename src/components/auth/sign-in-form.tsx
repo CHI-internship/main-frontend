@@ -30,7 +30,7 @@ const validationSchema = yup.object({
 
 const SignInForm: FC = () => {
   const [isError, setIsError] = useState(false);
-  const [error, setError] = useState<AxiosError>(undefined);
+  const [error, setError] = useState(null as AxiosError);
 
   const navigate = useNavigate();
 

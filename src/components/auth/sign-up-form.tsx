@@ -43,7 +43,7 @@ const validationSchema = yup.object({
 });
 
 const SignUpForm: FC = () => {
-  const [error, setError] = useState<AxiosError>(undefined);
+  const [error, setError] = useState(null as AxiosError);
 
   const navigate = useNavigate();
 
