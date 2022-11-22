@@ -1,25 +1,31 @@
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import orderService from '../../api/orders.service';
-import { OrderDetails } from '../../components/orders';
-import { IOrder } from '../../types';
+import { AxiosError } from 'axios';
 
+import orderService from '../../api/orders.service';
+import { IOrder } from '../../types';
+import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';
+import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 
 const Order: FC = () => {
+  const [error, setError] = useState(null as AxiosError);
+
   const [order, setOrder] = useState<IOrder>();
   const { state } = useLocation();
   const { id } = useParams() as { id: string };
 
   useEffect(() => {
-    if (state) {
-      setOrder(state);
-    } else {
-      orderService.getOrderById(id).then(value => setOrder(value));
-    }
+    orderService
+      .getOrderById(id)
+      .then(value => setOrder(value))
+      .catch(err => setError(err));
   }, []);
 
   return (
-    <OrderDetails order={order} />
+    <>
+      {error && <ErrorAlert error={error} />}
+      <OrderDetails order={order} />
+    </>
   );
 };
 export default Order;

@@ -2,14 +2,16 @@ import * as yup from 'yup';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { FC, useState } from 'react';
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import { AxiosError } from 'axios';
 import inputStyles from '../../styles/input-styles';
 import formStyles from '../../styles/form-styles';
 import FormLink from './form-link';
 import { Formik, Form, Field, FormikValues } from 'formik';
-import { SignInType } from '../../types';
+import { SignInType } from '../../types/auth.types';
 import userService from '../../api/user.service';
 import { useNavigate } from 'react-router-dom';
 import { recaptchaVerify } from '../../utils/recaptcha';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 const initialValues: SignInType = {
   email: '',
@@ -31,6 +33,7 @@ const validationSchema = yup.object({
 const SignInForm: FC = () => {
   const [isError, setIsError] = useState(false);
   const [disableSend, setDisableSend] = useState(false)
+  const [error, setError] = useState(null as AxiosError);
   const { executeRecaptcha } = useGoogleReCaptcha()
   const navigate = useNavigate();
 
@@ -58,6 +61,7 @@ const SignInForm: FC = () => {
         justifyContent: 'center',
       }}
     >
+      {error && <ErrorAlert error={error} />}
       <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Sign In

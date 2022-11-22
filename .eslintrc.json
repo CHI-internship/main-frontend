@@ -28,6 +28,8 @@
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-non-null-assertion":"off",
+    "no-return-await": ["error"],
+    "@typescript-eslint/return-await": ["error", "in-try-catch"],
     "react/prop-types":"off",
     "quotes": [
       "warn",
