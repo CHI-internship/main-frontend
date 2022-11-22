@@ -1,6 +1,9 @@
 import {
-  IResetUserPassword, IUpdateUserPassword,
-  IUpdateUserProfile, RegisterType, SignInType
+  IResetUserPassword,
+  IUpdateUserPassword,
+  IUpdateUserProfile,
+  RegisterType,
+  SignInType,
 } from '../types';
 import { axiosInstance } from './axios-instance';
 
@@ -15,10 +18,7 @@ class UserService {
         headers: { Authorization: `Bearer ${token}` },
       })
       .catch(err => {
-        if (
-          err.response.data.length !== 0 &&
-          err.response.data.message === 'no access rights'
-        ) {
+        if (err.response.data.message === 'no access rights') {
           throw err.response.data.message;
         } else {
           throw err;
@@ -44,10 +44,8 @@ class UserService {
     const res = await axiosInstance
       .post('auth/sign-in', credentials)
       .catch(err => {
-        if (
-          err.response.data.length !== 0 &&
-          err.response.data.message === 'Invalid email or password'
-        ) {
+        if (err.response.data.message === 'Invalid email or password') {
+          console.log(err);
           throw err.response.data.message;
         } else {
           throw err;
