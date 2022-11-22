@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useFormik } from 'formik'
 import { Button, TextField } from '@mui/material'
 import style from './CreateOrder.module.scss'
@@ -16,6 +16,9 @@ export const CreateOrder: React.FC<ICreateOrderProps> = ({ defaultImage }) => {
     const [imgErr, setImgErr] = useState(false)
     const [creationErr, setCreationErr] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [disableSend, setDisableSend] = useState(false)
+    const timeoutRef = useRef(null)
+
 
     const formik = useFormik({
         initialValues: {
@@ -25,6 +28,7 @@ export const CreateOrder: React.FC<ICreateOrderProps> = ({ defaultImage }) => {
         onSubmit: async (values) => {
             if (!values.photo) setImgErr(true)
             else {
+                setDisableSend(true)
                 await orderService.createOrder({
                     title: values.title,
                     short_info: values.short_info,
@@ -37,12 +41,14 @@ export const CreateOrder: React.FC<ICreateOrderProps> = ({ defaultImage }) => {
                     .then(() => {
                         formik.resetForm()
                         setSuccess(true)
-                        setTimeout(() => setSuccess(false), 3000)
+                        timeoutRef.current = window.setTimeout(() =>
+                            setSuccess(false), 3000)
                     })
                     .finally(() => {
                         setImg(defaultImage)
                         setImgErr(false)
                         setCreationErr(false)
+                        setDisableSend(false)
                     })
             }
         },
@@ -125,11 +131,14 @@ export const CreateOrder: React.FC<ICreateOrderProps> = ({ defaultImage }) => {
                     margin='dense'
                     helperText={formik.touched.finished_at && formik.errors.finished_at}
                     FormHelperTextProps={{ style: { color: 'red' } }} />
-                <Button type='submit' variant='contained' sx={{ marginTop: '12px' }}>
+                <Button type='submit' disabled={disableSend}
+                    variant='contained' sx={{ marginTop: '12px' }}>
                     Create order
                 </Button>
-                {creationErr && <div className={style.error}>Error. Order was not created.</div>}
-                {success && <div style={{ color: 'green' }}>Order has been successfully created.</div>}
+                {creationErr && <div className={style.error}>
+                    Error. Order was not created.</div>}
+                {success && <div style={{ color: 'green' }}>
+                    Order has been successfully created.</div>}
             </div>
         </form>
     )

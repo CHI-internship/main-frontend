@@ -19,7 +19,7 @@ export const ProfileAvatar: React.FC<IProfileAvatarProps> =
     async function handleUpload(e: any) {
       if (e.target.files[0]) {
         const image = await base64(e.target.files[0])
-        if (image) await userService.updatePofile({ userId, image })
+        if (image) userService.updatePofile({ userId, image })
           .then((data => setAvatarUrl(data.photo)))
           .finally(() => setDisableSend(false))
       }

@@ -3,7 +3,7 @@ export async function base64(file: any) {
   const stringBase64 = await new Promise(resolve => {
     reader.onload = () => resolve(reader.result)
     reader.readAsDataURL(file)
-  }).then(data => { return data }).catch(() => { return '' })
+  }).then(data => data).catch(() => '')
 
-  return await stringBase64
+  return stringBase64
 }
