@@ -5,7 +5,7 @@ import formStyles from '../../styles/form-styles';
 import FormLink from './form-link';
 import * as yup from 'yup';
 import { Formik, Form, Field, FormikValues } from 'formik';
-import { SignInType } from '../../types/auth.types';
+import { SignInType } from '../../types';
 import userService from '../../api/user.service';
 import { useNavigate } from 'react-router-dom';
 
