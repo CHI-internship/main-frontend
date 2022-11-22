@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 class OrderService {
   async getOrders(limit = 10, page = 1, sort = 'asc') {
-    return await axiosInstance
+    return axiosInstance
       .get('orders', { params: { limit, page, sort } })
       .then((data: AxiosResponse) => data.data)
       .catch((err: AxiosError) => {
@@ -12,7 +12,7 @@ class OrderService {
   }
 
   async getOrderById(id: string) {
-    return await axiosInstance
+    return axiosInstance
       .get(`orders/${id}`)
       .then((value: AxiosResponse) => value.data)
       .catch((err: AxiosError) => {
