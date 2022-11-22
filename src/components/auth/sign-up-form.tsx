@@ -85,85 +85,79 @@ const SignUpForm: FC = () => {
               formikHelpers.resetForm();
             }}
           >
-            {({ values, errors, touched, isValid, dirty }) => {
-              return (
-                <Form
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                  }}
+            {({ values, errors, touched, isValid, dirty }) => (
+              <Form
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <Field
+                  name='email'
+                  type='email'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Email'
+                  error={Boolean(errors.email) && Boolean(touched.email)}
+                  helperText={Boolean(touched.email) && errors.email}
+                />
+                <Field
+                  name='name'
+                  type='name'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Name'
+                  error={Boolean(errors.name) && Boolean(touched.name)}
+                  helperText={Boolean(touched.name) && errors.name}
+                />
+                <Field
+                  name='lastname'
+                  type='lastname'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Lastname'
+                  error={Boolean(errors.lastname) && Boolean(touched.lastname)}
+                  helperText={Boolean(touched.lastname) && errors.lastname}
+                />
+                <Field
+                  name='password'
+                  type='password'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Password'
+                  error={Boolean(errors.password) && Boolean(touched.password)}
+                  helperText={Boolean(touched.password) && errors.password}
+                />
+                <Field
+                  name='confirmPassword'
+                  type='password'
+                  as={TextField}
+                  required
+                  style={inputStyles.default}
+                  label='Confirm password'
+                  error={
+                    Boolean(errors.confirmPassword) &&
+                    Boolean(touched.confirmPassword)
+                  }
+                  helperText={
+                    Boolean(touched.confirmPassword) && errors.confirmPassword
+                  }
+                />
+                <Button
+                  type='submit'
+                  variant='contained'
+                  sx={{ margin: '1rem 0 1rem 0' }}
+                  disabled={!isValid || !dirty}
                 >
-                  <Field
-                    name='email'
-                    type='email'
-                    as={TextField}
-                    required
-                    style={inputStyles.default}
-                    label='Email'
-                    error={Boolean(errors.email) && Boolean(touched.email)}
-                    helperText={Boolean(touched.email) && errors.email}
-                  />
-                  <Field
-                    name='name'
-                    type='name'
-                    as={TextField}
-                    required
-                    style={inputStyles.default}
-                    label='Name'
-                    error={Boolean(errors.name) && Boolean(touched.name)}
-                    helperText={Boolean(touched.name) && errors.name}
-                  />
-                  <Field
-                    name='lastname'
-                    type='lastname'
-                    as={TextField}
-                    required
-                    style={inputStyles.default}
-                    label='Lastname'
-                    error={
-                      Boolean(errors.lastname) && Boolean(touched.lastname)
-                    }
-                    helperText={Boolean(touched.lastname) && errors.lastname}
-                  />
-                  <Field
-                    name='password'
-                    type='password'
-                    as={TextField}
-                    required
-                    style={inputStyles.default}
-                    label='Password'
-                    error={
-                      Boolean(errors.password) && Boolean(touched.password)
-                    }
-                    helperText={Boolean(touched.password) && errors.password}
-                  />
-                  <Field
-                    name='confirmPassword'
-                    type='password'
-                    as={TextField}
-                    required
-                    style={inputStyles.default}
-                    label='Confirm password'
-                    error={
-                      Boolean(errors.confirmPassword) &&
-                      Boolean(touched.confirmPassword)
-                    }
-                    helperText={
-                      Boolean(touched.confirmPassword) && errors.confirmPassword
-                    }
-                  />
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    sx={{ margin: '1rem 0 1rem 0' }}
-                    disabled={!isValid || !dirty}
-                  >
-                    Sign up
-                  </Button>
-                </Form>
-              );
-            }}
+                  Sign up
+                </Button>
+              </Form>
+            )}
           </Formik>
         </Box>
       </Box>
