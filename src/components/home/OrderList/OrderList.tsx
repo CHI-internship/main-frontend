@@ -14,7 +14,7 @@ const OrderList: FC = () => {
 
   const getOrders = async () => {
     await orderService
-      .getOrders(3)
+      .getOrders(1, 3)
       .then((data: AxiosResponse) => setOrders(data.data))
       .catch(err => {
         setError(err);
