@@ -1,4 +1,4 @@
-import { ResetPassword } from './reset-password'
+import { ResetPassword } from './auth/reset-password'
 import ProfilePage from './profile-page'
 import NoMatchPage from './no-match-page'
 import Home from './Home'
