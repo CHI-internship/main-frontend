@@ -6,6 +6,7 @@ import {
   SignInType,
 } from '../types';
 import { axiosInstance } from './axios-instance';
+import { AxiosError, AxiosResponse } from 'axios';
 
 class UserService {
   async retrieve(token: string | null) {
@@ -28,9 +29,11 @@ class UserService {
   }
 
   async signUp(user: RegisterType) {
-    const res = await axiosInstance.post('auth/sign-up', user).catch(err => {
-      throw err;
-    });
+    const res = await axiosInstance
+      .post('auth/sign-up', user)
+      .catch((err: AxiosError) => {
+        throw err;
+      });
     if (res.headers.authorization) {
       localStorage.setItem(
         'token',
@@ -45,7 +48,6 @@ class UserService {
       .post('auth/sign-in', credentials)
       .catch(err => {
         if (err.response.data.message === 'Invalid email or password') {
-          console.log(err);
           throw err.response.data.message;
         } else {
           throw err;
@@ -61,11 +63,13 @@ class UserService {
     return res.data;
   }
 
-  async updatePofile({ userId, name, lastname, image }: IUpdateUserProfile) {
+  async updateProfile({ userId, name, lastname, image }: IUpdateUserProfile) {
     const updatedUser = await axiosInstance
       .patch('user', { userId, name, lastname, image })
-      .then((data: any) => data.data)
-      .catch(err => {
+      .then((data: AxiosResponse) => {
+        return data.data;
+      })
+      .catch((err: AxiosError) => {
         throw err;
       });
     return updatedUser;
@@ -74,8 +78,8 @@ class UserService {
   async forgotPassword(email: string) {
     const emailSent = await axiosInstance
       .post('password/forgot', { email })
-      .then((data: any) => data.data)
-      .catch(err => {
+      .then((data: AxiosResponse) => data.data)
+      .catch((err: AxiosError) => {
         throw err;
       });
     return emailSent;
