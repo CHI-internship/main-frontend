@@ -13,7 +13,7 @@ export const OrderCard: React.FC<IOrderCardProps> = ({ order }) => (
       <div
         className={style.img}
         style={{ backgroundImage: `url(${order.photo})` }}
-      ></div>
+      />
       <div className={style.title}>{order.title}</div>
       <div className={style.info}>{order.info}</div>
       <ProgressBar
