@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Alert, Collapse, IconButton } from '@mui/material';
+import { Alert, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { AxiosError } from 'axios';
 
@@ -10,11 +10,17 @@ type ErrorAlertProps = {
 const ErrorAlert: FC<ErrorAlertProps> = ({ error }) => {
   const [open, setOpen] = useState(true);
 
+  const handleClose = () => setOpen(false);
+
   return (
-    <Collapse in={open}>
+    <Snackbar
+      open={open}
+      onClose={handleClose}
+      autoHideDuration={5000}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    >
       <Alert
         severity='error'
-        sx={{ width: '20%', position: 'absolute', right: 10 }}
         action={
           <IconButton
             aria-label='close'
@@ -30,7 +36,7 @@ const ErrorAlert: FC<ErrorAlertProps> = ({ error }) => {
       >
         {`Error ${error?.code ? 'Something went wrong' : ''}`}
       </Alert>
-    </Collapse>
+    </Snackbar>
   );
 };
 
