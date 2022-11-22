@@ -1,48 +1,53 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import style from './OrderDetails.module.scss';
 import ProgressBar from '../../progressbar/Progressbar';
+import UpdateOrder from '../UpdateOrder/UpdateOrder';
 import { IOrder } from '../../../types/order.types';
+import { IUser } from '../../../types/user.types';
+import style from './OrderDetails.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 import userService from '../../../api/user.service';
-import { useNavigate } from 'react-router-dom';
-import { IUser } from '../../../types/user.types';
-import UpdateOrder from '../UpdateOrder/UpdateOrder';
 
 interface IOrderCardProps {
   order: IOrder;
-  setOrder:Dispatch<SetStateAction<IOrder>>
+  setOrder: Dispatch<SetStateAction<IOrder>>;
+  id: number;
 }
 
-const OrderDetails: FC<IOrderCardProps> = ({ order,setOrder }) => {
+const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
 
-  const [user,setUser] = useState<IUser>();
-  const [open,setOpen] = useState<boolean>(false);
+  const [user, setUser] = useState<IUser>();
+  const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const userFromDb = await userService.retrieve(localStorage.getItem('token'));
-      if (userFromDb.role === 'volunteer') {
-        setUser(userFromDb)
+  const getUser = async () => {
+    const userFromDb = await userService.retrieve(localStorage.getItem('token'));
+    if (userFromDb.role === 'volunteer') {
+      const orderFromDB = userFromDb.orders.find((order: IOrder) => order.id === id);
+      if (orderFromDB) {
+        setUser(userFromDb);
       }
-    };
-    if (localStorage.getItem('token')){
-      getUser();
-    }else {
-      navigate('/sign-in')
     }
-  },[])
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      getUser();
+    } else {
+      navigate('/sign-in');
+    }
+  }, []);
 
   const handleOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
-  return(
+  return (
     <div className={style.container}>
       <div className={style.title}>
         <h1>{order?.title}</h1>
@@ -60,10 +65,10 @@ const OrderDetails: FC<IOrderCardProps> = ({ order,setOrder }) => {
               <h4>{order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}</h4>
             </div>
             <IconButton
-              style={{display: user ? 'block' : 'none' }}
+              style={{ display: user ? 'block' : 'none' }}
               onClick={handleOpen}
             >
-              <EditIcon/>
+              <EditIcon />
             </IconButton>
           </div>
           <ProgressBar moneyHave={order?.sum} moneyNeed={order?.goal_amount}
@@ -72,9 +77,9 @@ const OrderDetails: FC<IOrderCardProps> = ({ order,setOrder }) => {
           <button className={style.gather_button}>Підтримати</button>
         </div>
       </div>
-      <UpdateOrder open={open} handleClose={handleClose} order={order} setOrder={setOrder}/>
+      <UpdateOrder open={open} handleClose={handleClose} order={order} setOrder={setOrder} />
     </div>
   );
-}
+};
 
 export default OrderDetails;
