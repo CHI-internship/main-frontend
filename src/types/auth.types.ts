@@ -29,6 +29,7 @@ type UserType = {
   name: string;
   lastname: string;
   orders?: any;
+  photo: string
 };
 
 export type {
