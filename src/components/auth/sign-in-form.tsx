@@ -17,14 +17,7 @@ const initialValues: SignInType = {
 
 const validationSchema = yup.object({
   email: yup.string().email('Invalid format').required('Email is required'),
-  password: yup
-    .string()
-    .matches(
-      /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-      'Password must contain 0-9 & A-Z & a-z & any special symbol'
-    )
-    .min(8)
-    .required('Password is required'),
+  password: yup.string().required('Password is required'),
 });
 
 const SignInForm: FC = () => {
