@@ -2,11 +2,10 @@ import './Global.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer, Header, Sidebar } from './components/common';
 import {
-  AboutPage, Home, NoMatchPage, Order, Orders,
-  Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
+  AboutPage, CreateOrder, Home,
+  ProfilePage, NoMatchPage, Order, Orders,
+  Policy, ProfileActivatePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
-
-
 
 
 function App() {
@@ -28,6 +27,7 @@ function App() {
             <Route path='about' element={<AboutPage />} />
             <Route path='orders' element={<Orders />} />
             <Route path='orders/:id' element={<Order />} />
+            <Route path='orders/create' element={<CreateOrder />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>

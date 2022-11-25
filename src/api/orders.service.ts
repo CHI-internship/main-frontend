@@ -1,3 +1,4 @@
+import { IOrderDto } from '../types/order.types';
 import { axiosInstance } from './axios-instance';
 import { AxiosError, AxiosResponse } from 'axios';
 
@@ -19,6 +20,12 @@ class OrderService {
         throw err;
       });
   }
+
+  async createOrder(orderDto: IOrderDto) {
+    return await axiosInstance.post('orders', orderDto)
+      .then(value => value.data).catch(() => false)
+  }
+
 }
 
 const orderService = new OrderService();

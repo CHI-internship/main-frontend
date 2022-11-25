@@ -1,3 +1,4 @@
+import { CreateOrder } from "./order/CreateOrder/CreateOrder";
 import { ResetPassword } from './reset-password'
 import NoMatchPage from './no-match-page'
 import Home from './Home'
@@ -13,5 +14,6 @@ import ProfilePage from './profile/profile-page'
 
 export {
   ResetPassword, ProfilePage, NoMatchPage, Home, Policy, Orders,
-  Order, RecoverPassword, SignIn, SignUp, AboutPage, ProfileActivatePage
+  Order, RecoverPassword, SignIn, SignUp, AboutPage, CreateOrder,
+  ProfileActivatePage
 }
