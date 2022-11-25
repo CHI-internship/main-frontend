@@ -1,11 +1,9 @@
 import { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
 import style from './Sidebar.module.scss';
 import MenuIcon from '@mui/icons-material/Menu';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import PaidIcon from '@mui/icons-material/Paid';
-import Person2Icon from '@mui/icons-material/Person2';
 import GradeIcon from '@mui/icons-material/Grade';
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -22,27 +20,22 @@ const Sidebar: FC<IChildren> = ({ children }) => {
     {
       path: '/',
       name: 'Dashboard',
-      icon: <OtherHousesIcon fontSize={'large'}/>
+      icon: <OtherHousesIcon fontSize={'medium'} />
     },
     {
       path: 'fundings',
       name: 'Fundings',
-      icon: <PaidIcon fontSize={'large'}/>
-    },
-    {
-      path: 'profile',
-      name: 'Profile',
-      icon: <Person2Icon fontSize={'large'}/>
+      icon: <PaidIcon fontSize={'medium'} />
     },
     {
       path: 'rateboard',
       name: 'Rateboard',
-      icon: <GradeIcon fontSize={'large'}/>
+      icon: <GradeIcon fontSize={'medium'} />
     },
     {
       path: 'about',
       name: 'About',
-      icon: <InfoIcon fontSize={'large'}/>
+      icon: <InfoIcon fontSize={'medium'} />
     }
   ];
 
