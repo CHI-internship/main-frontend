@@ -8,12 +8,15 @@ import PaidIcon from '@mui/icons-material/Paid';
 import Person2Icon from '@mui/icons-material/Person2';
 import GradeIcon from '@mui/icons-material/Grade';
 import InfoIcon from '@mui/icons-material/Info';
+import { useVolunteer } from './VolunteerContext';
 
 interface IChildren {
   children: JSX.Element;
 }
 
 const Sidebar: FC<IChildren> = ({ children }) => {
+
+  const isVolunteer = useVolunteer();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -45,6 +48,19 @@ const Sidebar: FC<IChildren> = ({ children }) => {
       icon: <InfoIcon fontSize={'large'}/>
     }
   ];
+
+  if (isVolunteer) {
+    menuItem.push({
+      path: 'test1',
+      name: 'Test1',
+      icon: <InfoIcon fontSize={'large'}/>
+    },
+    {
+      path: 'test2',
+      name: 'Test2',
+      icon: <GradeIcon fontSize={'large'}/>
+    })
+  }
 
   return (
     <div className={style.container}>
