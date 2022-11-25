@@ -43,6 +43,7 @@ const ProfilePage: FC = () => {
           name={user.name}
           lastname={user.lastname}
           email={user.email}
+          avatar={user.photo}
           orders={[{ id: 1, title: 'Test title', info: 'sho-to' }]}
         />
       )}
