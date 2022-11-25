@@ -1,34 +1,47 @@
 import { useEffect, useState } from 'react';
-import orderService from '../../api/orders.service';
-import { OrderCard } from '../../components/orders';
-import { IOrder } from '../../types';
-import style from './Orders.module.scss';
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 import { AxiosError } from 'axios';
+import { OrderCard } from '../../components/orders';
+import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import Pagination from '../../components/pagination/Pagination';
+import { IOrder, IOrderResponse } from '../../types';
+import orderService from '../../api/orders.service';
+import style from './Orders.module.scss';
 
 export const Orders: React.FC = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<IOrder[]>([]);
   const [error, setError] = useState(null as AxiosError);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const getOrders = async () => {
+  const getOrders = async (page = 1) => {
     await orderService
-      .getOrders()
-      .then((data: any) => setOrders(data.data))
+      .getOrders(page)
+      .then((data: IOrderResponse) => {
+        setOrders(data.data);
+        setTotalPages(data.totalPages);
+        return data;
+      })
       .catch(err => {
         setError(err);
         setOrders([]);
       });
   };
 
+  const handlePagination = (page: number) => {
+    getOrders(page);
+  };
+
   useEffect(() => {
     getOrders();
   }, []);
   return (
-    <div className={style.orders}>
-      {error && <ErrorAlert error={error} />}
-      {orders.map((item: IOrder) => (
-        <OrderCard key={item.id} order={item} />
-      ))}
-    </div>
+    <>
+      <div className={style.orders}>
+        {error && <ErrorAlert error={error} />}
+        {orders.map((item: IOrder) => (
+          <OrderCard key={item.id} order={item} />
+        ))}
+      </div>
+      <Pagination totalCount={totalPages} getPage={handlePagination} />
+    </>
   );
 };
