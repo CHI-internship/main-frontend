@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer, Header, Sidebar } from './components/common';
 import {
   AboutPage, Home, NoMatchPage, Order, Orders,
-  Policy, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
+  Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
+
 
 
 
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='profile' element={<ProfilePage />} />
+            <Route path='profile/:id/activate' element={<ProfileActivatePage />} />
             <Route path='sign-in' element={<SignIn />} />
             <Route path='sign-up' element={<SignUp />} />
             <Route path='recover-password' element={<RecoverPassword />} />
