@@ -1,5 +1,18 @@
+import { IOrder } from './order.types';
+export interface IUser {
+    id: number
+    email: string
+    lastname: string
+    name: string
+    orders: IOrder[]
+    photo: string
+    role: 'customer' | 'volunteer'
+    volunteer?: object
+    updatedAt: string
+    createdAt: string
+}
+
 export interface IUpdateUserProfile {
-    userId: number
     name?: string
     lastname?: string
     image?: any
