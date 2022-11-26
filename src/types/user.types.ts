@@ -1,4 +1,6 @@
 import { IOrder } from './order.types';
+import { IVolunteer } from './volunteer.type';
+
 export interface IUser {
     id: number
     email: string
@@ -7,7 +9,7 @@ export interface IUser {
     orders: IOrder[]
     photo: string
     role: 'customer' | 'volunteer'
-    volunteer?: any //need work
+    volunteer?: IVolunteer
     updatedAt: string
     createdAt: string
 }
