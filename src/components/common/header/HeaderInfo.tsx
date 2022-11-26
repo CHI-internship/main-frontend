@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import style from './Header.module.scss';
-import {logoutIcon} from '../../../images'
+import { logoutIcon } from '../../../images'
 import { CurrentUserContext } from '../../../context';
 
 interface IHeaderInfoProps {
@@ -32,14 +32,13 @@ export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
                 </Button>
             </div>
             : <div>
-                <Button variant='text' size='small' onClick={() => navigate('/sign-in')}
+                <Button variant='text' size='small' onClick={logout}
                     sx={{ color: '#fff', textTransform: 'capitalize' }}>
                     Sing in
                 </Button>
-                <Button variant='text' size='small' onClick={() => navigate('/sign-up')}
-                    sx={{
-                        color: '#fff', textTransform: 'capitalize', border: '1px solid #fff'
-                    }}>
+                <Button variant='text' size='small'
+                    onClick={() => { localStorage.removeItem('token'); navigate('/sign-up') }}
+                    sx={{ color: '#fff', textTransform: 'capitalize', border: '1px solid #fff' }}>
                     Sing up
                 </Button>
             </div>}
