@@ -3,11 +3,10 @@ import { Field, Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import { base64, retrieveUser } from '../../../utils';
 import { UserType } from '../../../types';
-import {userService} from '../../../api';
+import { userService } from '../../../api';
 import { formStyles, inputStyles } from '../../../styles';
-import { toBase64 } from '../../../helpers/tobase64';
-import { retrieveUser } from '../../../helpers/retrieveUser';
 
 export const ProfileActivate: FC = () => {
   const [error, setError] = useState('');
@@ -130,12 +129,10 @@ export const ProfileActivate: FC = () => {
                   name='document'
                   onChange={(event) => {
                     if (!event.currentTarget.files) return;
-
                     const type = event.currentTarget.files[0].type.split('/')[1];
-
                     setFieldValue('expansion', type);
-                    toBase64(event.currentTarget.files[0]).then(data => {
-                      setFieldValue('document', data);
+                    base64(event.currentTarget.files[0]).then(data => {
+                      setFieldValue('document', data)
                     })
                   }}
                 />

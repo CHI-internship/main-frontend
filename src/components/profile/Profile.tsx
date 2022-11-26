@@ -5,7 +5,7 @@ import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../../types/auth.types';
-import { retrieveUser } from '../../helpers/retrieveUser';
+import { retrieveUser } from '../../utils';
 
 interface IProfileProps {
   id: number;
