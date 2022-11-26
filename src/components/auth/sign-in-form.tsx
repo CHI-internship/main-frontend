@@ -1,14 +1,16 @@
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { FC, useState } from 'react';
+import { FC, useState, useContext } from 'react';
 import { Formik, Form, Field, FormikValues } from 'formik';
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
-import { formStyles, inputStyles } from '../../styles';
 import FormLink from './form-link';
-import { SignInType } from '../../types/auth.types';
-import userService from '../../api/user.service';
+import { userService } from '../../api';
+import { formStyles, inputStyles } from '../../styles';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
+import { IUser, SignInType } from '../../types';
+import { CurrentUserContext } from '../../context';
+
 
 const initialValues: SignInType = {
   email: '',
@@ -21,17 +23,15 @@ const validationSchema = yup.object({
 });
 
 const SignInForm: FC = () => {
+  const { setUser } = useContext(CurrentUserContext)
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null as AxiosError);
 
   const navigate = useNavigate();
 
   const signIn = async (values: FormikValues) => {
-    const res = await userService
-      .signIn({
-        email: values.email,
-        password: values.password,
-      })
+    await userService
+      .signIn({ email: values.email, password: values.password })
       .catch(err => {
         if (typeof err === 'string') {
           setIsError(true);
@@ -39,11 +39,13 @@ const SignInForm: FC = () => {
         } else {
           setError(err);
         }
-      });
-    if (res) {
-      setIsError(false);
-      navigate('/profile', { replace: true });
-    }
+      })
+      .then(() => {
+        setIsError(false)
+        userService.retrieve(localStorage.getItem('token'))
+          .then((data: IUser) => setUser(data))
+        navigate('/profile', { replace: true })
+      })
   };
 
   return (
@@ -70,13 +72,12 @@ const SignInForm: FC = () => {
               formikHelpers.resetForm();
             }}
           >
-            {({ values, errors, touched, isValid, dirty }) => (
-              <Form
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                }}
+            {({ errors, touched, isValid, dirty }) => (
+              <Form style={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
               >
                 <Field
                   name='email'

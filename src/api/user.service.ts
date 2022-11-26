@@ -64,9 +64,9 @@ class UserService {
     return res.data;
   }
 
-  async updateProfile({ userId, name, lastname, image }: IUpdateUserProfile) {
+  async updateProfile({ name, lastname, image }: IUpdateUserProfile) {
     const updatedUser = await axiosInstance
-      .patch('user', { userId, name, lastname, image })
+      .patch('user', { name, lastname, image })
       .then((data: AxiosResponse) => {
         return data.data;
       })

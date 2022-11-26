@@ -31,32 +31,18 @@ export const Profile: FC<IProfileProps> = ({
     retrieveUser(setUser);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/sign-in');
-  };
-
   return (
     <div className={style.profile}>
       <div className={style.info}>
-        <ProfileAvatar userId={id} initialAvatar={avatar} />
-        <ProfileName
-          userId={id}
-          initialName={name}
-          initialLastname={lastname}
-        />
+        <ProfileAvatar />
+        <ProfileName />
         <div className={style.email}>{email}</div>
-        <Button variant='contained' onClick={handleLogout}>
-          Logout
-        </Button>
-        {!user?.volunteer.status && <Button 
-          variant='contained'
-          onClick={() => {
-            navigate(`/profile/${id}/activate`);
-          }}
-        >
-          Activate profile
-        </Button>}
+
+        {!user?.volunteer?.status &&
+          <Button variant='text'
+            onClick={() => { navigate(`/profile/${id}/activate`) }}>
+            Activate profile
+          </Button>}
       </div>
       <div className={style.orders}>
         {!orders.length && <div>No orders</div>}

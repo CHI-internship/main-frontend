@@ -7,4 +7,5 @@ export default {
   margin: '2rem 0 0 0',
   padding: '.75rem 2rem .75rem 2rem',
   width: '30%',
+  minWidth: '300px'
 };

@@ -1,49 +1,48 @@
+import { useContext } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import style from './Header.module.scss';
-import userService from '../../../api/user.service';
+import logoutIcon from '../../../images/icons/logout.svg'
+import { CurrentUserContext } from '../../../context';
 
 interface IHeaderInfoProps {
     defaultAvatar?: string
 }
 
 export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
-    const [authorized, setAuthorized] = useState(false)
-    const [avatar, setAvatar] = useState()
-    const [name, setName] = useState()
+    const { user } = useContext(CurrentUserContext)
     const navigate = useNavigate()
 
-
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token) {
-            userService.retrieve(token).then(data => {
-                setAvatar(data.photo)
-                setName(data.name)
-                setAuthorized(true)
-            })
-        }
-    }, [])
+    const logout = () => {
+        localStorage.removeItem('token')
+        navigate('/sign-in')
+    }
 
     return (
-        <div className={style.profile_container}>
-            {authorized
-                ? <Button onClick={() => navigate('/profile')}>
+        <div> {user ?
+            <div>
+                <Button onClick={() => navigate('/profile')}>
                     <div className={style.avatar}
-                        style={{ backgroundImage: `url(${avatar ?? defaultAvatar})` }}></div>
-                    <div className={style.name}>{name && name}</div>
+                        style={{ backgroundImage: `url(${user?.photo ?? defaultAvatar})` }}>
+                    </div>
+                    <div className={style.name}>{user?.name}</div>
                 </Button>
-                : <div>
-                    <Button variant='text' size='small' onClick={() => navigate('/sign-in')}
-                        sx={{ color: '#fff', textTransform: 'capitalize' }}>
-                        Sing in
-                    </Button>
-                    <Button variant='text' size='small' onClick={() => navigate('/sign-up')}
-                        sx={{ color: '#fff', textTransform: 'capitalize', border: '1px solid #fff' }}>
-                        Sing up
-                    </Button>
-                </div>}
+                <Button onClick={logout} sx={{ padding: '0', margin: '0 -10px' }}>
+                    <img src={logoutIcon} />
+                </Button>
+            </div>
+            : <div>
+                <Button variant='text' size='small' onClick={() => navigate('/sign-in')}
+                    sx={{ color: '#fff', textTransform: 'capitalize' }}>
+                    Sing in
+                </Button>
+                <Button variant='text' size='small' onClick={() => navigate('/sign-up')}
+                    sx={{
+                        color: '#fff', textTransform: 'capitalize', border: '1px solid #fff'
+                    }}>
+                    Sing up
+                </Button>
+            </div>}
         </div >
     )
 }
