@@ -5,7 +5,8 @@ import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../context';
-import { IUserRole } from '../../types';
+import { IOrder, IUserRole } from '../../types';
+import { OrderCard } from '../orders';
 
 
 export const Profile: React.FC = () => {
@@ -28,6 +29,8 @@ export const Profile: React.FC = () => {
       {(user?.role === IUserRole.VOLUNTEER) &&
         <div className={style.orders}>
           {!user?.orders.length && <div>No orders</div>}
+          {user?.orders?.map((item: IOrder) =>
+            <OrderCard key={item.id} order={item} />)}
         </div>}
     </div>
   );
