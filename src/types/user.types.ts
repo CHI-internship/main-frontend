@@ -8,7 +8,7 @@ export interface IUser {
     name: string
     orders: IOrder[]
     photo: string
-    role: 'customer' | 'volunteer'
+    role: IUserRole
     volunteer?: IVolunteer
     updatedAt: string
     createdAt: string
@@ -38,4 +38,9 @@ export interface IUpdateUserPassword {
     oldPassword: string
     newPassword: string
     userId: number
+}
+
+export enum IUserRole {
+    CUSTOMER = 'customer',
+    VOLUNTEER = 'volunteer'
 }

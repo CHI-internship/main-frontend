@@ -5,6 +5,7 @@ import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../context';
+import { IUserRole } from '../../types';
 
 
 export const Profile: React.FC = () => {
@@ -24,9 +25,10 @@ export const Profile: React.FC = () => {
             Activate profile
           </Button>}
       </div>
-      <div className={style.orders}>
-        {!user?.orders.length && <div>No orders</div>}
-      </div>
+      {(user?.role === IUserRole.VOLUNTEER) &&
+        <div className={style.orders}>
+          {!user?.orders.length && <div>No orders</div>}
+        </div>}
     </div>
   );
 };
