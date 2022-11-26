@@ -1,16 +1,17 @@
 import * as yup from 'yup';
 import { Field, Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { FC, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { base64, retrieveUser } from '../../../utils';
-import { UserType } from '../../../types';
+import { base64 } from '../../../utils';
 import { userService } from '../../../api';
 import { formStyles, inputStyles } from '../../../styles';
+import { CurrentUserContext } from '../../../context';
 
-export const ProfileActivate: FC = () => {
+
+export const ProfileActivate: React.FC = () => {
+  const { user } = useContext(CurrentUserContext)
   const [error, setError] = useState('');
-  const [user, setUser] = useState<UserType>();
   const navigate = useNavigate();
 
   const initialValues = {
@@ -42,10 +43,6 @@ export const ProfileActivate: FC = () => {
       .required('City is required'),
   });
 
-  useEffect(() => {
-    retrieveUser(setUser);
-  }, [])
-
   async function submitRequest(values: any, formikHelpers: any) {
     try {
       formikHelpers.resetForm();
@@ -76,7 +73,7 @@ export const ProfileActivate: FC = () => {
             await submitRequest(values, formikHelpers);
           }}
         >
-          {({ values, errors, touched, isValid, dirty, setFieldValue }) => {
+          {({ errors, touched, isValid, dirty, setFieldValue }) => {
             return (
               <Form
                 style={{
@@ -142,7 +139,6 @@ export const ProfileActivate: FC = () => {
                   </Button>
                 </label>
 
-
                 <Button
                   type='submit'
                   variant='contained'
@@ -157,12 +153,10 @@ export const ProfileActivate: FC = () => {
                     {error}
                   </Typography>
                 )}
-
               </Form>
             );
           }}
         </Formik>
-
       </Box>
     </Box>
   );

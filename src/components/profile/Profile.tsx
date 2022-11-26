@@ -1,51 +1,31 @@
 import style from './Profile.module.scss';
-import { FC, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import ProfileName from './profile-name';
 import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { UserType } from '../../types/auth.types';
-import { retrieveUser } from '../../utils';
+import { CurrentUserContext } from '../../context';
 
-interface IProfileProps {
-  id: number;
-  avatar?: string;
-  name: string;
-  lastname: string;
-  email: string;
-  orders: Array<{ id: number; title: string; info: string }>;
-}
 
-export const Profile: FC<IProfileProps> = ({
-  id,
-  avatar,
-  name,
-  lastname,
-  email,
-  orders,
-}) => {
+export const Profile: React.FC = () => {
+  const { user } = useContext(CurrentUserContext)
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserType>();
-
-  useEffect(() => {
-    retrieveUser(setUser);
-  }, []);
 
   return (
     <div className={style.profile}>
       <div className={style.info}>
         <ProfileAvatar />
         <ProfileName />
-        <div className={style.email}>{email}</div>
+        <div className={style.email}>{user?.email}</div>
 
         {!user?.volunteer?.status &&
           <Button variant='text'
-            onClick={() => { navigate(`/profile/${id}/activate`) }}>
+            onClick={() => { navigate(`/profile/${user?.id}/activate`) }}>
             Activate profile
           </Button>}
       </div>
       <div className={style.orders}>
-        {!orders.length && <div>No orders</div>}
+        {!user?.orders.length && <div>No orders</div>}
       </div>
     </div>
   );

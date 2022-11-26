@@ -7,7 +7,7 @@ export interface IUser {
     orders: IOrder[]
     photo: string
     role: 'customer' | 'volunteer'
-    volunteer?: object
+    volunteer?: any //need work
     updatedAt: string
     createdAt: string
 }
