@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import style from './Header.module.scss';
-import logoutIcon from '../../../images/icons/logout.svg'
+import {logoutIcon} from '../../../images'
 import { CurrentUserContext } from '../../../context';
 
 interface IHeaderInfoProps {

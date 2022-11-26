@@ -4,9 +4,7 @@ import { useFormik } from 'formik';
 import { Input } from '@mui/material';
 import style from './ProfileName.module.scss';
 import { userService } from '../../../api';
-import editIcon from '../../../images/icons/edit.icon.svg';
-import confirmIcon from '../../../images/icons/confirm.icon.svg';
-import cancelIcon from '../../../images/icons/cancel.icon.svg';
+import { editIcon, confirmIcon, cancelIcon } from '../../../images';
 import { IUpdateUserProfile, IUser } from '../../../types';
 import { CurrentUserContext } from '../../../context';
 

@@ -2,7 +2,7 @@ import { useState, useRef, useContext } from 'react'
 import { userService } from '../../../api'
 import { base64 } from '../../../utils'
 import style from './ProfileAvatar.module.scss';
-import addIcon from '../../../images/icons/add.icon.svg';
+import { addIcon } from '../../../images';
 import { CurrentUserContext } from '../../../context';
 
 interface IProfileAvatarProps {
