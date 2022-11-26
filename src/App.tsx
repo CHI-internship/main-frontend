@@ -2,8 +2,9 @@ import './Global.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer, Header, Sidebar } from './components/common';
 import {
-  AboutPage, Home, NoMatchPage, Order, Orders,
-  Policy, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
+  AboutPage, CreateOrder, Home,
+  ProfilePage, NoMatchPage, Order, Orders,
+  Policy, ProfileActivatePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
 import { VolunteerProvider } from './components/common/sidebar/VolunteerContext';
 
@@ -11,12 +12,13 @@ function App() {
   return (
     <VolunteerProvider>
       <div className='app'>
-        <Header />
-        <BrowserRouter>
-          <Sidebar>
+          <BrowserRouter>
+          <Header />
+        <Sidebar>
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='profile' element={<ProfilePage />} />
+              <Route path='profile/:id/activate' element={<ProfileActivatePage />} />
               <Route path='sign-in' element={<SignIn />} />
               <Route path='sign-up' element={<SignUp />} />
               <Route path='recover-password' element={<RecoverPassword />} />
@@ -26,7 +28,8 @@ function App() {
               <Route path='about' element={<AboutPage />} />
               <Route path='orders' element={<Orders />} />
               <Route path='orders/:id' element={<Order />} />
-            </Routes>
+              <Route path='orders/create' element={<CreateOrder />} />
+          </Routes>
           </Sidebar>
         </BrowserRouter>
         <Footer />

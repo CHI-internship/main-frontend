@@ -27,7 +27,12 @@
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/restrict-plus-operands": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "no-return-await": ["error"],
+    "@typescript-eslint/return-await": ["error", "in-try-catch"],
     "react/prop-types":"off",
+    "prefer-const":"off",
+    "@typescript-eslint/return-await":"off",
+    "@typescript-eslint/no-misused-promises":"off",
     "quotes": [
       "warn",
       "single"
@@ -37,7 +42,7 @@
       "prefer-single"
     ],
     "indent": [
-      "warn",
+      "off",
       2
     ],
     "max-len": [

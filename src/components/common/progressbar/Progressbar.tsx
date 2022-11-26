@@ -62,7 +62,7 @@ const ProgressBar: FC<IProgressBarProps> = ({
           {percentPrg.toFixed(2)}% суми
         </Box>
       </Box>
-      <Line style={{ height: `${size === 'small' ? '9px' : '24px'}`, width: '100%' }}
+      <Line style={{ height: `${size === 'small' ? '5px' : '24px'}`, width: '100%' }}
         percent={percentPrg}
         strokeWidth={4}
         trailWidth={4}

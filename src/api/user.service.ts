@@ -1,8 +1,13 @@
 import {
-  IResetUserPassword, IUpdateUserPassword,
-  IUpdateUserProfile, RegisterType, SignInType
+  IActivateVolunteer,
+  IResetUserPassword,
+  IUpdateUserPassword,
+  IUpdateUserProfile,
+  RegisterType,
+  SignInType,
 } from '../types';
 import { axiosInstance } from './axios-instance';
+import { AxiosError, AxiosResponse } from 'axios';
 
 class UserService {
   async retrieve(token: string | null) {
@@ -10,16 +15,26 @@ class UserService {
       return;
     }
 
-    const res = await axiosInstance.get('user', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axiosInstance
+      .get('user', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .catch(err => {
+        if (err.response.data.message === 'no access rights') {
+          throw err.response.data.message;
+        } else {
+          throw err;
+        }
+      });
     return res.data;
   }
 
   async signUp(user: RegisterType) {
-    const res = await axiosInstance.post('auth/sign-up', user).catch(err => {
-      throw new Error(err);
-    });
+    const res = await axiosInstance
+      .post('auth/sign-up', user)
+      .catch((err: AxiosError) => {
+        throw err;
+      });
     if (res.headers.authorization) {
       localStorage.setItem(
         'token',
@@ -33,7 +48,11 @@ class UserService {
     const res = await axiosInstance
       .post('auth/sign-in', credentials)
       .catch(err => {
-        throw new Error(err);
+        if (err.response.data.message === 'Invalid email or password') {
+          throw err.response.data.message;
+        } else {
+          throw err;
+        }
       });
 
     if (res.headers.authorization) {
@@ -45,17 +64,35 @@ class UserService {
     return res.data;
   }
 
-  async updatePofile({ userId, name, lastname, image }: IUpdateUserProfile) {
+  async updateProfile({ userId, name, lastname, image }: IUpdateUserProfile) {
     const updatedUser = await axiosInstance
       .patch('user', { userId, name, lastname, image })
-      .then((data: any) => data.data);
+      .then((data: AxiosResponse) => {
+        return data.data;
+      })
+      .catch((err: AxiosError) => {
+        throw err;
+      });
     return updatedUser;
+  }
+
+  async activateVolunteer(volunteer: IActivateVolunteer) {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const {userId, country, city, card_number, document, expansion} = volunteer;
+    const acvivatedVolunteer = await axiosInstance
+      .post('volunteer', {userId, country, city, card_number, document, expansion})
+      .then((data: any) => data.data)
+      .catch((e) => {throw new Error(e.response.data.message)});
+    return acvivatedVolunteer;
   }
 
   async forgotPassword(email: string) {
     const emailSent = await axiosInstance
       .post('password/forgot', { email })
-      .then((data: any) => data.data);
+      .then((data: AxiosResponse) => data.data)
+      .catch((err: AxiosError) => {
+        throw err;
+      });
     return emailSent;
   }
 
