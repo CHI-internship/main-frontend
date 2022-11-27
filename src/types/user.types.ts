@@ -4,6 +4,14 @@ export interface IUpdateUserProfile {
     lastname?: string
     image?: any
 }
+export interface IActivateVolunteer {
+    userId: number
+    country: string,
+    city: string,
+    card_number: string,
+    document: string,
+    expansion: string
+}
 
 export interface IResetUserPassword {
     resetToken: string | null

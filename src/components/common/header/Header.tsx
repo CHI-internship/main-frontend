@@ -1,8 +1,7 @@
 import { FC } from 'react';
-import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import logo from '../../../images/user.png';
-import style from './Header.module.scss';
+import { AppBar, Toolbar, Typography } from '@mui/material';
+import { HeaderInfo } from './HeaderInfo';
+
 
 const Header: FC = () => (
   <AppBar position='static' color='primary'>
@@ -12,15 +11,7 @@ const Header: FC = () => (
           KraudDonate
         </Typography>
       </Typography>
-      <Box className={style.profile_container}>
-        <IconButton sx={{ padding: 0 }} color='inherit'>
-          <PermIdentityIcon />
-        </IconButton>
-        <Box className={style.avatar}>
-          <img src={logo} alt='avatar' />
-        </Box>
-        <p>TM</p>
-      </Box>
+      <HeaderInfo />
     </Toolbar>
   </AppBar>
 );

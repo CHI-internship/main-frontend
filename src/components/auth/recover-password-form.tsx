@@ -1,12 +1,11 @@
-import { FC, useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import inputStyles from '../../styles/input-styles';
-import formStyles from '../../styles/form-styles';
 import * as yup from 'yup';
+import { FC, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { AxiosError } from 'axios';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { formStyles, inputStyles } from '../../styles'
 import userService from '../../api/user.service';
-import { RecoverPasswordType } from '../../types/auth.types';
+import { RecoverPasswordType } from '../../types';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 const initialValues: RecoverPasswordType = {
