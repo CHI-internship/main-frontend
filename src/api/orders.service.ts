@@ -30,7 +30,9 @@ class OrderService {
     return await axiosInstance
       .get(`orders/${id}/${userId}`)
       .then(value => value.data)
-      .catch(() => []);
+      .catch((err:AxiosError) => {
+        throw err
+      });
   }
 }
 

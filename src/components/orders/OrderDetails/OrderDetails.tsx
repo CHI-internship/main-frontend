@@ -6,7 +6,7 @@ import style from './OrderDetails.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 import userService from '../../../api/user.service';
-import { IOrder, IUser } from '../../../types';
+import { IOrder } from '../../../types';
 import { ProgressBar } from '../../common';
 import orderService from '../../../api/orders.service';
 
@@ -18,16 +18,16 @@ interface IOrderCardProps {
 
 const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
 
-  const [orderDb, setOrderDb] = useState();
+  const [orderDb, setOrderDb] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const getUser = async () => {
     const userFromDb = await userService.retrieve(localStorage.getItem('token'));
     if (userFromDb.role === 'volunteer') {
-      const orderFromDB = await orderService.getOrderByIdByUserId(id, userFromDb.id);
+      const orderFromDB = await orderService.getUserOrder(id, userFromDb.id);
       if (orderFromDB) {
-        setOrderDb(orderFromDB);
+        setOrderDb(true);
       }
     }
   };
