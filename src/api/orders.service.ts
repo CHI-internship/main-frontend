@@ -26,7 +26,7 @@ class OrderService {
       .then(value => value.data)
   }
 
-  async getOrderByIdByUserId(id: number, userId: number) {
+  async getUserOrder(id: number, userId: number) {
     return await axiosInstance
       .get(`orders/${id}/${userId}`)
       .then(value => value.data)
