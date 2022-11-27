@@ -1,9 +1,11 @@
 import style from './Profile.module.scss';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ProfileName from './profile-name';
 import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { UserType } from '../../types/auth.types';
+import { retrieveUser } from '../../helpers/retrieveUser';
 
 interface IProfileProps {
   id: number;
@@ -23,6 +25,11 @@ export const Profile: FC<IProfileProps> = ({
   orders,
 }) => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<UserType>();
+
+  useEffect(() => {
+    retrieveUser(setUser);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -42,6 +49,14 @@ export const Profile: FC<IProfileProps> = ({
         <Button variant='contained' onClick={handleLogout}>
           Logout
         </Button>
+        {!user?.volunteer.status && <Button 
+          variant='contained'
+          onClick={() => {
+            navigate(`/profile/${id}/activate`);
+          }}
+        >
+          Activate profile
+        </Button>}
       </div>
       <div className={style.orders}>
         {!orders.length && <div>No orders</div>}

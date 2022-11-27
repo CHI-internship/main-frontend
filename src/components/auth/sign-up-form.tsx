@@ -1,12 +1,10 @@
+import * as yup from 'yup';
+import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik, Form, Field, FormikValues } from 'formik';
-import * as yup from 'yup';
-import { AxiosError } from 'axios';
-import inputStyles from '../../styles/input-styles';
-import formStyles from '../../styles/form-styles';
-
+import { inputStyles, formStyles } from '../../styles';
 import { SignUpType } from '../../types/auth.types';
 import userService from '../../api/user.service';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';

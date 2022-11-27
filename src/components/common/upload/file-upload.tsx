@@ -1,64 +1,40 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { Box, Button } from '@mui/material';
+import { base64 } from '../../../utils';
 
-const FileUpload: FC = () => {
-  const [files, setFiles] = useState<Array<string | ArrayBuffer | null>>([]);
+interface IFileUploadProps {
+  callback: (param: any) => void
+  multiple?: boolean
+}
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) { return }
-    const rawFiles = Array.from(e.target.files);
-    const selectedFilesPromises: Array<Promise<string | ArrayBuffer | null>> = [];
+export const FileUpload: React.FC<IFileUploadProps> = ({ callback, multiple }) => {
 
-    rawFiles.forEach(rawFile => {
-      const reader = new FileReader();
-      const filePromise: Promise<string | ArrayBuffer | null> = new Promise(
-        resolve => {
-          reader.onload = () => {
-            resolve(reader.result);
-          };
-          reader.readAsDataURL(rawFile);
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      let result
+      if (multiple) {
+        result = []
+        for (let file of Array.from(e.target.files)) {
+          const stringBase64 = await base64(file)
+          if (stringBase64) result.push(stringBase64)
         }
-      );
-      selectedFilesPromises.push(filePromise);
-    });
-    Promise.all(selectedFilesPromises).then(selectedFile =>
-      setFiles(selectedFile)
-    );
-  };
+      } else result = await base64(e.target.files[0])
+      callback(result)
+    }
+  }
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column'
-      }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          {files?.map((file, index) => {
-            return (
-              <Box sx={{ padding: '.25rem' }} key={index}>
-                <img
-                  src={file as string}
-                  alt='selected image preview'
-                  style={{ maxWidth: '250px', maxHeight: '250px' }} />
-              </Box>
-            );
-          })}
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant='contained' component='label'>
-            Select Files
-            <input
-              type='file'
-              hidden
-              multiple
-              accept='image/png , image/jpeg, image/webp'
-              onChange={handleChange} />
-          </Button>
-        </Box>
-      </Box>
-    </Box >
-  );
-};
+      <Button variant='contained' component='label'>
+        {multiple ? 'Select files' : 'Select'}
+        <input type='file' hidden multiple={multiple}
+          accept='image/png , image/jpeg, image/webp'
+          onChange={handleChange} />
+      </Button>
+    </Box>
+  )
+}
 
-export default FileUpload;
+FileUpload.defaultProps = {
+  multiple: false
+}
