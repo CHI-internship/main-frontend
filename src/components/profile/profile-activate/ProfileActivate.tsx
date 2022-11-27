@@ -1,8 +1,7 @@
 import { Field, Form, Formik } from 'formik';
 import * as yup from 'yup';
-import TextField from '@material-ui/core/TextField';
 import { FC, useEffect, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import userService from '../../../api/user.service';
 import formStyles from '../../../styles/form-styles';
 import inputStyles from '../../../styles/input-styles';
@@ -15,7 +14,7 @@ export const ProfileActivate: FC = () => {
   const [error, setError] = useState('');
   const [user, setUser] = useState<UserType>();
   const navigate = useNavigate();
-  
+
   const initialValues = {
     userId: user?.id,
     country: '',
@@ -24,7 +23,7 @@ export const ProfileActivate: FC = () => {
     document: '',
     expansion: '',
   }
-  
+
   const validationSchema = yup.object({
     document: yup
       .string()
@@ -44,7 +43,7 @@ export const ProfileActivate: FC = () => {
       .min(3, 'City should be of minimum 8 characters length')
       .required('City is required'),
   });
-        
+
   useEffect(() => {
     retrieveUser(setUser);
   }, [])
@@ -52,9 +51,9 @@ export const ProfileActivate: FC = () => {
   async function submitRequest(values: any, formikHelpers: any) {
     try {
       formikHelpers.resetForm();
-      values.userId = user?.id; 
+      values.userId = user?.id;
       await userService.activateVolunteer(values)
-      formikHelpers.resetForm(); 
+      formikHelpers.resetForm();
       if (!error) navigate('/profile');
     } catch(e: any) {
       setError(e.message);
@@ -122,7 +121,7 @@ export const ProfileActivate: FC = () => {
                   error={Boolean(errors.card_number) && Boolean(touched.card_number)}
                   helperText={Boolean(touched.card_number) && errors.card_number}
                 />
-            
+
                 <input
                   accept='application/pdf, image/*'
                   style={{ display: 'none' }}
@@ -132,21 +131,21 @@ export const ProfileActivate: FC = () => {
                   name='document'
                   onChange={(event) => {
                     if (!event.currentTarget.files) return;
-                    
+
                     const type = event.currentTarget.files[0].type.split('/')[1];
 
                     setFieldValue('expansion', type);
                     toBase64(event.currentTarget.files[0]).then(data => {
                       setFieldValue('document', data);
                     })
-                  }} 
+                  }}
                 />
                 <label htmlFor='raised-button-file'>
                   <Button variant='outlined' component='span'  >
-                     Upload  an  identity  document 
+                     Upload  an  identity  document
                   </Button>
-                </label> 
-               
+                </label>
+
 
                 <Button
                   type='submit'
@@ -162,12 +161,12 @@ export const ProfileActivate: FC = () => {
                     {error}
                   </Typography>
                 )}
-                
+
               </Form>
             );
           }}
         </Formik>
-       
+
       </Box>
     </Box>
   );

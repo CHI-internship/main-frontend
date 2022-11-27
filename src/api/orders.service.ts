@@ -22,7 +22,7 @@ class OrderService {
   }
 
   async createOrder(orderDto: IOrderDto) {
-    return await axiosInstance.post('orders', orderDto)
+    return axiosInstance.post('orders', orderDto)
       .then(value => value.data).catch(() => false)
   }
 
