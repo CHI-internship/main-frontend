@@ -8,6 +8,7 @@ import { IconButton } from '@mui/material';
 import userService from '../../../api/user.service';
 import { IOrder, IUser } from '../../../types';
 import { ProgressBar } from '../../common';
+import orderService from '../../../api/orders.service';
 
 interface IOrderCardProps {
   order: IOrder;
@@ -17,16 +18,16 @@ interface IOrderCardProps {
 
 const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
 
-  const [user, setUser] = useState<IUser>();
+  const [orderDb, setOrderDb] = useState();
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const getUser = async () => {
     const userFromDb = await userService.retrieve(localStorage.getItem('token'));
     if (userFromDb.role === 'volunteer') {
-      const orderFromDB = userFromDb.orders.find((order: IOrder) => order.id === id);
+      const orderFromDB = await orderService.getOrderByIdByUserId(id, userFromDb.id);
       if (orderFromDB) {
-        setUser(userFromDb);
+        setOrderDb(orderFromDB);
       }
     }
   };
@@ -64,7 +65,7 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
               <h4>{order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}</h4>
             </div>
             <IconButton
-              style={{ display: user ? 'block' : 'none' }}
+              style={{ display: orderDb ? 'block' : 'none' }}
               onClick={handleOpen}
             >
               <EditIcon />

@@ -20,6 +20,13 @@ class OrderService {
       .patch(`orders/${id}`, data)
       .then(value => value.data)
   }
+
+  async getOrderByIdByUserId(id: number, userId: number) {
+    return await axiosInstance
+      .get(`orders/${id}/${userId}`)
+      .then(value => value.data)
+      .catch(() => []);
+  }
 }
 
 const orderService = new OrderService();
