@@ -1,0 +1,29 @@
+.dialogTitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  row-gap: 10px;
+}
+
+.dialogActions {
+  justify-content: center;
+}
+
+.error {
+  text-align: center;
+  color: #d21e1e;
+  font-size: 14px;
+}
