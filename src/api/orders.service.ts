@@ -32,9 +32,9 @@ class OrderService {
       .then(value => value.data).catch(() => false)
   }
 
-  async getUserOrder(id: number, userId: number) {
+  async getUserOrder(id: number) {
     return axiosInstance
-      .get(`orders/${id}/${userId}`)
+      .get(`orders/${id}/ownership}`)
       .then(value => value.data)
       .catch((err:AxiosError) => {
         throw err

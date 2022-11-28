@@ -25,7 +25,7 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
   const getUser = async () => {
     const userFromDb = await userService.retrieve(localStorage.getItem('token'));
     if (userFromDb.role === 'volunteer') {
-      const orderFromDB = await orderService.getUserOrder(id, userFromDb.id);
+      const orderFromDB = await orderService.getUserOrder(id);
       if (orderFromDB) {
         setOrderDb(true);
       }
