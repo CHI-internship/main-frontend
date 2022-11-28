@@ -9,9 +9,7 @@ import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 
 const Order: FC = () => {
   const [error, setError] = useState(null as AxiosError);
-
   const [order, setOrder] = useState<IOrder>();
-  const { state } = useLocation();
   const { id } = useParams() as { id: string };
 
   useEffect(() => {
@@ -24,7 +22,7 @@ const Order: FC = () => {
   return (
     <>
       {error && <ErrorAlert error={error} />}
-      <OrderDetails order={order} />
+      <OrderDetails order={order} setOrder={setOrder} id={+id} />
     </>
   );
 };

@@ -1,6 +1,6 @@
-import { IOrderDto } from '../types/order.types';
 import { axiosInstance } from './axios-instance';
 import { AxiosError, AxiosResponse } from 'axios';
+import { IOrderDto } from '../types';
 
 class OrderService {
   async getOrders(page = 1, limit = 10, sort = 'asc') {
@@ -21,11 +21,25 @@ class OrderService {
       });
   }
 
+  async updateOrder(id:number,data:any) {
+    return axiosInstance
+      .patch(`orders/${id}`, data)
+      .then(value => value.data)
+  }
+
   async createOrder(orderDto: IOrderDto) {
     return axiosInstance.post('orders', orderDto)
       .then(value => value.data).catch(() => false)
   }
 
+  async getUserOrder(id: number) {
+    return axiosInstance
+      .get(`orders/${id}/ownership}`)
+      .then(value => value.data)
+      .catch((err:AxiosError) => {
+        throw err
+      });
+  }
 }
 
 const orderService = new OrderService();
