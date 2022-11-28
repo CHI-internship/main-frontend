@@ -65,7 +65,6 @@ export const ProfileActivate: React.FC = () => {
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Activate Profile
         </Typography>
-
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

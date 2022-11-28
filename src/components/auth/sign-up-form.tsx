@@ -6,7 +6,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik, Form, Field, FormikValues } from 'formik';
 import { inputStyles, formStyles } from '../../styles';
 import { SignUpType, IUser } from '../../types';
-import {userService} from '../../api';
+import { userService } from '../../api';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 import { CurrentUserContext } from '../../context';
 
@@ -48,8 +48,8 @@ const SignUpForm: FC = () => {
 
   const navigate = useNavigate();
 
-  const signUp = async (values: FormikValues) => {
-    await userService.signUp({
+  const signUp = (values: FormikValues) => {
+    userService.signUp({
       email: values.email,
       name: values.name,
       lastname: values.lastname,
@@ -70,7 +70,6 @@ const SignUpForm: FC = () => {
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Sign Up
         </Typography>
-
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

@@ -65,7 +65,7 @@ class UserService {
   }
 
   async updateProfile({ name, lastname, image }: IUpdateUserProfile) {
-    const updatedUser = await axiosInstance
+    return axiosInstance
       .patch('user', { name, lastname, image })
       .then((data: AxiosResponse) => {
         return data.data;
@@ -73,16 +73,15 @@ class UserService {
       .catch((err: AxiosError) => {
         throw err;
       });
-    return updatedUser;
   }
 
   async activateVolunteer(volunteer: IActivateVolunteer) {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const {userId, country, city, card_number, document, expansion} = volunteer;
+    const { userId, country, city, card_number, document, expansion } = volunteer;
     const acvivatedVolunteer = await axiosInstance
-      .post('volunteer', {userId, country, city, card_number, document, expansion})
+      .post('volunteer', { userId, country, city, card_number, document, expansion })
       .then((data: any) => data.data)
-      .catch((e) => {throw new Error(e.response.data.message)});
+      .catch((e) => { throw new Error(e.response.data.message) });
     return acvivatedVolunteer;
   }
 

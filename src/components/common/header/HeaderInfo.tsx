@@ -18,9 +18,14 @@ export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
         navigate('/sign-in')
     }
 
+    const signup = () => {
+        localStorage.removeItem('token')
+        navigate('/sign-up')
+    }
+
     return (
-        <div> {user ?
-            <div>
+        <div>
+            {user ? <div>
                 <Button onClick={() => navigate('/profile')}>
                     <div className={style.avatar}
                         style={{ backgroundImage: `url(${user?.photo ?? defaultAvatar})` }}>
@@ -31,17 +36,19 @@ export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
                     <img src={logoutIcon} />
                 </Button>
             </div>
-            : <div>
-                <Button variant='text' size='small' onClick={logout}
-                    sx={{ color: '#fff', textTransform: 'capitalize' }}>
-                    Sing in
-                </Button>
-                <Button variant='text' size='small'
-                    onClick={() => { localStorage.removeItem('token'); navigate('/sign-up') }}
-                    sx={{ color: '#fff', textTransform: 'capitalize', border: '1px solid #fff' }}>
-                    Sing up
-                </Button>
-            </div>}
+                : <div>
+                    <Button variant='text' size='small' onClick={logout}
+                        sx={{ color: '#fff', textTransform: 'capitalize' }}>
+                        Sing in
+                    </Button>
+                    <Button variant='text' size='small'
+                        onClick={signup}
+                        sx={{
+                            color: '#fff', textTransform: 'capitalize', border: '1px solid #fff'
+                        }}>
+                        Sing up
+                    </Button>
+                </div>}
         </div >
     )
 }
