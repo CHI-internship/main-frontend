@@ -75,96 +75,94 @@ const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
           await onSubmit(values, formikHelpers);
         }}
       >
-        {({ errors, touched, isValid, dirty, setFieldValue }) => {
-          return (
-            <Form className={styles.form}>
-              <DialogContent className={styles.dialogContent}>
-                <Field
-                  as={TextField}
-                  name='title'
-                  type='title'
-                  label='Title'
-                  fullWidth
-                  error={Boolean(errors.title) && Boolean(touched.title)}
-                  helperText={Boolean(touched.title) && errors.title}
-                />
-                <Field
-                  as={TextField}
-                  name='info'
-                  type='info'
-                  label='Info'
-                  fullWidth
-                  error={Boolean(errors.info) && Boolean(touched.info)}
-                  helperText={Boolean(touched.info) && errors.info}
-                />
-                <Field
-                  as={TextField}
-                  name='sum'
-                  type='sum'
-                  label='Sum'
-                  fullWidth
-                  error={Boolean(errors.sum) && Boolean(touched.sum)}
-                  helperText={Boolean(touched.sum) && errors.sum}
-                />
-                <Field
-                  as={TextField}
-                  name='goal_amount'
-                  type='goal_amount'
-                  label='Goal_amount'
-                  fullWidth
-                  error={Boolean(errors.goal_amount) && Boolean(touched.goal_amount)}
-                  helperText={Boolean(touched.goal_amount) && errors.goal_amount}
-                />
-                <Field
-                  as={TextField}
-                  name='short_info'
-                  type='short_info'
-                  label='Short Info'
-                  fullWidth
-                  error={Boolean(errors.short_info) && Boolean(touched.short_info)}
-                  helperText={Boolean(touched.short_info) && errors.short_info}
-                />
-                <Field
-                  as={TextField}
-                  type='datetime-local'
-                  name='finished_at'
-                  fullWidth
-                />
-                <input
-                  accept='application/pdf, image/*'
-                  style={{ display: 'none' }}
-                  id='raised-button-file'
-                  multiple
-                  type='file'
-                  name='photo'
-                  onChange={(event) => {
-                    if (!event.currentTarget.files) return;
-                    const type = event.currentTarget.files[0].type.split('/')[1];
-                    setFieldValue('expansion', type);
-                    base64(event.currentTarget.files[0]).then(data => {
-                      setFieldValue('photo', data);
-                    })
-                  }}
-                />
-                <label htmlFor='raised-button-file'>
-                  <Button variant='outlined' component='span'  >
-                    Upload  Order
-                  </Button>
-                </label>
-              </DialogContent>
-              <DialogActions className={styles.dialogActions}>
-                <Button onClick={handleClose} color='error'>Cansel</Button>
-                <Button
-                  type='submit'
-                  color='success'
-                  variant='contained'
-                  disabled={!isValid || !dirty}
-                >Update</Button>
-              </DialogActions>
-              {error && <div className={styles.error}>{error}</div>}
-            </Form>
-          )
-        }}
+        {({ errors, touched, isValid, dirty, setFieldValue }) => (
+          <Form className={styles.form}>
+            <DialogContent className={styles.dialogContent}>
+              <Field
+                as={TextField}
+                name='title'
+                type='title'
+                label='Title'
+                fullWidth
+                error={Boolean(errors.title) && Boolean(touched.title)}
+                helperText={Boolean(touched.title) && errors.title}
+              />
+              <Field
+                as={TextField}
+                name='info'
+                type='info'
+                label='Info'
+                fullWidth
+                error={Boolean(errors.info) && Boolean(touched.info)}
+                helperText={Boolean(touched.info) && errors.info}
+              />
+              <Field
+                as={TextField}
+                name='sum'
+                type='sum'
+                label='Sum'
+                fullWidth
+                error={Boolean(errors.sum) && Boolean(touched.sum)}
+                helperText={Boolean(touched.sum) && errors.sum}
+              />
+              <Field
+                as={TextField}
+                name='goal_amount'
+                type='goal_amount'
+                label='Goal_amount'
+                fullWidth
+                error={Boolean(errors.goal_amount) && Boolean(touched.goal_amount)}
+                helperText={Boolean(touched.goal_amount) && errors.goal_amount}
+              />
+              <Field
+                as={TextField}
+                name='short_info'
+                type='short_info'
+                label='Short Info'
+                fullWidth
+                error={Boolean(errors.short_info) && Boolean(touched.short_info)}
+                helperText={Boolean(touched.short_info) && errors.short_info}
+              />
+              <Field
+                as={TextField}
+                type='datetime-local'
+                name='finished_at'
+                fullWidth
+              />
+              <input
+                accept='application/pdf, image/*'
+                style={{ display: 'none' }}
+                id='raised-button-file'
+                multiple
+                type='file'
+                name='photo'
+                onChange={(event) => {
+                  if (!event.currentTarget.files) return;
+                  const type = event.currentTarget.files[0].type.split('/')[1];
+                  setFieldValue('expansion', type);
+                  base64(event.currentTarget.files[0]).then(data => {
+                    setFieldValue('photo', data);
+                  })
+                }}
+              />
+              <label htmlFor='raised-button-file'>
+                <Button variant='outlined' component='span'  >
+                  Upload  Order
+                </Button>
+              </label>
+            </DialogContent>
+            <DialogActions className={styles.dialogActions}>
+              <Button onClick={handleClose} color='error'>Cansel</Button>
+              <Button
+                type='submit'
+                color='success'
+                variant='contained'
+                disabled={!isValid || !dirty}
+              >Update</Button>
+            </DialogActions>
+            {error && <div className={styles.error}>{error}</div>}
+          </Form>
+        )}
       </Formik>
     </Dialog>
   );
