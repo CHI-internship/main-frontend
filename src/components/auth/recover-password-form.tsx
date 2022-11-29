@@ -1,91 +1,78 @@
-import * as yup from 'yup';
-import { FC, useState } from 'react';
-import { Formik, Form, Field } from 'formik';
-import { AxiosError } from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { formStyles, inputStyles } from '../../styles'
+import { useFormik } from 'formik';
+import { FC, useState } from 'react';
+import * as yup from 'yup';
+
 import userService from '../../api/user.service';
-import { RecoverPasswordType } from '../../types';
-import ErrorAlert from '../ErrorAlert/ErrorAlert';
+import { inputStyles } from '../../styles'
+import { recaptchaVerify } from '../../utils';
 
-const initialValues: RecoverPasswordType = {
-  email: '',
-};
-
-const validationSchema = yup.object({
-  email: yup.string().email('Invalid format').required('Email is required'),
-});
 
 const RecoverPasswordForm: FC = () => {
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null as AxiosError);
+  const [success, setSuccess] = useState(false)
+  const [err, setErr] = useState(false)
+  const [disableSend, setDisableSend] = useState(false)
+
+
+  const formik = useFormik({
+    initialValues: { email: '' },
+    onSubmit: async (values, formikHelpers) => {
+      setDisableSend(true)
+      const recaptchaToken = await recaptchaVerify()
+      await userService.forgotPassword({ email: values.email, recaptchaToken })
+        .then(() => setSuccess(true))
+        .catch(() => setErr(true))
+        .finally(() => setDisableSend(false))
+      formikHelpers.resetForm()
+    },
+    validationSchema: yup.object({
+      email: yup.string().email('Invalid format').required('Email is required')
+    })
+  })
 
   return (
-    <>
-      {error && <ErrorAlert error={error} />}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Box sx={formStyles}>
-          <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
-            Recover Password
-          </Typography>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      border: '1px solid black',
+      borderRadius: '5px',
+      width: '300px',
+      margin: '0 auto',
+      padding: '.75rem 2rem .75rem 2rem'
+    }}>
+      <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
+        Recover Password
+      </Typography>
 
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={async (values, formikHelpers) => {
-              await userService
-                .forgotPassword(values.email)
-                .then(() => setSuccess(true))
-                .catch(err => setError(err));
-              formikHelpers.resetForm();
-            }}
-          >
-            {({ values, errors, touched, isValid, dirty }) => {
-              return (
-                <Form
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <Field
-                    name='email'
-                    type='email'
-                    as={TextField}
-                    required
-                    style={inputStyles.default}
-                    label='Email'
-                    error={Boolean(errors.email) && Boolean(touched.email)}
-                    helperText={Boolean(touched.email) && errors.email}
-                  />
+      <form onSubmit={formik.handleSubmit}
+        style={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+        <TextField
+          id='email'
+          type='email'
+          label='Email'
+          style={inputStyles.default}
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched.email && formik.errors.email}
+          FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+        <Button
+          type='submit'
+          variant='contained'
+          sx={{ margin: '1rem 0 1rem 0' }}
+          disabled={!formik.isValid || !formik.dirty || disableSend}>
+          Recover Password
+        </Button>
 
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    sx={{ margin: '1rem 0 1rem 0' }}
-                    disabled={!isValid || !dirty}
-                  >
-                    Recover Password
-                  </Button>
-
-                  {success && (
-                    <Typography sx={{ textAlign: 'center', color: 'green' }}>
-                      Please check your email
-                    </Typography>
-                  )}
-                </Form>
-              );
-            }}
-          </Formik>
-        </Box>
-      </Box>
-    </>
+        {success && <Typography sx={{ textAlign: 'center', color: 'green' }}>
+          Please check your email
+        </Typography>}
+        {err && <Typography sx={{ textAlign: 'center', color: 'red' }}>
+          Something went wrong
+        </Typography>}
+      </form>
+    </Box>
   );
 };
 

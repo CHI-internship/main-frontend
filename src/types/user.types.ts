@@ -14,7 +14,7 @@ export interface IUser {
     createdAt: string
 }
 
-export interface IUpdateUserProfile {
+export interface IUpdateProfile {
     name?: string
     lastname?: string
     image?: any
@@ -28,13 +28,19 @@ export interface IActivateVolunteer {
     expansion: string
 }
 
-export interface IResetUserPassword {
+export interface IResetPassword {
     resetToken: string | null
     newPassword: string
     newPasswordConfirm: string
+    recaptchaToken?: string
 }
 
-export interface IUpdateUserPassword {
+export interface IForgotPassword {
+    email: string
+    recaptchaToken: string
+}
+
+export interface IUpdatePassword {
     oldPassword: string
     newPassword: string
     userId: number

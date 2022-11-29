@@ -1,12 +1,14 @@
-import * as yup from 'yup';
-import { useState, useContext } from 'react';
-import { useFormik } from 'formik';
 import { Input } from '@mui/material';
-import style from './ProfileName.module.scss';
+import { useFormik } from 'formik';
+import { useContext, useState } from 'react';
+import * as yup from 'yup';
+
 import { userService } from '../../../api';
-import { editIcon, confirmIcon, cancelIcon } from '../../../images';
-import { IUpdateUserProfile, IUser } from '../../../types';
 import { CurrentUserContext } from '../../../context';
+import { cancelIcon, confirmIcon, editIcon } from '../../../images';
+import { IUpdateProfile, IUser } from '../../../types';
+import style from './ProfileName.module.scss';
+
 
 
 export const ProfileName: React.FC = () => {
@@ -17,7 +19,7 @@ export const ProfileName: React.FC = () => {
   const formik = useFormik({
     initialValues: { name: user?.name, lastname: user?.lastname },
     onSubmit: async values => {
-      const sendData: IUpdateUserProfile = {};
+      const sendData: IUpdateProfile = {};
       if (user?.name !== values.name || user?.lastname !== values.lastname) {
         if (user?.name !== values.name) sendData.name = values.name;
         if (user?.lastname !== values.lastname) sendData.lastname = values.lastname;

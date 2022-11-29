@@ -1,9 +1,11 @@
-import * as yup from 'yup'
+import { Box, Button, Input, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { useState } from 'react'
-import userService from '../api/user.service'
-import { Box, Button, Input, Typography } from '@mui/material'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import * as yup from 'yup'
+
+import userService from '../../api/user.service'
+import { recaptchaVerify } from '../../utils'
 
 
 export const ResetPassword: React.FC = () => {
@@ -16,10 +18,12 @@ export const ResetPassword: React.FC = () => {
   const formik = useFormik({
     initialValues: { newPassword: '', newPasswordConfirm: '' },
     onSubmit: async (values) => {
+      const recaptchaToken = await recaptchaVerify()
       await userService.resetPassword({
         newPassword: values.newPassword,
         newPasswordConfirm: values.newPasswordConfirm,
-        resetToken: resetToken.get('resetToken')
+        resetToken: resetToken.get('resetToken'),
+        recaptchaToken
       }).then(() => {
         setSuccess(true)
         formik.resetForm()

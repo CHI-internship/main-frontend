@@ -1,11 +1,13 @@
 import './Global.scss';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import { Footer, Header, Sidebar } from './components/common';
 import { CurrentUserContext, useCurrentUser } from './context';
 import {
   AboutPage, CreateOrder, Home,
-  ProfilePage, NoMatchPage, Order, Orders,
-  Policy, ProfileActivatePage, RecoverPassword, ResetPassword, SignIn, SignUp
+  NoMatchPage, Order, Orders,
+  Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
 
 

@@ -1,15 +1,18 @@
-import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { FC, useState, useContext } from 'react';
-import { FormikValues, useFormik } from 'formik';
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
-import { IUser } from '../../types';
-import FormLink from './form-link';
+import { AxiosError } from 'axios';
+import { FormikValues, useFormik } from 'formik';
+import { FC, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+
 import { userService } from '../../api';
-import { formStyles, inputStyles } from '../../styles';
-import ErrorAlert from '../ErrorAlert/ErrorAlert';
 import { CurrentUserContext } from '../../context';
+import { formStyles, inputStyles } from '../../styles';
+import { IUser } from '../../types';
+import { recaptchaVerify } from '../../utils';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
+import FormLink from './form-link';
+
 
 
 const SignInForm: FC = () => {
@@ -31,7 +34,12 @@ const SignInForm: FC = () => {
   })
 
   const signIn = async (values: FormikValues) => {
-    userService.signIn({ email: values.email, password: values.password })
+    const recaptchaToken = await recaptchaVerify()
+    userService.signIn({
+      email: values.email,
+      password: values.password,
+      recaptchaToken
+    })
       .catch(err => {
         if (typeof err === 'string') {
           setIsError(true);
@@ -47,7 +55,12 @@ const SignInForm: FC = () => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
       {error && <ErrorAlert error={error} />}
       <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
@@ -86,8 +99,8 @@ const SignInForm: FC = () => {
             title='Forgot password'
             styles={{ fontSize: '.75rem' }} />
         </form>
-      </Box>
-    </>
+      </Box >
+    </Box >
   );
 };
 

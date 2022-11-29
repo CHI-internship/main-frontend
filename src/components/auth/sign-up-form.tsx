@@ -1,14 +1,17 @@
-import * as yup from 'yup';
+
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
+import { FormikValues, useFormik } from 'formik';
 import { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { FormikValues, useFormik } from 'formik';
-import { inputStyles, formStyles } from '../../styles';
-import { IUser } from '../../types';
+import * as yup from 'yup';
+
 import { userService } from '../../api';
-import ErrorAlert from '../ErrorAlert/ErrorAlert';
 import { CurrentUserContext } from '../../context';
+import { formStyles, inputStyles } from '../../styles';
+import { IUser } from '../../types';
+import { recaptchaVerify } from '../../utils';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 
 const SignUpForm: FC = () => {
@@ -41,12 +44,14 @@ const SignUpForm: FC = () => {
     })
   })
 
-  const signUp = (values: FormikValues) => {
+  const signUp = async (values: FormikValues) => {
+    const recaptchaToken = await recaptchaVerify()
     userService.signUp({
       email: values.email,
       name: values.name,
       lastname: values.lastname,
       password: values.password,
+      recaptchaToken
     }).catch(err => setError(err))
       .then(() => {
         userService.retrieve(localStorage.getItem('token'))

@@ -1,43 +1,32 @@
-import {
-  IActivateVolunteer,
-  IResetUserPassword,
-  IUpdateUserPassword,
-  IUpdateUserProfile,
-  RegisterType,
-  SignInType,
-} from '../types';
-import { axiosInstance } from './axios-instance';
+
 import { AxiosError, AxiosResponse } from 'axios';
 
-class UserService {
-  async retrieve(token: string | null) {
-    if (!token) {
-      return;
-    }
+import {
+  IActivateVolunteer, IForgotPassword, IResetPassword, IUpdatePassword,
+  IUpdateProfile,
+  RegisterType, SignInType
+} from '../types';
+import { axiosInstance } from './axios-instance';
 
-    const res = await axiosInstance
-      .get('user', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+class UserService {
+
+  async retrieve(token: string | null) {
+    if (!token) return
+    const res = await axiosInstance.get('user',
+      { headers: { Authorization: `Bearer ${token}` } })
       .catch(err => {
         if (err.response.data.message === 'no access rights') {
-          throw err.response.data.message;
-        } else {
-          throw err;
-        }
-      });
-    return res.data;
+          throw err.response.data.message
+        } else throw err
+      })
+    return res.data
   }
 
   async signUp(user: RegisterType) {
-    const res = await axiosInstance
-      .post('auth/sign-up', user)
-      .catch((err: AxiosError) => {
-        throw err;
-      });
+    const res = await axiosInstance.post('auth/sign-up', user)
+      .catch((err: AxiosError) => { throw err })
     if (res.headers.authorization) {
-      localStorage.setItem(
-        'token',
+      localStorage.setItem('token',
         res.headers.authorization.replace('Bearer ', '')
       );
     }
@@ -45,26 +34,21 @@ class UserService {
   }
 
   async signIn(credentials: SignInType) {
-    const res = await axiosInstance
-      .post('auth/sign-in', credentials)
+    const res = await axiosInstance.post('auth/sign-in', credentials)
       .catch(err => {
         if (err.response.data.message === 'Invalid email or password') {
           throw err.response.data.message;
-        } else {
-          throw err;
-        }
-      });
-
+        } else { throw err }
+      })
     if (res.headers.authorization) {
-      localStorage.setItem(
-        'token',
+      localStorage.setItem('token',
         res.headers.authorization.replace('Bearer ', '')
       );
     }
     return res.data;
   }
 
-  async updateProfile({ name, lastname, image }: IUpdateUserProfile) {
+  async updateProfile({ name, lastname, image }: IUpdateProfile) {
     return axiosInstance
       .patch('user', { name, lastname, image })
       .then((data: AxiosResponse) => {
@@ -85,28 +69,22 @@ class UserService {
     return acvivatedVolunteer;
   }
 
-  async forgotPassword(email: string) {
-    const emailSent = await axiosInstance
-      .post('password/forgot', { email })
-      .then((data: AxiosResponse) => data.data)
-      .catch((err: AxiosError) => {
-        throw err;
-      });
-    return emailSent;
+  async forgotPassword({ email, recaptchaToken }: IForgotPassword) {
+    return axiosInstance.post(
+      'password/forgot', { email, recaptchaToken })
+      .then((data: AxiosResponse) => data.data);
   }
 
-  async resetPassword(data: IResetUserPassword) {
-    const passwordReseted = await axiosInstance
+  async resetPassword(data: IResetPassword) {
+    return axiosInstance
       .patch('password/reset', { ...data })
-      .then((data: any) => data.data);
-    return passwordReseted;
+      .then((data: AxiosResponse) => data.data);
   }
 
-  async updatePassword(data: IUpdateUserPassword) {
-    const passwordUpdated = await axiosInstance
+  async updatePassword(data: IUpdatePassword) {
+    return axiosInstance
       .patch('password/update', { ...data })
-      .then((data: any) => data.data);
-    return passwordUpdated;
+      .then((data: AxiosResponse) => data.data);
   }
 }
 

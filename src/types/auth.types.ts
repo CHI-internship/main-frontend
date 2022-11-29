@@ -1,6 +1,7 @@
 type SignInType = {
   email: string;
   password: string;
+  recaptchaToken?: string;
 };
 
 type RegisterType = {
@@ -9,10 +10,7 @@ type RegisterType = {
   lastname: string;
   photo?: string;
   password: string;
-};
-
-type RecoverPasswordType = {
-  email: string;
+  recaptchaToken?: string;
 };
 
 type UserType = {
@@ -25,4 +23,4 @@ type UserType = {
   photo: string
 };
 
-export type { RegisterType, SignInType, RecoverPasswordType, UserType };
+export type { RegisterType, SignInType, UserType };
