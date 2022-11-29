@@ -21,10 +21,6 @@ type RegisterType = {
   recaptchaToken?: string;
 };
 
-type RecoverPasswordType = {
-  email: string;
-};
-
 type UserType = {
   id: number;
   email: string;
@@ -33,10 +29,4 @@ type UserType = {
   orders?: any;
 };
 
-export type {
-  SignUpType,
-  RegisterType,
-  SignInType,
-  RecoverPasswordType,
-  UserType,
-};
+export type { SignUpType, RegisterType, SignInType, UserType };

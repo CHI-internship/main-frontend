@@ -1,10 +1,11 @@
+import { AxiosError, AxiosResponse } from 'axios';
+
 import {
   IForgotPassword,
   IResetPassword, IUpdatePassword,
   IUpdateProfile, RegisterType, SignInType
 } from '../types';
 import { axiosInstance } from './axios-instance';
-import { AxiosError, AxiosResponse } from 'axios';
 
 class UserService {
 
@@ -47,31 +48,27 @@ class UserService {
   }
 
   async updateProfile({ userId, name, lastname, image }: IUpdateProfile) {
-    const updatedUser = await axiosInstance
+    return axiosInstance
       .patch('user', { userId, name, lastname, image })
       .then((data: AxiosResponse) => data.data)
-    return updatedUser;
   }
 
   async forgotPassword({ email, recaptchaToken }: IForgotPassword) {
-    const emailSent = await axiosInstance.post(
+    return axiosInstance.post(
       'password/forgot', { email, recaptchaToken })
-      .then((data: AxiosResponse) => data.data)
-    return emailSent
+      .then((data: AxiosResponse) => data.data);
   }
 
   async resetPassword(data: IResetPassword) {
-    const passwordReseted = await axiosInstance
+    return axiosInstance
       .patch('password/reset', { ...data })
       .then((data: AxiosResponse) => data.data);
-    return passwordReseted;
   }
 
   async updatePassword(data: IUpdatePassword) {
-    const passwordUpdated = await axiosInstance
+    return axiosInstance
       .patch('password/update', { ...data })
       .then((data: AxiosResponse) => data.data);
-    return passwordUpdated;
   }
 }
 

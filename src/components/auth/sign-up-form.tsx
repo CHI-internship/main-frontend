@@ -1,15 +1,15 @@
-import * as yup from 'yup';
-import { FC, useState } from 'react';
-import { Formik, Form, Field, FormikValues } from 'formik';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
-import { SignUpType } from '../../types/';
-import inputStyles from '../../styles/input-styles';
-import formStyles from '../../styles/form-styles';
+import { Field, Form, Formik, FormikValues } from 'formik';
+import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+
 import userService from '../../api/user.service';
-import { recaptchaVerify } from '../../utils/recaptcha';
+import formStyles from '../../styles/form-styles';
+import inputStyles from '../../styles/input-styles';
+import { SignUpType } from '../../types/';
+import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 const initialValues: SignUpType = {
@@ -41,12 +41,10 @@ const validationSchema = yup.object({
 
 const SignUpForm: FC = () => {
   const [error, setError] = useState(null as AxiosError);
-
   const navigate = useNavigate();
-  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const signUp = async (values: FormikValues) => {
-    const recaptchaToken = await recaptchaVerify(executeRecaptcha)
+    const recaptchaToken = await recaptchaVerify()
     const res = await userService
       .signUp({
         email: values.email,

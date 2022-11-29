@@ -14,9 +14,8 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react", "simple-import-sort"],
+
   "rules": {
     "no-console": "warn",
     "react/react-in-jsx-scope": "off",
@@ -31,6 +30,7 @@
     "no-return-await": ["error"],
     "@typescript-eslint/return-await": ["error", "in-try-catch"],
     "react/prop-types":"off",
+    "simple-import-sort/imports": "warn",
     "quotes": [
       "warn",
       "single"

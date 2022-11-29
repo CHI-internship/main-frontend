@@ -1,17 +1,17 @@
-import * as yup from 'yup';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { FC, useState } from 'react';
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
-import inputStyles from '../../styles/input-styles';
-import formStyles from '../../styles/form-styles';
-import FormLink from './form-link';
-import { Formik, Form, Field, FormikValues } from 'formik';
-import { SignInType } from '../../types/auth.types';
-import userService from '../../api/user.service';
+import { Field, Form, Formik, FormikValues } from 'formik';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { recaptchaVerify } from '../../utils/recaptcha';
+import * as yup from 'yup';
+
+import userService from '../../api/user.service';
+import formStyles from '../../styles/form-styles';
+import inputStyles from '../../styles/input-styles';
+import { SignInType } from '../../types/auth.types';
+import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
+import FormLink from './form-link';
 
 const initialValues: SignInType = {
   email: '',
@@ -33,12 +33,11 @@ const validationSchema = yup.object({
 const SignInForm: FC = () => {
   const [isError, setIsError] = useState(false);
   const [disableSend, setDisableSend] = useState(false)
-  const [error, setError] = useState(null as AxiosError);
-  const { executeRecaptcha } = useGoogleReCaptcha()
+  const [error] = useState(null as AxiosError);
   const navigate = useNavigate();
 
   const signIn = async (values: FormikValues) => {
-    const recaptchaToken = await recaptchaVerify(executeRecaptcha)
+    const recaptchaToken = await recaptchaVerify()
     const res = await userService
       .signIn({
         email: values.email,
@@ -67,9 +66,7 @@ const SignInForm: FC = () => {
           Sign In
         </Typography>
 
-        {isError ? (
-          <Alert severity='error'>Wrong email or password</Alert>
-        ) : null}
+        {isError && <Alert severity='error'>Wrong email or password</Alert>}
 
         <Formik
           initialValues={initialValues}
