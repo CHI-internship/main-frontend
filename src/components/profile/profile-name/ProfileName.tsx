@@ -10,6 +10,7 @@ import { IUpdateProfile, IUser } from '../../../types';
 import style from './ProfileName.module.scss';
 
 
+
 export const ProfileName: React.FC = () => {
   const { user, setUser } = useContext(CurrentUserContext)
   const [editing, setEditing] = useState(false);
