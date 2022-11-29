@@ -1,5 +1,20 @@
+import { IOrder } from './order.types';
+import { IVolunteer } from './volunteer.type';
+
+export interface IUser {
+    id: number
+    email: string
+    lastname: string
+    name: string
+    orders: IOrder[]
+    photo: string
+    role: IUserRole
+    volunteer?: IVolunteer
+    updatedAt: string
+    createdAt: string
+}
+
 export interface IUpdateProfile {
-    userId: number
     name?: string
     lastname?: string
     image?: any
@@ -20,24 +35,18 @@ export interface IResetPassword {
     recaptchaToken?: string
 }
 
+export interface IForgotPassword {
+    email: string
+    recaptchaToken: string
+}
+
 export interface IUpdatePassword {
     oldPassword: string
     newPassword: string
     userId: number
 }
 
-export interface IForgotPassword {
-    email: string
-    recaptchaToken?: string
-}
-
-export interface IUser {
-    id: number,
-    name: string,
-    lastname: string,
-    email: string,
-    photo: string,
-    role: string,
-    createdAt: Date,
-    updatedAt: Date
+export enum IUserRole {
+    CUSTOMER = 'customer',
+    VOLUNTEER = 'volunteer'
 }

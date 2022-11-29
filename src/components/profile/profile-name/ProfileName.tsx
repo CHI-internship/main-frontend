@@ -1,43 +1,33 @@
-import * as yup from 'yup'
-import { useState } from 'react'
-import { useFormik } from 'formik'
-import { Input } from '@mui/material'
-import style from './ProfileName.module.scss'
-import userService from '../../../api/user.service'
-import editIcon from '../../../images/icons/edit.icon.svg'
-import confirmIcon from '../../../images/icons/confirm.icon.svg'
-import cancelIcon from '../../../images/icons/cancel.icon.svg'
-import { IUpdateProfile } from '../../../types'
+import { Input } from '@mui/material';
+import { useFormik } from 'formik';
+import { useContext, useState } from 'react';
+import * as yup from 'yup';
 
-interface IProfileNameProps {
-  userId: number;
-  initialName: string;
-  initialLastname: string;
-}
+import { userService } from '../../../api';
+import { CurrentUserContext } from '../../../context';
+import { cancelIcon, confirmIcon, editIcon } from '../../../images';
+import { IUpdateProfile, IUser } from '../../../types';
+import style from './ProfileName.module.scss';
 
-export const ProfileName: React.FC<IProfileNameProps> = ({
-  userId,
-  initialName,
-  initialLastname,
-}: IProfileNameProps) => {
+
+export const ProfileName: React.FC = () => {
+  const { user, setUser } = useContext(CurrentUserContext)
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState(false);
-  const [name, setName] = useState(initialName);
-  const [lastname, setLastname] = useState(initialLastname);
 
   const formik = useFormik({
-    initialValues: { name, lastname },
-    onSubmit: async (values) => {
-      const sendData: IUpdateProfile = { userId }
-      if (name !== values.name || lastname !== values.lastname) {
-        if (name !== values.name) sendData.name = values.name
-        if (lastname !== values.lastname) sendData.lastname = values.lastname
+    initialValues: { name: user?.name, lastname: user?.lastname },
+    onSubmit: async values => {
+      const sendData: IUpdateProfile = {};
+      if (user?.name !== values.name || user?.lastname !== values.lastname) {
+        if (user?.name !== values.name) sendData.name = values.name;
+        if (user?.lastname !== values.lastname) sendData.lastname = values.lastname;
+
         await userService
           .updateProfile(sendData)
-          .then(data => {
-            setName(data.name);
-            setLastname(data.lastname);
-            setEditing(false);
+          .then((data: IUser) => {
+            setUser({ ...user, name: data.name, lastname: data.lastname })
+            setEditing(false)
           })
           .catch(() => setError(true));
       } else setEditing(false);
@@ -90,7 +80,7 @@ export const ProfileName: React.FC<IProfileNameProps> = ({
         </form>
       ) : (
         <div className={style.nameInfo}>
-          {name} {lastname}
+          {user?.name} {user?.lastname}
           <img
             className={style.editIcon}
             src={editIcon}

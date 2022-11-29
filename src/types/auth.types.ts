@@ -4,14 +4,6 @@ type SignInType = {
   recaptchaToken?: string;
 };
 
-type SignUpType = {
-  email: string;
-  name: string;
-  lastname: string;
-  password: string;
-  confirmPassword: string;
-};
-
 type RegisterType = {
   email: string;
   name: string;
@@ -31,4 +23,4 @@ type UserType = {
   photo: string
 };
 
-export type { SignUpType, RegisterType, SignInType, UserType };
+export type { RegisterType, SignInType, UserType };

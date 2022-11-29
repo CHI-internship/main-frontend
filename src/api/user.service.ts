@@ -2,9 +2,9 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import {
-  IActivateVolunteer,
-  IForgotPassword, IResetPassword, IUpdatePassword,
-  IUpdateProfile, RegisterType, SignInType
+  IActivateVolunteer, IForgotPassword, IResetPassword, IUpdatePassword,
+  IUpdateProfile,
+  RegisterType, SignInType
 } from '../types';
 import { axiosInstance } from './axios-instance';
 
@@ -48,9 +48,9 @@ class UserService {
     return res.data;
   }
 
-  async updateProfile({ userId, name, lastname, image }: IUpdateProfile) {
+  async updateProfile({ name, lastname, image }: IUpdateProfile) {
     return axiosInstance
-      .patch('user', { userId, name, lastname, image })
+      .patch('user', { name, lastname, image })
       .then((data: AxiosResponse) => {
         return data.data;
       })

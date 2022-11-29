@@ -1,25 +1,25 @@
-import { useState, useRef } from 'react'
-import userService from '../../../api/user.service'
+import { useState, useRef, useContext } from 'react'
+import { userService } from '../../../api'
 import { base64 } from '../../../utils'
 import style from './ProfileAvatar.module.scss';
-import addIcon from '../../../images/icons/add.icon.svg';
+import { addIcon } from '../../../images';
+import { CurrentUserContext } from '../../../context';
 
 interface IProfileAvatarProps {
-  userId: number;
   initialAvatar?: string;
 }
 
 export const ProfileAvatar: React.FC<IProfileAvatarProps> =
-  ({ userId, initialAvatar }: IProfileAvatarProps) => {
-    const [avatarUrl, setAvatarUrl] = useState(initialAvatar);
+  ({ initialAvatar }: IProfileAvatarProps) => {
+    const { user, setUser } = useContext(CurrentUserContext)
     const [disableSend, setDisableSend] = useState(false);
     const ref = useRef<HTMLInputElement>(null);
 
     async function handleUpload(e: any) {
       if (e.target.files[0]) {
         const image = await base64(e.target.files[0])
-        if (image) userService.updateProfile({ userId, image })
-          .then((data => setAvatarUrl(data.photo)))
+        if (image) userService.updateProfile({ image })
+          .then((data => setUser({ ...user, photo: data.photo })))
           .finally(() => setDisableSend(false))
       }
     }
@@ -28,7 +28,7 @@ export const ProfileAvatar: React.FC<IProfileAvatarProps> =
       <div className={style.container}>
         <div
           className={style.avatar}
-          style={{ backgroundImage: `url(${avatarUrl})` }}
+          style={{ backgroundImage: `url(${user?.photo ?? initialAvatar})` }}
         ></div>
         <div className={style.upload} onClick={() => ref.current?.click()}>
           <img className={style.addIcon} src={addIcon} />

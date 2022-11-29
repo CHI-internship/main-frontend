@@ -1,48 +1,57 @@
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
-import { Field, Form, Formik, FormikValues } from 'formik';
-import { FC, useState } from 'react';
+import { FormikValues, useFormik } from 'formik';
+import { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
-import userService from '../../api/user.service';
+import { userService } from '../../api';
+import { CurrentUserContext } from '../../context';
 import { formStyles, inputStyles } from '../../styles';
-import { SignInType } from '../../types/auth.types';
+import { IUser } from '../../types';
 import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 import FormLink from './form-link';
 
-const initialValues: SignInType = {
-  email: '',
-  password: '',
-};
 
-const validationSchema = yup.object({
-  email: yup.string().email('Invalid format').required('Email is required'),
-  password: yup.string().required('Password is required'),
-});
 
 const SignInForm: FC = () => {
+  const { setUser } = useContext(CurrentUserContext)
   const [isError, setIsError] = useState(false);
-  const [disableSend, setDisableSend] = useState(false)
-  const [error] = useState(null as AxiosError);
+  const [error, setError] = useState(null as AxiosError);
   const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: { email: '', password: '' },
+    onSubmit: async (values, formikHelpers) => {
+      await signIn(values)
+      formikHelpers.resetForm()
+    },
+    validationSchema: yup.object({
+      email: yup.string().email('Invalid format').required('Email is required'),
+      password: yup.string().required('Password is required')
+    })
+  })
 
   const signIn = async (values: FormikValues) => {
     const recaptchaToken = await recaptchaVerify()
-    const res = await userService
-      .signIn({
-        email: values.email,
-        password: values.password,
-        recaptchaToken
+    userService.signIn({
+      email: values.email,
+      password: values.password,
+      recaptchaToken
+    })
+      .catch(err => {
+        if (typeof err === 'string') {
+          setIsError(true);
+          setTimeout(() => setIsError(false), 3000);
+        } else setError(err)
       })
-      .catch(err => console.log(err));
-    if (res) {
-      setIsError(false);
-      navigate('/profile', { replace: true });
-    } else {
-      setIsError(true);
-    }
+      .then(() => {
+        setIsError(false)
+        userService.retrieve(localStorage.getItem('token'))
+          .then((data: IUser) => setUser(data))
+        navigate('/profile', { replace: true })
+      })
   };
 
   return (
@@ -57,70 +66,41 @@ const SignInForm: FC = () => {
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Sign In
         </Typography>
-
         {isError && <Alert severity='error'>Wrong email or password</Alert>}
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={async (values, formikHelpers) => {
-            setDisableSend(true)
-            await signIn(values).finally(() => setDisableSend(false))
-            formikHelpers.resetForm();
-          }}
-        >
-          {({ errors, touched, isValid, dirty }) => {
-            return (
-              <Form
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                }}
-              >
-                <Field
-                  name='email'
-                  type='email'
-                  as={TextField}
-                  required
-                  style={inputStyles.default}
-                  label='Email'
-                  error={Boolean(errors.email) && Boolean(touched.email)}
-                  helperText={Boolean(touched.email) && errors.email}
-                />
-                <Field
-                  name='password'
-                  type='password'
-                  as={TextField}
-                  required
-                  style={inputStyles.default}
-                  label='Password'
-                  error={Boolean(errors.password) && Boolean(touched.password)}
-                  helperText={Boolean(touched.password) && errors.password}
-                />
-
-                <FormLink path='/sign-up' title='Sign Up' />
-
-                <Button
-                  type='submit'
-                  variant='contained'
-                  sx={{ margin: '1rem 0 1rem 0' }}
-                  disabled={!isValid || !dirty || disableSend}
-                >
-                  Sign in
-                </Button>
-
-                <FormLink
-                  path='/recover-password'
-                  title='Forgot password'
-                  styles={{ fontSize: '.75rem' }}
-                />
-              </Form>
-            );
-          }}
-        </Formik>
-      </Box>
-    </Box>
+        <form onSubmit={formik.handleSubmit} style={{ textAlign: 'center' }}>
+          <TextField
+            id='email'
+            type='email'
+            label='Email'
+            style={inputStyles.default}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.email && formik.errors.email}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <TextField
+            id='password'
+            label='Password'
+            type='password'
+            style={inputStyles.default}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.password && formik.errors.password}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <FormLink path='/sign-up' title='Sign Up' />
+          <Button type='submit' variant='contained' sx={{ margin: '1rem 0 1rem 0' }}
+            disabled={!formik.isValid || !formik.dirty}>
+            Sign in
+          </Button>
+          <FormLink
+            path='/recover-password'
+            title='Forgot password'
+            styles={{ fontSize: '.75rem' }} />
+        </form>
+      </Box >
+    </Box >
   );
 };
 
