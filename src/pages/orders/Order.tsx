@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
-
 import orderService from '../../api/orders.service';
 import { IOrder } from '../../types';
 import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';

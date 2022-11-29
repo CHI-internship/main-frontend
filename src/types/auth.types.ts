@@ -3,14 +3,6 @@ type SignInType = {
   password: string;
 };
 
-type SignUpType = {
-  email: string;
-  name: string;
-  lastname: string;
-  password: string;
-  confirmPassword: string;
-};
-
 type RegisterType = {
   email: string;
   name: string;
@@ -33,10 +25,4 @@ type UserType = {
   photo: string
 };
 
-export type {
-  SignUpType,
-  RegisterType,
-  SignInType,
-  RecoverPasswordType,
-  UserType,
-};
+export type { RegisterType, SignInType, RecoverPasswordType, UserType };

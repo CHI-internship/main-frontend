@@ -9,7 +9,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 export const ResetPassword: React.FC = () => {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
-  const [resetToken, setResetToken] = useSearchParams()
+  const [resetToken] = useSearchParams()
 
   const navigate = useNavigate()
 
@@ -48,13 +48,13 @@ export const ResetPassword: React.FC = () => {
           margin: '0 auto'
         }}>
           <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
-                        Reset Password
+            Reset Password
           </Typography>
           <div className={'style'}>
             {formik.values.newPassword &&
-                            <Typography sx={{ color: 'red' }}>
-                              {formik.errors.newPassword}
-                            </Typography>}
+              <Typography sx={{ color: 'red' }}>
+                {formik.errors.newPassword}
+              </Typography>}
             <Input id='newPassword'
               placeholder='New password'
               value={formik.values.newPassword}
@@ -64,9 +64,9 @@ export const ResetPassword: React.FC = () => {
 
           <div className={'style'}>
             {formik.values.newPasswordConfirm &&
-                            <Typography sx={{ color: 'red' }}>
-                              {formik.errors.newPasswordConfirm}
-                            </Typography>}
+              <Typography sx={{ color: 'red' }}>
+                {formik.errors.newPasswordConfirm}
+              </Typography>}
             <Input id='newPasswordConfirm'
               placeholder='New password confirm'
               value={formik.values.newPasswordConfirm}
@@ -75,25 +75,25 @@ export const ResetPassword: React.FC = () => {
           </div>
 
           {success && <Typography sx={{ color: 'green' }}>
-                        Password updated
+            Password updated
           </Typography>}
           {error && <Typography sx={{ color: 'red' }}>
-                        Something went wrong. <a href='/recover-password'>Try again</a>
+            Something went wrong. <a href='/recover-password'>Try again</a>
           </Typography>}
 
           <Button type='submit'
             variant='contained'
             disabled={success}
             sx={{ margin: '1rem 0 1rem 0' }}>
-                        Reset Password
+            Reset Password
           </Button>
 
           {success &&
-                        <Button onClick={() => navigate('/sign-in', { replace: true })}
-                          variant='contained'
-                          sx={{ margin: '0 auto' }}>
-                            Sing in
-                        </Button>}
+            <Button onClick={() => navigate('/sign-in', { replace: true })}
+              variant='contained'
+              sx={{ margin: '0 auto' }}>
+              Sing in
+            </Button>}
         </Box>
       </form>
     </div>
