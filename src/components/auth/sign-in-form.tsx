@@ -30,7 +30,7 @@ const SignInForm: FC = () => {
   const navigate = useNavigate();
 
   const signIn = async (values: FormikValues) => {
-    await userService
+    userService
       .signIn({ email: values.email, password: values.password })
       .catch(err => {
         if (typeof err === 'string') {
