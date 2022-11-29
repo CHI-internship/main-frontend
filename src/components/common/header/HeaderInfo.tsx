@@ -25,30 +25,35 @@ export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
 
     return (
         <div>
-            {user ? <div>
-                <Button onClick={() => navigate('/profile')}>
-                    <div className={style.avatar}
-                        style={{ backgroundImage: `url(${user?.photo ?? defaultAvatar})` }}>
+            {user ?
+                (
+                    <div>
+                        <Button onClick={() => navigate('/profile')}>
+                            <div className={style.avatar}
+                                style={{ backgroundImage: `url(${user?.photo ?? defaultAvatar})` }}>
+                            </div>
+                            <div className={style.name}>{user?.name}</div>
+                        </Button>
+                        <Button onClick={logout} sx={{ padding: '0', margin: '0 -10px' }}>
+                            <img src={logoutIcon} />
+                        </Button>
                     </div>
-                    <div className={style.name}>{user?.name}</div>
-                </Button>
-                <Button onClick={logout} sx={{ padding: '0', margin: '0 -10px' }}>
-                    <img src={logoutIcon} />
-                </Button>
-            </div>
-                : <div>
-                    <Button variant='text' size='small' onClick={logout}
-                        sx={{ color: '#fff', textTransform: 'capitalize' }}>
-                        Sing in
-                    </Button>
-                    <Button variant='text' size='small'
-                        onClick={signup}
-                        sx={{
-                            color: '#fff', textTransform: 'capitalize', border: '1px solid #fff'
-                        }}>
-                        Sing up
-                    </Button>
-                </div>}
+                ) : (
+                    <div>
+                        <Button variant='text' size='small' onClick={logout}
+                            sx={{ color: '#fff', textTransform: 'capitalize' }}>
+                            Sing in
+                        </Button>
+                        <Button variant='text' size='small'
+                            onClick={signup}
+                            sx={{
+                                color: '#fff', textTransform: 'capitalize', border: '1px solid #fff'
+                            }}>
+                            Sing up
+                        </Button>
+                    </div>
+                )
+            }
         </div >
     )
 }
