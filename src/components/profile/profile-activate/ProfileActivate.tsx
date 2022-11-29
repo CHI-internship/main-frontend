@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
@@ -60,8 +61,9 @@ export const ProfileActivate: React.FC = () => {
       await userService.activateVolunteer(values)
       formikHelpers.resetForm();
       if (!error) navigate('/profile');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const error = err as AxiosError;
+      setError(error.message);
     }
   }
 
