@@ -8,7 +8,7 @@ import {
   TextField
 } from '@mui/material';
 import * as yup from 'yup';
-import { Field, Form, Formik, FormikValues } from 'formik';
+import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import { orderService } from '../../../api';
 import { IOrder } from '../../../types';
 import styles from './UpdateOrder.module.scss';
@@ -41,10 +41,10 @@ const validationSchema = yup.object({
 })
 
 const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
+  const [error, setError] = useState('');
 
-  const [error, setError] = useState<string>('');
-
-  const onSubmit = async (values: FormikValues, formikHelpers: any) => {
+  const onSubmit = async (values: FormikValues,
+    formikHelpers: FormikHelpers<typeof initialValues>) => {
     try {
       if (values) {
         const updatedOrder = await orderService.updateOrder(order.id, {
