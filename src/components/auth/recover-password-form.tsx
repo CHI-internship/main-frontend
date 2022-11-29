@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import * as yup from 'yup';
 
 import userService from '../../api/user.service';
-import inputStyles from '../../styles/input-styles';
+import { inputStyles } from '../../styles'
 import { recaptchaVerify } from '../../utils';
 
 

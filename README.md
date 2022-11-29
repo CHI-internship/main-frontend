@@ -8,6 +8,11 @@ Main frontend of KraudDonate application for volunteers.
 $ npm install
 ```
 
+## Configuration
+
+1. Create file .env
+2. Add values from .env.example
+
 ## Run app
 
 ```bash

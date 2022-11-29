@@ -1,3 +1,4 @@
+
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { Field, Form, Formik, FormikValues } from 'formik';
@@ -6,9 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
 import userService from '../../api/user.service';
-import formStyles from '../../styles/form-styles';
-import inputStyles from '../../styles/input-styles';
-import { SignUpType } from '../../types/';
+import { formStyles, inputStyles } from '../../styles';
+import { SignUpType } from '../../types/auth.types';
 import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 

@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
 import userService from '../../api/user.service';
-import formStyles from '../../styles/form-styles';
-import inputStyles from '../../styles/input-styles';
+import { formStyles, inputStyles } from '../../styles';
 import { SignInType } from '../../types/auth.types';
 import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
@@ -20,14 +19,7 @@ const initialValues: SignInType = {
 
 const validationSchema = yup.object({
   email: yup.string().email('Invalid format').required('Email is required'),
-  password: yup
-    .string()
-    .matches(
-      /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-      'Password must contain 0-9 & A-Z & a-z & any special symbol'
-    )
-    .min(8)
-    .required('Password is required'),
+  password: yup.string().required('Password is required'),
 });
 
 const SignInForm: FC = () => {

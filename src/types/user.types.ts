@@ -4,6 +4,14 @@ export interface IUpdateProfile {
     lastname?: string
     image?: any
 }
+export interface IActivateVolunteer {
+    userId: number
+    country: string,
+    city: string,
+    card_number: string,
+    document: string,
+    expansion: string
+}
 
 export interface IResetPassword {
     resetToken: string | null
@@ -21,4 +29,15 @@ export interface IUpdatePassword {
 export interface IForgotPassword {
     email: string
     recaptchaToken?: string
+}
+
+export interface IUser {
+    id: number,
+    name: string,
+    lastname: string,
+    email: string,
+    photo: string,
+    role: string,
+    createdAt: Date,
+    updatedAt: Date
 }

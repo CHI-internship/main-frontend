@@ -27,6 +27,8 @@ type UserType = {
   name: string;
   lastname: string;
   orders?: any;
+  volunteer?: any;
+  photo: string
 };
 
 export type { SignUpType, RegisterType, SignInType, UserType };

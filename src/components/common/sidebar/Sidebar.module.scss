@@ -25,12 +25,14 @@ main {
 
 .top_section {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  width: 200px;
   padding: 20px 15px;
 }
 
 .title_open {
-  font-size: 35px;
+  font-size: 30px;
   display: block;
 }
 
@@ -55,7 +57,7 @@ main {
   display: flex;
   color: white;
   align-items: center;
-  padding: 15px;
+  padding: 10px 20px;
   text-decoration: none;
   gap: 15px;
 }
@@ -66,7 +68,7 @@ main {
 }
 
 .text_open {
-  font-size: 26px;
+  font-size: 19px;
   display: block;
 }
 

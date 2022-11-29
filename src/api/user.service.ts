@@ -1,8 +1,9 @@
+
 import { AxiosError, AxiosResponse } from 'axios';
 
 import {
-  IForgotPassword,
-  IResetPassword, IUpdatePassword,
+  IActivateVolunteer,
+  IForgotPassword, IResetPassword, IUpdatePassword,
   IUpdateProfile, RegisterType, SignInType
 } from '../types';
 import { axiosInstance } from './axios-instance';
@@ -50,7 +51,22 @@ class UserService {
   async updateProfile({ userId, name, lastname, image }: IUpdateProfile) {
     return axiosInstance
       .patch('user', { userId, name, lastname, image })
-      .then((data: AxiosResponse) => data.data)
+      .then((data: AxiosResponse) => {
+        return data.data;
+      })
+      .catch((err: AxiosError) => {
+        throw err;
+      });
+  }
+
+  async activateVolunteer(volunteer: IActivateVolunteer) {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { userId, country, city, card_number, document, expansion } = volunteer;
+    const acvivatedVolunteer = await axiosInstance
+      .post('volunteer', { userId, country, city, card_number, document, expansion })
+      .then((data: any) => data.data)
+      .catch((e) => { throw new Error(e.response.data.message) });
+    return acvivatedVolunteer;
   }
 
   async forgotPassword({ email, recaptchaToken }: IForgotPassword) {
