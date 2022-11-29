@@ -65,7 +65,7 @@ const SignInForm: FC = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             helperText={formik.touched.email && formik.errors.email}
-            FormHelperTextProps={{ style: { color: 'red' } }} />
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
           <TextField
             id='password'
             label='Password'
