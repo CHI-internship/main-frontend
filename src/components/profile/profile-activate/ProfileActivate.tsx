@@ -60,7 +60,7 @@ export const ProfileActivate: React.FC = () => {
       await userService.activateVolunteer(values)
       formikHelpers.resetForm();
       if (!error) navigate('/profile');
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     }
   }
