@@ -7,8 +7,9 @@ import {
   DialogTitle,
   TextField
 } from '@mui/material';
+import { AxiosError } from 'axios';
 import * as yup from 'yup';
-import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import { useFormik } from 'formik';
 import { orderService } from '../../../api';
 import { IOrder } from '../../../types';
 import styles from './UpdateOrder.module.scss';
@@ -21,149 +22,133 @@ interface IProps {
   order: IOrder,
   setOrder: Dispatch<SetStateAction<IOrder>>
 }
-const initialValues = {
-  title: '',
-  info: '',
-  short_info: '',
-  goal_amount: '',
-  photo: '',
-  sum: '',
-};
 
-const validationSchema = yup.object({
-  title: yup.string().min(3).required('Title is required'),
-  info: yup.string().min(5).required('Info is required'),
-  sum: yup.number().required('Sum is required'),
-  goal_amount: yup.number().required('Goal Amount is required'),
-  short_info: yup.string().min(15).required('Short info is required'),
-  photo: yup.string().required(),
-  finished_at: yup.string().required()
-})
 
 const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
   const [error, setError] = useState('');
 
-  const onSubmit = async (values: FormikValues,
-    formikHelpers: FormikHelpers<typeof initialValues>) => {
-    try {
-      if (values) {
-        const updatedOrder = await orderService.updateOrder(order.id, {
-          title: values.title,
-          info: values.info,
-          short_info: values.short_info,
-          sum: +values.sum,
-          goal_amount: +values.goal_amount,
-          photo: values.photo,
-          finished_at: values.finished_at
-        });
-        setOrder(updatedOrder)
-        handleClose();
-        formikHelpers.resetForm();
+  const formik = useFormik({
+    initialValues: {
+      title: '', info: '', short_info: '',
+      goal_amount: '', photo: '', sum: '',
+      finished_at: ''
+    },
+    onSubmit: async (values, formikHelpers) => {
+      try {
+        if (values) {
+          const updatedOrder = await orderService.updateOrder(order.id, {
+            title: values.title,
+            info: values.info,
+            short_info: values.short_info,
+            sum: +values.sum,
+            goal_amount: +values.goal_amount,
+            photo: values.photo,
+            finished_at: values.finished_at
+          });
+          setOrder(updatedOrder)
+          handleClose();
+          formikHelpers.resetForm();
+        }
+      } catch (err: any) {
+        const error = err as AxiosError;
+        setError(error.message);
       }
-    } catch (e: any) {
-      setError(e.response.data.message);
-    }
-  };
+    },
+    validationSchema: yup.object({
+      title: yup.string().min(3).required('Title is required'),
+      info: yup.string().min(5).required('Info is required'),
+      sum: yup.number().required('Sum is required'),
+      goal_amount: yup.number().required('Goal Amount is required'),
+      short_info: yup.string().min(15).required('Short info is required'),
+      photo: yup.string().required(),
+      finished_at: yup.string().required()
+    })
+  })
+
+  function setFile(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.currentTarget.files) return;
+    const type = e.currentTarget.files[0].type.split('/')[1];
+    formik.setFieldValue('expansion', type);
+    base64(e.currentTarget.files[0]).then(data => {
+      formik.setFieldValue('photo', data);
+    })
+  }
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle className={styles.dialogTitle}>Update Order</DialogTitle>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={async (values, formikHelpers) => {
-          await onSubmit(values, formikHelpers);
-        }}
-      >
-        {({ errors, touched, isValid, dirty, setFieldValue }) => (
-          <Form className={styles.form}>
-            <DialogContent className={styles.dialogContent}>
-              <Field
-                as={TextField}
-                name='title'
-                type='title'
-                label='Title'
-                fullWidth
-                error={Boolean(errors.title) && Boolean(touched.title)}
-                helperText={Boolean(touched.title) && errors.title}
-              />
-              <Field
-                as={TextField}
-                name='info'
-                type='info'
-                label='Info'
-                fullWidth
-                error={Boolean(errors.info) && Boolean(touched.info)}
-                helperText={Boolean(touched.info) && errors.info}
-              />
-              <Field
-                as={TextField}
-                name='sum'
-                type='sum'
-                label='Sum'
-                fullWidth
-                error={Boolean(errors.sum) && Boolean(touched.sum)}
-                helperText={Boolean(touched.sum) && errors.sum}
-              />
-              <Field
-                as={TextField}
-                name='goal_amount'
-                type='goal_amount'
-                label='Goal_amount'
-                fullWidth
-                error={Boolean(errors.goal_amount) && Boolean(touched.goal_amount)}
-                helperText={Boolean(touched.goal_amount) && errors.goal_amount}
-              />
-              <Field
-                as={TextField}
-                name='short_info'
-                type='short_info'
-                label='Short Info'
-                fullWidth
-                error={Boolean(errors.short_info) && Boolean(touched.short_info)}
-                helperText={Boolean(touched.short_info) && errors.short_info}
-              />
-              <Field
-                as={TextField}
-                type='datetime-local'
-                name='finished_at'
-                fullWidth
-              />
-              <input
-                accept='application/pdf, image/*'
-                style={{ display: 'none' }}
-                id='raised-button-file'
-                multiple
-                type='file'
-                name='photo'
-                onChange={(event) => {
-                  if (!event.currentTarget.files) return;
-                  const type = event.currentTarget.files[0].type.split('/')[1];
-                  setFieldValue('expansion', type);
-                  base64(event.currentTarget.files[0]).then(data => {
-                    setFieldValue('photo', data);
-                  })
-                }}
-              />
-              <label htmlFor='raised-button-file'>
-                <Button variant='outlined' component='span'  >
-                  Upload  Order
-                </Button>
-              </label>
-            </DialogContent>
-            <DialogActions className={styles.dialogActions}>
-              <Button onClick={handleClose} color='error'>Cansel</Button>
-              <Button
-                type='submit'
-                color='success'
-                variant='contained'
-                disabled={!isValid || !dirty}
-              >Update</Button>
-            </DialogActions>
-            {error && <div className={styles.error}>{error}</div>}
-          </Form>
-        )}
-      </Formik>
+      <form className={styles.form} onSubmit={formik.handleSubmit}>
+        <DialogContent className={styles.dialogContent}>
+          <TextField
+            id='title'
+            label='Title'
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.title && formik.errors.title}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <TextField
+            id='info'
+            label='Info'
+            value={formik.values.info}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.info && formik.errors.info}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <TextField
+            id='sum'
+            label='Sum'
+            value={formik.values.sum}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.sum && formik.errors.sum}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <TextField
+            id='goal_amount'
+            label='Goal amount'
+            value={formik.values.goal_amount}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.goal_amount && formik.errors.goal_amount}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <TextField
+            id='short_info'
+            label='Short info'
+            value={formik.values.short_info}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.short_info && formik.errors.short_info}
+            FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
+          <TextField
+            id='finished_at'
+            type='datetime-local'
+            value={formik.values.finished_at}
+            onChange={formik.handleChange} />
+          <input
+            accept='application/pdf, image/*'
+            style={{ display: 'none' }}
+            id='raised-button-file'
+            multiple
+            type='file'
+            name='photo'
+            onChange={setFile} />
+          <label htmlFor='raised-button-file'>
+            <Button variant='outlined' component='span'  >
+              Upload  Order
+            </Button>
+          </label>
+        </DialogContent>
+        <DialogActions className={styles.dialogActions}>
+          <Button onClick={handleClose} color='error'>Cansel</Button>
+          <Button
+            type='submit'
+            color='success'
+            variant='contained'
+            disabled={!formik.isValid || !formik.dirty}
+          >Update</Button>
+        </DialogActions>
+        {error && <div className={styles.error}>{error}</div>}
+      </form>
     </Dialog>
   );
 };
