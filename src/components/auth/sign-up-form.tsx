@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { FormikValues, useFormik } from 'formik';
 import { FC, useContext, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -10,13 +11,13 @@ import { userService } from '../../api';
 import { CurrentUserContext } from '../../context';
 import { formStyles, inputStyles } from '../../styles';
 import { IUser } from '../../types';
-import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 
 const SignUpForm: FC = () => {
   const { setUser } = useContext(CurrentUserContext)
   const [error, setError] = useState(null as AxiosError);
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -45,7 +46,7 @@ const SignUpForm: FC = () => {
   })
 
   const signUp = async (values: FormikValues) => {
-    const recaptchaToken = await recaptchaVerify()
+    const recaptchaToken = await executeRecaptcha('action')
     userService.signUp({
       email: values.email,
       name: values.name,
