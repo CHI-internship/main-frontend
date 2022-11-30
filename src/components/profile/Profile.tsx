@@ -1,16 +1,16 @@
-import style from './Profile.module.scss';
-import { useContext } from 'react';
-import ProfileName from './profile-name';
-import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { CurrentUserContext } from '../../context';
 import { IOrder, IUserRole } from '../../types';
 import { OrderCard } from '../orders';
-
+import style from './Profile.module.scss';
+import ProfileAvatar from './profile-avatar';
+import ProfileName from './profile-name';
 
 export const Profile: React.FC = () => {
-  const { user } = useContext(CurrentUserContext)
+  const { user } = useContext(CurrentUserContext);
   const navigate = useNavigate();
 
   return (
@@ -20,18 +20,25 @@ export const Profile: React.FC = () => {
         <ProfileName />
         <div className={style.email}>{user?.email}</div>
 
-        {!user?.volunteer?.status &&
-          <Button variant='text'
-            onClick={() => { navigate(`/profile/${user?.id}/activate`) }}>
+        {!user?.volunteer?.status && (
+          <Button
+            variant='text'
+            onClick={() => {
+              navigate(`/profile/${user?.id}/activate`);
+            }}
+          >
             Activate profile
-          </Button>}
+          </Button>
+        )}
       </div>
-      {(user?.role === IUserRole.VOLUNTEER) &&
+      {user?.role === IUserRole.VOLUNTEER && (
         <div className={style.orders}>
           {!user?.orders.length && <div>No orders</div>}
-          {user?.orders?.map((item: IOrder) =>
-            <OrderCard key={item.id} order={item} />)}
-        </div>}
+          {user?.orders?.map((item: IOrder) => (
+            <OrderCard key={item.id} order={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

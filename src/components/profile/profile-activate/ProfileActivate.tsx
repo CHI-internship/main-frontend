@@ -1,13 +1,14 @@
-import * as yup from 'yup';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { base64 } from '../../../utils';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+
 import { userService } from '../../../api';
-import { formStyles, inputStyles } from '../../../styles';
 import { CurrentUserContext } from '../../../context';
+import { formStyles, inputStyles } from '../../../styles';
+import { base64 } from '../../../utils';
 
 
 export const ProfileActivate: React.FC = () => {
@@ -130,6 +131,3 @@ export const ProfileActivate: React.FC = () => {
     </Box>
   );
 };
-
-
-
