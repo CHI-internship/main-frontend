@@ -1,17 +1,18 @@
-import * as yup from 'yup';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import { base64 } from '../../../utils';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+
 import { userService } from '../../../api';
-import { formStyles, inputStyles } from '../../../styles';
 import { CurrentUserContext } from '../../../context';
+import { formStyles, inputStyles } from '../../../styles';
+import { base64 } from '../../../utils';
 
 
 export const ProfileActivate: React.FC = () => {
-  const { user } = useContext(CurrentUserContext)
+  const { user } = useContext(CurrentUserContext);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ export const ProfileActivate: React.FC = () => {
       expansion: ''
     },
     onSubmit: async (values, formikHelpers) => {
-      await submitRequest(values, formikHelpers)
+      await submitRequest(values, formikHelpers);
     },
     validationSchema: yup.object({
       document: yup.string()
@@ -43,22 +44,22 @@ export const ProfileActivate: React.FC = () => {
         .min(3, 'City should be of minimum 8 characters length')
         .required('City is required')
     })
-  })
+  });
 
   function setFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.currentTarget.files) return;
     const type = e.currentTarget.files[0].type.split('/')[1];
     formik.setFieldValue('expansion', type);
     base64(e.currentTarget.files[0]).then(data => {
-      formik.setFieldValue('document', data)
-    })
+      formik.setFieldValue('document', data);
+    });
   }
 
   async function submitRequest(values: any, formikHelpers: any) {
     try {
       formikHelpers.resetForm();
       values.userId = user?.id;
-      await userService.activateVolunteer(values)
+      await userService.activateVolunteer(values);
       formikHelpers.resetForm();
       if (!error) navigate('/profile');
     } catch (err: unknown) {
@@ -75,6 +76,7 @@ export const ProfileActivate: React.FC = () => {
 
       <form onSubmit={formik.handleSubmit} style={{ textAlign: 'center' }}>
         <TextField
+          fullWidth
           id='country'
           value={formik.values.country}
           onChange={formik.handleChange}
@@ -84,6 +86,7 @@ export const ProfileActivate: React.FC = () => {
           helperText={formik.touched.country && formik.errors.country}
           FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
         <TextField
+          fullWidth
           id='city'
           value={formik.values.city}
           onChange={formik.handleChange}
@@ -93,6 +96,7 @@ export const ProfileActivate: React.FC = () => {
           helperText={formik.touched.city && formik.errors.city}
           FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
         <TextField
+          fullWidth
           id='card_number'
           value={formik.values.card_number}
           onChange={formik.handleChange}
@@ -101,26 +105,28 @@ export const ProfileActivate: React.FC = () => {
           label='Card number'
           helperText={formik.touched.card_number && formik.errors.card_number}
           FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
-        <input
-          accept='application/pdf, image/*'
-          style={{ display: 'none' }}
-          id='raised-button-file'
-          multiple
-          type='file'
-          name='document'
-          onChange={setFile} />
-        <label htmlFor='raised-button-file'>
-          <Button variant='outlined' component='span'  >
-            Upload  an  identity  document
+        <Box sx={{ display:'flex', flexDirection:'column',gap:'15px' }}>
+          <input
+            accept='application/pdf, image/*'
+            style={{ display: 'none' }}
+            id='raised-button-file'
+            multiple
+            type='file'
+            name='document'
+            onChange={setFile} />
+          <label htmlFor='raised-button-file'>
+            <Button variant='outlined' component='span'>
+              Upload an identity document
+            </Button>
+          </label>
+          <Button
+            type='submit'
+            variant='contained'
+            sx={{ marginLeft: '10px' }}
+            disabled={!formik.isValid || !formik.dirty}>
+            Activate Profile
           </Button>
-        </label>
-        <Button
-          type='submit'
-          variant='contained'
-          sx={{ margin: '1rem 0 1rem 0' }}
-          disabled={!formik.isValid || !formik.dirty}>
-          Activate Profile
-        </Button>
+        </Box>
         {error && (
           <Typography sx={{ textAlign: 'center', color: 'red' }}>
             {error}
