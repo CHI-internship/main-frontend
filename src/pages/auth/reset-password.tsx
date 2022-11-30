@@ -1,24 +1,24 @@
 import { Box, Button, Input, Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { useState } from 'react'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import * as yup from 'yup'
 
 import userService from '../../api/user.service'
-import { recaptchaVerify } from '../../utils'
 
 
 export const ResetPassword: React.FC = () => {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   const [resetToken] = useSearchParams()
-
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: { newPassword: '', newPasswordConfirm: '' },
     onSubmit: async (values) => {
-      const recaptchaToken = await recaptchaVerify()
+      const recaptchaToken = await executeRecaptcha('action')
       await userService.resetPassword({
         newPassword: values.newPassword,
         newPasswordConfirm: values.newPasswordConfirm,

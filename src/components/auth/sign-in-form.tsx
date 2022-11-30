@@ -2,6 +2,7 @@ import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { FormikValues, useFormik } from 'formik';
 import { FC, useContext, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -9,7 +10,6 @@ import { userService } from '../../api';
 import { CurrentUserContext } from '../../context';
 import { formStyles, inputStyles } from '../../styles';
 import { IUser } from '../../types';
-import { recaptchaVerify } from '../../utils';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 import FormLink from './form-link';
 
@@ -17,6 +17,7 @@ import FormLink from './form-link';
 
 const SignInForm: FC = () => {
   const { setUser } = useContext(CurrentUserContext)
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null as AxiosError);
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const SignInForm: FC = () => {
   })
 
   const signIn = async (values: FormikValues) => {
-    const recaptchaToken = await recaptchaVerify()
+    const recaptchaToken = await executeRecaptcha('action')
     userService.signIn({
       email: values.email,
       password: values.password,
