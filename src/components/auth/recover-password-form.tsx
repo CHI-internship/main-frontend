@@ -1,14 +1,15 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { FC, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import * as yup from 'yup';
 
 import userService from '../../api/user.service';
 import { inputStyles } from '../../styles'
-import { recaptchaVerify } from '../../utils';
 
 
 const RecoverPasswordForm: FC = () => {
+  const { executeRecaptcha } = useGoogleReCaptcha()
   const [success, setSuccess] = useState(false)
   const [err, setErr] = useState(false)
   const [disableSend, setDisableSend] = useState(false)
@@ -18,7 +19,7 @@ const RecoverPasswordForm: FC = () => {
     initialValues: { email: '' },
     onSubmit: async (values, formikHelpers) => {
       setDisableSend(true)
-      const recaptchaToken = await recaptchaVerify()
+      const recaptchaToken = await executeRecaptcha('action')
       await userService.forgotPassword({ email: values.email, recaptchaToken })
         .then(() => setSuccess(true))
         .catch(() => setErr(true))
