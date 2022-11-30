@@ -69,7 +69,8 @@ const SignInForm: FC = () => {
         </Typography>
         {isError && <Alert severity='error'>Wrong email or password</Alert>}
 
-        <form onSubmit={formik.handleSubmit} style={{ textAlign: 'center' }}>
+        <form onSubmit={formik.handleSubmit}
+          style={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
           <TextField
             id='email'
             type='email'

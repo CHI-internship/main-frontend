@@ -69,7 +69,8 @@ const SignUpForm: FC = () => {
           Sign Up
         </Typography>
 
-        <form onSubmit={formik.handleSubmit} style={{ textAlign: 'center' }}>
+        <form onSubmit={formik.handleSubmit}
+          style={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
           <TextField
             name='email'
             type='email'

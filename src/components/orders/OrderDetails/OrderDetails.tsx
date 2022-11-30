@@ -10,6 +10,7 @@ import { ProgressBar } from '../../common';
 import UpdateOrder from '../UpdateOrder/UpdateOrder';
 import style from './OrderDetails.module.scss';
 
+
 interface IOrderCardProps {
   order: IOrder;
   setOrder: Dispatch<SetStateAction<IOrder>>;
