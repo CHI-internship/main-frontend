@@ -8,7 +8,6 @@ import style from './Payment.module.scss'
 export const CheckoutForm: React.FC = () => {
     const stripe = useStripe()
     const elements = useElements()
-
     const [inProcess, setInProcess] = useState(false)
     const [error, setError] = useState('')
 

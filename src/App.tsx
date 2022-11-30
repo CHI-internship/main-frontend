@@ -3,7 +3,6 @@ import './Global.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Footer, Header, Sidebar } from './components/common';
-import { Payment } from './components/payment/Payment';
 import { CurrentUserContext, useCurrentUser } from './context';
 import {
   AboutPage, CompletedPayment, CreateOrder, Home,
@@ -20,7 +19,7 @@ function App() {
           <Header />
           <Sidebar>
             <Routes>
-              <Route path='/' element={<Payment />} />
+              <Route path='/' element={<Home />} />
               <Route path='profile' element={<ProfilePage />} />
               <Route path='profile/:id/activate' element={<ProfileActivatePage />} />
               <Route path='sign-in' element={<SignIn />} />

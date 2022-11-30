@@ -5,8 +5,8 @@ import { axiosInstance } from './axios-instance'
 
 
 class PaymentService {
-    async sendPayment({ amount, currency, description, id }: IPaymentPayload) {
-        const secretKey = axiosInstance.post('stripe', { amount, currency, description, id })
+    async sendPayment(paymentPayload: IPaymentPayload) {
+        const secretKey = axiosInstance.post('payment', paymentPayload)
             .then((data: AxiosResponse) => data.data.client_secret)
         return secretKey
     }

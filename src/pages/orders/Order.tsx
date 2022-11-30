@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { orderService } from '../../api';
 import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
-import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';
+import { OrderDetails } from '../../components/orders';
 import { IOrder } from '../../types';
 
 const Order: FC = () => {
@@ -22,7 +22,7 @@ const Order: FC = () => {
   return (
     <>
       {error && <ErrorAlert error={error} />}
-      <OrderDetails order={order} setOrder={setOrder} id={+id} />
+      <OrderDetails order={order} setOrder={setOrder} />
     </>
   );
 };

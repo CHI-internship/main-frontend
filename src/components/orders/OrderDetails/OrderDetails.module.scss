@@ -1,98 +1,100 @@
 .container {
-  width: 90%;
-  margin: 1% 3%;
-  height: 70vh;
-  display: flex;
-  flex-direction: column;
-  padding: 1%;
-  box-sizing: border-box;
-  justify-content: space-between;
-}
-
-.title p{
-  font-size: 17px;
-  padding-top: 25px;
-}
-
-.main {
+  max-width: 700px;
   width: 100%;
-  height: 50vh;
-  display: flex;
-  justify-content: space-between;
+  margin: 0 auto;
 }
 
 .image {
-  width: 60%;
+  position: relative;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 15px;
-}
-
-.content {
-  background: #f3f4f5;
-  width: 35%;
-  border-radius: 15px;
-  border: 1px solid #e1e3e3;
-  padding: 2%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  row-gap: 10%;
-}
-
-.gathering_open {
-  border: 1px solid #618ed2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 25%;
-  padding: 1%;
-  border-radius: 10px;
-  color: #618ed2;
-}
-
-.gathering_close {
-  border: 1px solid #e05555;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 25%;
-  padding: 1%;
-  border-radius: 10px;
-  color: #e05555;
-}
-
-.content_header {
-  display: flex;
-  justify-content: space-between;
+  width: 320px;
+  height: 220px;
+  flex-shrink: 0;
 }
 
 .gather_button {
-  width: 60%;
-  height: 10%;
   background: orange;
   border: none;
   border-radius: 20px;
-  font-size: 20px;
+  font-size: 18px;
   color: white;
   font-weight: bold;
   cursor: pointer;
-  margin-left: 20%;
-
+  height: 30px;
+  width: 140px;
 }
 
-.content p {
-  font-size: 18px;
-  color: #3e4143;
+.info {
+  display: flex;
+  margin: 20px 0;
 }
 
-.volunteer {
-  display: block;
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 15px 10px;
 }
 
-.notVolunteer {
-  display: none;
+.status {
+  position: absolute;
+  white-space: nowrap;
+  padding: 4px 6px;
+  margin: 5px;
+  border-radius: 15px;
+  color: #ffffff;
+  font-size: 11px;
+  background-color: #9e9e9e;
+}
+
+.editing {
+  text-align: right;
+}
+
+.gathering_open {
+  background-color: #005aa9;
+}
+
+.infoItem,
+.longInfo {
+  font-size: 17px;
+  margin-top: 10px;
+}
+
+.payment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 340px;
+}
+
+@media (max-width: 800px) {
+
+  .info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image {
+    width: 60%;
+    height: 240px;
+  }
+
+  .details {
+    width: 60%;
+    margin-top: 15px;
+    padding: 0;
+  }
+
+  .payment {
+    margin-top: 15px;
+  }
+
+  .longInfo {
+    width: 60%;
+    margin: 0 auto;
+  }
 }

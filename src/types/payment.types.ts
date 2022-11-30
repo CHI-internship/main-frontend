@@ -2,5 +2,11 @@ export interface IPaymentPayload {
     amount: number
     currency: string
     description: string
-    id: number
+    order_id: number
+}
+
+export enum PaymentCurrency {
+    UAH = 'UAH',
+    USD = 'USD',
+    EUR = 'EUR'
 }
