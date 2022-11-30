@@ -1,20 +1,22 @@
-import { useContext } from 'react';
 import { Button } from '@mui/material';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import style from './Header.module.scss';
-import { logoutIcon } from '../../../images'
+
 import { CurrentUserContext } from '../../../context';
+import { logoutIcon } from '../../../images'
+import style from './Header.module.scss';
 
 interface IHeaderInfoProps {
     defaultAvatar?: string
 }
 
 export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
-    const { user } = useContext(CurrentUserContext)
+    const { user, setUser } = useContext(CurrentUserContext)
     const navigate = useNavigate()
 
     const logout = () => {
         localStorage.removeItem('token')
+        setUser(null)
         navigate('/sign-in')
     }
 
@@ -35,7 +37,7 @@ export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
                             <div className={style.name}>{user?.name}</div>
                         </Button>
                         <Button onClick={logout} sx={{ padding: '0', margin: '0 -10px' }}>
-                            <img src={logoutIcon} />
+                            <img src={logoutIcon} className={style.logoutIcon} />
                         </Button>
                     </div>
                 ) : (

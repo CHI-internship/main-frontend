@@ -1,14 +1,14 @@
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton } from '@mui/material';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import UpdateOrder from '../UpdateOrder/UpdateOrder';
-import style from './OrderDetails.module.scss';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from '@mui/material';
-import userService from '../../../api/user.service';
+import { orderService, userService } from '../../../api';
 import { IOrder } from '../../../types';
 import { ProgressBar } from '../../common';
-import orderService from '../../../api/orders.service';
+import UpdateOrder from '../UpdateOrder/UpdateOrder';
+import style from './OrderDetails.module.scss';
+
 
 interface IOrderCardProps {
   order: IOrder;
