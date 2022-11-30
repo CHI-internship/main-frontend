@@ -1,10 +1,11 @@
+import { AxiosError } from 'axios';
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import orderService from '../../api/orders.service';
-import { IOrder } from '../../types';
-import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';
+
+import { orderService } from '../../api';
 import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import OrderDetails from '../../components/orders/OrderDetails/OrderDetails';
+import { IOrder } from '../../types';
 
 const Order: FC = () => {
   const [error, setError] = useState(null as AxiosError);

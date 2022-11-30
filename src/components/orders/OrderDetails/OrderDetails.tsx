@@ -1,14 +1,14 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import UpdateOrder from '../UpdateOrder/UpdateOrder';
-import style from './OrderDetails.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
-import userService from '../../../api/user.service';
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { orderService } from '../../../api';
+import { CurrentUserContext } from '../../../context';
 import { IOrder } from '../../../types';
 import { ProgressBar } from '../../common';
-import orderService from '../../../api/orders.service';
+import UpdateOrder from '../UpdateOrder/UpdateOrder';
+import style from './OrderDetails.module.scss';
 
 interface IOrderCardProps {
   order: IOrder;
@@ -17,14 +17,13 @@ interface IOrderCardProps {
 }
 
 const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
-
+  const { user } = useContext(CurrentUserContext)
   const [orderDb, setOrderDb] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const getUser = async () => {
-    const userFromDb = await userService.retrieve(localStorage.getItem('token'));
-    if (userFromDb.role === 'volunteer') {
+    if (user?.role === 'volunteer') {
       const orderFromDB = await orderService.getUserOrder(id);
       if (orderFromDB) {
         setOrderDb(true);
