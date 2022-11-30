@@ -3,9 +3,10 @@ import './Global.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Footer, Header, Sidebar } from './components/common';
+import { Payment } from './components/payment/Payment';
 import { CurrentUserContext, useCurrentUser } from './context';
 import {
-  AboutPage, CreateOrder, Home,
+  AboutPage, CompletedPayment, CreateOrder, Home,
   NoMatchPage, Order, Orders,
   Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
@@ -19,7 +20,7 @@ function App() {
           <Header />
           <Sidebar>
             <Routes>
-              <Route path='/' element={<Home />} />
+              <Route path='/' element={<Payment />} />
               <Route path='profile' element={<ProfilePage />} />
               <Route path='profile/:id/activate' element={<ProfileActivatePage />} />
               <Route path='sign-in' element={<SignIn />} />
@@ -32,6 +33,7 @@ function App() {
               <Route path='orders' element={<Orders />} />
               <Route path='orders/:id' element={<Order />} />
               <Route path='orders/create' element={<CreateOrder />} />
+              <Route path='success-donate' element={<CompletedPayment />} />
             </Routes>
           </Sidebar>
         </CurrentUserContext.Provider>
