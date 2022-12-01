@@ -17,7 +17,7 @@ export const Profile: React.FC = () => {
   useEffect(() => {
     const getUserWithVolunteer = async () => {
       const userWithVolunteerAndOrders = await userService.getUserWithVolunteerAndOrders();
-      setUser(userWithVolunteerandOrders);
+      setUser(userWithVolunteerAndOrders);
     }
     getUserWithVolunteer();
   }) 
