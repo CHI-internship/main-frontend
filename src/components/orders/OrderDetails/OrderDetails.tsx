@@ -40,13 +40,15 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder }) => {
         payment ?
           <Payment paymentPayload={paymentPayload} /> :
           <div>
-            <ProgressBar moneyHave={order?.sum} moneyNeed={order?.goal_amount}
-              closedAt={new Date(order?.finished_at)} size='large' />
+            <ProgressBar
+              size='large'
+              moneyHave={order?.sum}
+              moneyNeed={order?.goal_amount}
+              closedAt={new Date(order?.finished_at)}
+            />
             <div className={style.info}>
-              <div className={style.image}
-                style={{ backgroundImage: `url(${order?.photo})` }}>
-                <span className=
-                  {cn(style.status, { [style.gathering_open]: order?.status === 'open' })}>
+              <div className={style.image} style={{ backgroundImage: `url(${order?.photo})` }}>
+                <span className={cn(style.status, { [style.gatheringOpen]: order?.status === 'open' })}>
                   {order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}
                 </span>
               </div>
@@ -56,21 +58,25 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder }) => {
                   <p className={style.infoItem}>{order?.short_info}</p>
                 </div>
                 <div className={style.payment}>
-                  <TextField id='amount'
+                  <TextField
+                    id='amount'
                     type='number'
                     size='small'
                     sx={{ width: '100px' }}
-                    onChange={(e) => setAmount(+e.target.value)} />
-                  <Select id='donateAmount'
+                    onChange={(e) => setAmount(+e.target.value)}
+                  />
+                  <Select
+                    id='donateAmount'
                     label='Currency'
                     size='small'
                     defaultValue={PaymentCurrency.UAH}
-                    onChange={(e) => setCurrency(e.target.value as PaymentCurrency)}>
+                    onChange={(e) => setCurrency(e.target.value as PaymentCurrency)}
+                  >
                     <MenuItem value={PaymentCurrency.UAH}>{PaymentCurrency.UAH}</MenuItem>
                     <MenuItem value={PaymentCurrency.USD}>{PaymentCurrency.USD}</MenuItem>
                     <MenuItem value={PaymentCurrency.EUR}>{PaymentCurrency.EUR}</MenuItem>
                   </Select>
-                  <button className={style.gather_button} onClick={submitPayment}>
+                  <button className={style.gatherButton} onClick={submitPayment}>
                     Підтримати
                   </button>
                 </div>

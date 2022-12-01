@@ -48,7 +48,7 @@ const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
         setOrder(updatedOrder)
         handleClose();
         formikHelpers.resetForm();
-      } catch (err: any) {
+      } catch (err) {
         const error = err as AxiosError;
         setError(error.message);
       }

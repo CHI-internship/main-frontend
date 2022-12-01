@@ -27,8 +27,12 @@ export const CheckoutForm: React.FC = () => {
     return (
         <form onSubmit={handleSubmit} className={style.form}>
             <PaymentElement />
-            <Button sx={{ margin: '15px auto' }} type='submit'
-                variant='outlined' disabled={inProcess}>
+            <Button
+                type='submit'
+                sx={{ margin: '15px auto' }}
+                variant='outlined'
+                disabled={inProcess}
+            >
                 Donate
             </Button>
             {error ?? error}

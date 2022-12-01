@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import catPhoto from '../../images/cat.jpg'
 import style from './CompletedPayment.module.scss'
 
-
 export const CompletedPayment: React.FC = () => {
     const navigate = useNavigate()
     return (

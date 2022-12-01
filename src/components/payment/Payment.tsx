@@ -12,7 +12,7 @@ interface IPaymentProps {
 
 export const Payment: React.FC<IPaymentProps> = ({ paymentPayload }) => {
     const [stripePromise, setStripePromise] = useState<Promise<Stripe>>()
-    const [clientSecret, setClientSercet] = useState()
+    const [clientSecret, setClientSercet] = useState('')
 
     useEffect(() => {
         setStripePromise(loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY))
@@ -23,12 +23,11 @@ export const Payment: React.FC<IPaymentProps> = ({ paymentPayload }) => {
         setKey()
     }, [])
 
+    if (!stripePromise || !clientSecret) return null;
+
     return (
-        <>{
-            (stripePromise && clientSecret) &&
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
-                <CheckoutForm />
-            </Elements>
-        }</>
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <CheckoutForm />
+        </Elements>
     )
 }
