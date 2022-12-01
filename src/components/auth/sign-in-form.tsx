@@ -16,7 +16,7 @@ import FormLink from './form-link';
 
 
 const SignInForm: FC = () => {
-  const { setUser } = useContext(CurrentUserContext)
+  const { setUser, setIsVolunteer, isVolunteer } = useContext(CurrentUserContext)
   const { executeRecaptcha } = useGoogleReCaptcha()
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null as AxiosError);
@@ -50,7 +50,13 @@ const SignInForm: FC = () => {
       .then(() => {
         setIsError(false)
         userService.retrieve(localStorage.getItem('token'))
-          .then((data: IUser) => setUser(data))
+          .then((data: IUser) => {
+            setUser(data);
+            return data.id; })
+          .then(async (id) => {
+            const res = await userService.getRole(id)
+            if (res !== isVolunteer) setIsVolunteer(res);
+          })
         navigate('/profile', { replace: true })
       })
   };

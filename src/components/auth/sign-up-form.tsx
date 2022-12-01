@@ -15,7 +15,7 @@ import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 
 const SignUpForm: FC = () => {
-  const { setUser } = useContext(CurrentUserContext)
+  const { setUser, setIsVolunteer, isVolunteer } = useContext(CurrentUserContext)
   const [error, setError] = useState(null as AxiosError);
   const { executeRecaptcha } = useGoogleReCaptcha()
   const navigate = useNavigate();
@@ -56,7 +56,14 @@ const SignUpForm: FC = () => {
     }).catch(err => setError(err))
       .then(() => {
         userService.retrieve(localStorage.getItem('token'))
-          .then((data: IUser) => setUser(data))
+          .then((data: IUser) => {
+            setUser(data);
+            return data.id;
+           })
+           .then(async (id) => {
+            const res = await userService.getRole(id);
+            if (res !== isVolunteer) setIsVolunteer(res);
+          })
         navigate('/profile', { replace: true })
       })
   };

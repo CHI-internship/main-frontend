@@ -11,12 +11,13 @@ interface IHeaderInfoProps {
 }
 
 export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
-    const { user, setUser } = useContext(CurrentUserContext)
+    const { user, setUser, setIsVolunteer } = useContext(CurrentUserContext)
     const navigate = useNavigate()
 
     const logout = () => {
         localStorage.removeItem('token')
         setUser(null)
+        setIsVolunteer(false)
         navigate('/sign-in')
     }
 
