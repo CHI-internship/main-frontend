@@ -24,7 +24,7 @@ class UserService {
     return res.data;
   }
 
-  async refreshTokens(refreshToken: string | null) {
+  async refreshTokens(refreshToken: Readonly<string>) {
     if (!refreshToken) {
       return;
     }
@@ -87,15 +87,14 @@ class UserService {
   }
 
   async activateVolunteer(volunteer: IActivateVolunteer) {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { userId, country, city, card_number, document, expansion } =
+    const { userId, country, city, cardNumber, document, expansion } =
       volunteer;
     const acvivatedVolunteer = await axiosInstance
       .post('volunteer', {
         userId,
         country,
         city,
-        card_number,
+        cardNumber,
         document,
         expansion,
       })
@@ -126,7 +125,9 @@ class UserService {
 
   async getUserWithVolunteerAndOrders() {
     return axiosInstance
-      .get('user/attach', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+      .get('user/attach', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((data: AxiosResponse) => data.data);
   }
 }
