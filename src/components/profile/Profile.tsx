@@ -1,7 +1,8 @@
 import { Button } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { userService } from '../../api';
 import { CurrentUserContext } from '../../context';
 import { IOrder, IUserRole } from '../../types';
 import { OrderCard } from '../orders';
@@ -10,9 +11,16 @@ import ProfileAvatar from './profile-avatar';
 import ProfileName from './profile-name';
 
 export const Profile: React.FC = () => {
-  const { user } = useContext(CurrentUserContext);
+  const { user, setUser } = useContext(CurrentUserContext)
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const getUserWithVolunteer = async () => {
+      const userWithVolunteerAndOrders = await userService.getUserWithVolunteerAndOrders();
+      setUser(userWithVolunteerAndOrders);
+    }
+    getUserWithVolunteer();
+  })
   return (
     <div className={style.profile}>
       <div className={style.info}>

@@ -1,11 +1,12 @@
-import { FC, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import style from './Sidebar.module.scss';
+import GradeIcon from '@mui/icons-material/Grade';
+import InfoIcon from '@mui/icons-material/Info';
 import MenuIcon from '@mui/icons-material/Menu';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import PaidIcon from '@mui/icons-material/Paid';
-import GradeIcon from '@mui/icons-material/Grade';
-import InfoIcon from '@mui/icons-material/Info';
+import { FC, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
+import style from './Sidebar.module.scss';
 
 interface IChildren {
   children: JSX.Element;
@@ -19,7 +20,7 @@ const Sidebar: FC<IChildren> = ({ children }) => {
   const menuItem = [
     {
       path: '/',
-      name: 'Dashboard',
+      name: 'Home',
       icon: <OtherHousesIcon fontSize={'medium'} />
     },
     {
