@@ -36,7 +36,7 @@ export const HeaderInfo: React.FC<IHeaderInfoProps> = ({ defaultAvatar }) => {
               style={{
                 backgroundImage: `url(${user?.photo ?? defaultAvatar})`,
               }}
-            ></div>
+            />
             <div className={style.name}>{user?.name}</div>
           </Button>
           <Button onClick={logout} sx={{ padding: '0', margin: '0 -10px' }}>
