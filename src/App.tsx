@@ -5,11 +5,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer, Header, Sidebar } from './components/common';
 import { CurrentUserContext, useCurrentUser } from './context';
 import {
-  AboutPage, CreateOrder, Home,
+  AboutPage, CreateOrder, Hint, Hints, Home,
   NoMatchPage, Order, Orders,
   Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
-
 
 function App() {
   return (
@@ -32,6 +31,8 @@ function App() {
               <Route path='orders' element={<Orders />} />
               <Route path='orders/:id' element={<Order />} />
               <Route path='orders/create' element={<CreateOrder />} />
+              <Route path='hints' element={<Hints/>}/>
+              <Route path='hints/:id' element={<Hint/>}/>
             </Routes>
           </Sidebar>
         </CurrentUserContext.Provider>
