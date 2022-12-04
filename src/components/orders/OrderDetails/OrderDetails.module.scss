@@ -25,6 +25,7 @@
   cursor: pointer;
   height: 30px;
   width: 140px;
+  margin-left: 10px;
 }
 
 .info {
@@ -67,8 +68,14 @@
 .payment {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 340px;
+  position: relative;
+
+  .minDonate {
+    color: #005aa9;
+    position: absolute;
+    font-size: 11px;
+    top: -16px;
+  }
 }
 
 @media (max-width: 800px) {

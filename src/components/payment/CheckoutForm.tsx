@@ -1,13 +1,18 @@
 import { Button } from '@mui/material'
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { StripeError } from '@stripe/stripe-js'
+import { PaymentIntentResult } from '@stripe/stripe-js'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { paymentService } from '../../api'
+import { IApproveDonatePayload } from '../../types'
 import style from './Payment.module.scss'
 
-export const CheckoutForm: React.FC = () => {
+
+export const CheckoutForm: React.FC<IApproveDonatePayload> = ({ amount, orderId }) => {
     const stripe = useStripe()
     const elements = useElements()
+    const navigate = useNavigate()
     const [inProcess, setInProcess] = useState(false)
     const [error, setError] = useState('')
 
@@ -15,12 +20,15 @@ export const CheckoutForm: React.FC = () => {
         e.preventDefault()
         if (stripe && elements) {
             setInProcess(true)
-            await stripe.confirmPayment({
-                elements,
-                confirmParams: { return_url: `${window.location.origin}/success-donate` }
-            })
-                .catch((err: StripeError) => setError(err.message))
-                .finally(() => setInProcess(false))
+            stripe.confirmPayment({ elements, redirect: 'if_required' })
+                .then(async function (result: PaymentIntentResult) {
+                    if (result.error) {
+                        setError(error)
+                        return
+                    }
+                    await paymentService.approvePayment({ amount, orderId })
+                    navigate('/success-donate', { replace: true })
+                })
         }
     }
 
@@ -35,7 +43,7 @@ export const CheckoutForm: React.FC = () => {
             >
                 Donate
             </Button>
-            {error ?? error}
+            <div>{error ?? error}</div>
         </form>
     )
 }

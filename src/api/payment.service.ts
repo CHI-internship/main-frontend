@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 
-import { IPaymentPayload } from '../types'
+import { IApproveDonatePayload, IPaymentPayload } from '../types'
 import { axiosInstance } from './axios-instance'
 
 
@@ -9,6 +9,10 @@ class PaymentService {
         const secretKey = axiosInstance.post('payment', paymentPayload)
             .then((data: AxiosResponse) => data.data.client_secret)
         return secretKey
+    }
+
+    async approvePayment(approvePayload: IApproveDonatePayload) {
+        return axiosInstance.patch('payment', approvePayload)
     }
 }
 

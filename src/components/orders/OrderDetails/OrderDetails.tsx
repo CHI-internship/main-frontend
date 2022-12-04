@@ -1,10 +1,10 @@
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton, MenuItem, Select, TextField } from '@mui/material';
+import { IconButton, TextField } from '@mui/material';
 import cn from 'classnames';
 import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 
 import { CurrentUserContext } from '../../../context';
-import { IOrder, IPaymentPayload, PaymentCurrency } from '../../../types';
+import { IOrder, IPaymentPayload } from '../../../types';
 import { ProgressBar } from '../../common';
 import { Payment } from '../../payment/Payment';
 import UpdateOrder from '../UpdateOrder/UpdateOrder';
@@ -21,13 +21,12 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder }) => {
   const [open, setOpen] = useState(false);
   const [payment, setPayment] = useState(false);
   const [amount, setAmount] = useState(0);
-  const [currency, setCurrency] = useState<PaymentCurrency>(PaymentCurrency.UAH);
   const [paymentPayload, setPaymentPayload] = useState<IPaymentPayload>()
 
   const submitPayment = () => {
-    if (amount && order?.title && order?.id) {
+    if (amount >= 20 && order?.title && order?.id) {
       setPaymentPayload(
-        { amount, currency, description: order?.title, order_id: order?.id })
+        { amount, currency: 'UAH', description: order?.title, orderId: order?.id })
       setPayment(true)
     }
   }
@@ -58,6 +57,7 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder }) => {
                   <p className={style.infoItem}>{order?.short_info}</p>
                 </div>
                 <div className={style.payment}>
+                  <div className={style.minDonate}>Min donate: 20 UAH</div>
                   <TextField
                     id='amount'
                     type='number'
@@ -65,17 +65,6 @@ const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder }) => {
                     sx={{ width: '100px' }}
                     onChange={(e) => setAmount(+e.target.value)}
                   />
-                  <Select
-                    id='donateAmount'
-                    label='Currency'
-                    size='small'
-                    defaultValue={PaymentCurrency.UAH}
-                    onChange={(e) => setCurrency(e.target.value as PaymentCurrency)}
-                  >
-                    <MenuItem value={PaymentCurrency.UAH}>{PaymentCurrency.UAH}</MenuItem>
-                    <MenuItem value={PaymentCurrency.USD}>{PaymentCurrency.USD}</MenuItem>
-                    <MenuItem value={PaymentCurrency.EUR}>{PaymentCurrency.EUR}</MenuItem>
-                  </Select>
                   <button className={style.gatherButton} onClick={submitPayment}>
                     Підтримати
                   </button>

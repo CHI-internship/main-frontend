@@ -27,7 +27,7 @@ export const Payment: React.FC<IPaymentProps> = ({ paymentPayload }) => {
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutForm />
+      <CheckoutForm amount={paymentPayload.amount} orderId={paymentPayload.orderId} />
     </Elements>
   )
 }

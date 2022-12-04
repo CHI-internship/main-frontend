@@ -2,11 +2,10 @@ export interface IPaymentPayload {
     amount: number
     currency: string
     description: string
-    order_id: number
+    orderId: number
 }
 
-export enum PaymentCurrency {
-    UAH = 'UAH',
-    USD = 'USD',
-    EUR = 'EUR'
+export interface IApproveDonatePayload {
+    orderId: number
+    amount: number
 }
