@@ -10,7 +10,6 @@ import {
   Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
 
-
 function App() {
   return (
     <div className='app'>

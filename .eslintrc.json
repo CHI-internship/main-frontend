@@ -50,6 +50,10 @@
       {
         "code": 140
       }
-    ]
+    ],
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }]
   }
 }
