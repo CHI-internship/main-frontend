@@ -87,6 +87,12 @@ class UserService {
       .then((data: AxiosResponse) => data.data);
   }
 
+  async getUserWithVolunteerAndOrders() {
+    return axiosInstance
+      .get('user/attach', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+      .then((data: AxiosResponse) => data.data);
+  }
+
   async roleIsVolunteer(id: number)  {
     const params = {
       id,

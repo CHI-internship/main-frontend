@@ -8,6 +8,7 @@ import NoMatchPage from './no-match-page'
 import { CreateOrder } from './order/CreateOrder/CreateOrder';
 import Order from './orders/Order'
 import { Orders } from './orders/Orders'
+import { CompletedPayment } from './payment/CompletedPayment'
 import Policy from './policy/Policy'
 import ProfileActivatePage from './profile/profile-activate-page'
 import ProfilePage from './profile/profile-page'
@@ -15,5 +16,5 @@ import ProfilePage from './profile/profile-page'
 export {
   ResetPassword, ProfilePage, NoMatchPage, Home, Policy, Orders,
   Order, RecoverPassword, SignIn, SignUp, AboutPage, CreateOrder,
-  ProfileActivatePage
+  ProfileActivatePage, CompletedPayment
 }

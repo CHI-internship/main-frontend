@@ -9,14 +9,14 @@ interface IProgressBarProps {
   size?: 'small' | 'large'
 }
 
-function calculatePercent (moneyHave: number, moneyNeed: number) {
+function calculatePercent(moneyHave: number, moneyNeed: number) {
   if (!moneyNeed) return 0;
 
-  const percent = (moneyHave * 100)/moneyNeed;
+  const percent = (moneyHave * 100) / moneyNeed;
   return percent;
 }
 
-function calculateDays (date: Date) {
+function calculateDays(date: Date) {
   if (!date.getTime()) return 0;
   const time = date.getTime() - new Date().getTime();
   if (time < 0) return 0;
@@ -24,7 +24,7 @@ function calculateDays (date: Date) {
   return daysLeft;
 }
 
-function calculateHours (date: Date) {
+function calculateHours(date: Date) {
   if (!date.getTime()) return 0;
   const time = date.getTime() - new Date().getTime();
   if (time < 0) return 0;
@@ -50,25 +50,25 @@ const ProgressBar: FC<IProgressBarProps> = ({
       <Box sx={{ display: 'flex', flexDirection: 'row' }} >
         <Box component='div' sx={{
           display: 'inline',
-          fontSize: `${size === 'small' ? '14px' : '20px'}`
+          fontSize: `${size === 'small' ? '14px' : '17px'}`
         }}>
           {moneyHave} Зібрано
         </Box>
         <Box component='div' sx={{
           display: 'inline',
-          fontSize: `${size === 'small' ? '14px' : '20px'}`,
+          fontSize: `${size === 'small' ? '14px' : '17px'}`,
           marginLeft: 'auto'
         }}>
           {percentPrg.toFixed(2)}% суми
         </Box>
       </Box>
-      <Line style={{ height: `${size === 'small' ? '5px' : '24px'}`, width: '100%' }}
+      <Line style={{ height: `${size === 'small' ? '5px' : '10px'}`, width: '100%' }}
         percent={percentPrg}
         strokeWidth={4}
         trailWidth={4}
         trailColor='#fcd700'
         strokeColor='#005aa9' />
-      <Box sx={{ fontSize: `${size === 'small' ? '12px' : '20px'}` }}>
+      <Box sx={{ fontSize: `${size === 'small' ? '12px' : '17px'}` }}>
         Left: {daysLeft} day(s) {hoursLeft} hour(s)
       </Box>
     </div>

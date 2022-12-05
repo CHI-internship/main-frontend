@@ -18,7 +18,7 @@ const Sidebar: FC<PropsWithChildren> = ({ children }) => {
   const menuItem = [
     {
       path: '/',
-      name: 'Dashboard',
+      name: 'Home',
       icon: <OtherHousesIcon fontSize={'medium'} />
     },
     {

@@ -1,0 +1,14 @@
+.container {
+    width: 250px;
+    margin: 10px auto;
+    font-size: 21px;
+    font-weight: 600;
+    text-align: center;
+
+    .image {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        margin: 15px 0;
+    }
+}

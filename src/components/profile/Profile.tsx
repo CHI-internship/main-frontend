@@ -1,18 +1,26 @@
-import style from './Profile.module.scss';
-import { useContext } from 'react';
-import ProfileName from './profile-name';
-import ProfileAvatar from './profile-avatar';
 import { Button } from '@mui/material';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { userService } from '../../api';
 import { CurrentUserContext } from '../../context';
 import { IOrder, IUserRole } from '../../types';
 import { OrderCard } from '../orders';
-
+import style from './Profile.module.scss';
+import ProfileAvatar from './profile-avatar';
+import ProfileName from './profile-name';
 
 export const Profile: React.FC = () => {
-  const { user } = useContext(CurrentUserContext)
+  const { user, setUser } = useContext(CurrentUserContext)
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const getUserWithVolunteer = async () => {
+      const userWithVolunteerAndOrders = await userService.getUserWithVolunteerAndOrders();
+      setUser(userWithVolunteerAndOrders);
+    }
+    getUserWithVolunteer();
+  }) 
   return (
     <div className={style.profile}>
       <div className={style.info}>
