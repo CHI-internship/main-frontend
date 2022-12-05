@@ -13,6 +13,7 @@ export const retrieveUser = async (
       localStorage.getItem('access-token')
     );
     setState(rawUser);
+    return rawUser;
   } catch (err) {
     if (err === 'no access rights') {
       const tokens = await getNewAuthTokens(
