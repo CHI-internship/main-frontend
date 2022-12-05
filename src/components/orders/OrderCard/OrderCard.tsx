@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import { IOrder } from '../../../types';
 import { ProgressBar } from '../../common';
 import style from './OrderCard.module.scss';
@@ -8,7 +9,7 @@ interface IOrderCardProps {
 }
 
 export const OrderCard: React.FC<IOrderCardProps> = ({ order }) => (
-  <Link to={`/orders/${String(order.id)}`} state={order}>
+  <Link to={`/projects/${String(order.id)}`} state={order}>
     <div className={style.card}>
       <div
         className={style.img}
