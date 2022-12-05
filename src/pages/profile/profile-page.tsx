@@ -1,9 +1,10 @@
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { userService } from '../../api';
+import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import { Profile } from '../../components/profile';
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 
 
 const ProfilePage: React.FC = () => {

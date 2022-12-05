@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+
+import orderService from '../../api/orders.service';
+import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import { OrderCard } from '../../components/orders';
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
 import Pagination from '../../components/pagination/Pagination';
 import { IOrder, IOrderResponse } from '../../types';
-import orderService from '../../api/orders.service';
 import style from './Orders.module.scss';
 
 export const Orders: React.FC = () => {
