@@ -24,7 +24,7 @@ export function useCurrentUser() {
       const token = localStorage.getItem('token')
       if (token) userService.retrieve(token)
         .then(async (data: IUser) => {
-          const res =  await userService.getRole(data.id);
+          const res =  await userService.roleIsVolunteer(data.id);
           if (res !== roleIsVolunteer) setRoleIsVolunteer(res);
         });
     }, [])

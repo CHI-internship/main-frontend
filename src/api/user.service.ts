@@ -87,7 +87,7 @@ class UserService {
       .then((data: AxiosResponse) => data.data);
   }
 
-  async getRole(id: number)  {
+  async roleIsVolunteer(id: number)  {
     const params = {
       id,
     }

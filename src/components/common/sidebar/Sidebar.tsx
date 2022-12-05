@@ -3,7 +3,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import MenuIcon from '@mui/icons-material/Menu';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import PaidIcon from '@mui/icons-material/Paid';
-import { FC, useContext, useState } from 'react';
+import { FC, PropsWithChildren, useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { CurrentUserContext } from '../../../context';
@@ -12,7 +12,7 @@ interface IChildren {
   children: JSX.Element;
 }
 
-const Sidebar: FC<IChildren> = ({ children }) => {
+const Sidebar: FC<PropsWithChildren<IChildren>> = ({ children }) => {
 
   const { isVolunteer } = useContext(CurrentUserContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);

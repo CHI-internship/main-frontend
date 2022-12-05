@@ -54,7 +54,7 @@ const SignInForm: FC = () => {
             setUser(data);
             return data.id; })
           .then(async (id) => {
-            const res = await userService.getRole(id)
+            const res = await userService.roleIsVolunteer(id)
             if (res !== isVolunteer) setIsVolunteer(res);
           })
         navigate('/profile', { replace: true })
