@@ -3,17 +3,15 @@ import InfoIcon from '@mui/icons-material/Info';
 import MenuIcon from '@mui/icons-material/Menu';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import PaidIcon from '@mui/icons-material/Paid';
-import { FC, useState } from 'react';
+import { FC, PropsWithChildren, useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { CurrentUserContext } from '../../../context';
 import style from './Sidebar.module.scss';
 
-interface IChildren {
-  children: JSX.Element;
-}
+const Sidebar: FC<PropsWithChildren> = ({ children }) => {
 
-const Sidebar: FC<IChildren> = ({ children }) => {
-
+  const { isVolunteer } = useContext(CurrentUserContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -40,6 +38,19 @@ const Sidebar: FC<IChildren> = ({ children }) => {
     }
   ];
 
+  const volunteerItems = [
+    {
+      path: 'test1',
+      name: 'Test1',
+      icon: <OtherHousesIcon fontSize={'medium'} />
+    },
+    {
+      path: 'test2',
+      name: 'Test2',
+      icon: <PaidIcon fontSize={'medium'} />
+    },
+  ];
+
   return (
     <div className={style.container}>
       <div className={isOpen ? style.sidebar_open : style.sidebar_close}>
@@ -51,6 +62,15 @@ const Sidebar: FC<IChildren> = ({ children }) => {
         </div>
         {
           menuItem.map((item, index) => (
+            <NavLink to={item.path} key={index} className={style.link}>
+              <div className={style.icon} >{item.icon}</div>
+              <div className={isOpen ? style.text_open : style.text_close}>{item.name}</div>
+            </NavLink>
+          ))
+        }
+        {
+          (isVolunteer) &&
+          volunteerItems.map((item, index) => (
             <NavLink to={item.path} key={index} className={style.link}>
               <div className={style.icon} >{item.icon}</div>
               <div className={isOpen ? style.text_open : style.text_close}>{item.name}</div>
