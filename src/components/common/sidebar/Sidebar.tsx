@@ -12,7 +12,7 @@ interface IChildren {
   children: JSX.Element;
 }
 
-const Sidebar: FC<PropsWithChildren<IChildren>> = ({ children }) => {
+const Sidebar: FC<PropsWithChildren> = ({ children }) => {
 
   const { isVolunteer } = useContext(CurrentUserContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
