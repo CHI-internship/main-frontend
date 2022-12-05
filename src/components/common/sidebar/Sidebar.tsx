@@ -8,9 +8,6 @@ import { NavLink } from 'react-router-dom';
 
 import { CurrentUserContext } from '../../../context';
 import style from './Sidebar.module.scss';
-interface IChildren {
-  children: JSX.Element;
-}
 
 const Sidebar: FC<PropsWithChildren> = ({ children }) => {
 
