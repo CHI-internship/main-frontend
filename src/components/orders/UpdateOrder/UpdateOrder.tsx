@@ -1,4 +1,3 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -8,12 +7,14 @@ import {
   TextField
 } from '@mui/material';
 import { AxiosError } from 'axios';
-import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+import * as yup from 'yup';
+
 import { orderService } from '../../../api';
 import { IOrder } from '../../../types';
-import styles from './UpdateOrder.module.scss';
 import { base64 } from '../../../utils';
+import styles from './UpdateOrder.module.scss';
 
 
 interface IProps {
@@ -35,21 +36,19 @@ const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
     },
     onSubmit: async (values, formikHelpers) => {
       try {
-        if (values) {
-          const updatedOrder = await orderService.updateOrder(order.id, {
-            title: values.title,
-            info: values.info,
-            short_info: values.short_info,
-            sum: +values.sum,
-            goal_amount: +values.goal_amount,
-            photo: values.photo,
-            finished_at: values.finished_at
-          });
-          setOrder(updatedOrder)
-          handleClose();
-          formikHelpers.resetForm();
-        }
-      } catch (err: any) {
+        const updatedOrder = await orderService.updateOrder(order.id, {
+          title: values.title,
+          info: values.info,
+          short_info: values.short_info,
+          sum: +values.sum,
+          goal_amount: +values.goal_amount,
+          photo: values.photo,
+          finished_at: values.finished_at
+        });
+        setOrder(updatedOrder)
+        handleClose();
+        formikHelpers.resetForm();
+      } catch (err) {
         const error = err as AxiosError;
         setError(error.message);
       }
@@ -97,6 +96,7 @@ const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
             FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
           <TextField
             id='sum'
+            type='number'
             label='Sum'
             value={formik.values.sum}
             onChange={formik.handleChange}
@@ -105,6 +105,7 @@ const UpdateOrder: FC<IProps> = ({ open, handleClose, order, setOrder }) => {
             FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
           <TextField
             id='goal_amount'
+            type='number'
             label='Goal amount'
             value={formik.values.goal_amount}
             onChange={formik.handleChange}

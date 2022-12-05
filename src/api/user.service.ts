@@ -130,6 +130,15 @@ class UserService {
       })
       .then((data: AxiosResponse) => data.data);
   }
+
+  async roleIsVolunteer(id: number)  {
+    const params = {
+      id,
+    }
+    return axiosInstance
+      .get('user/role-check', { params })
+      .then((data: AxiosResponse) => data.data)
+  }
 }
 
 const userService = new UserService();

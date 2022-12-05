@@ -5,19 +5,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer, Header, Sidebar } from './components/common';
 import { CurrentUserContext, useCurrentUser } from './context';
 import {
-  AboutPage,
-  CreateOrder,
-  Home,
-  NoMatchPage,
-  Order,
-  Orders,
-  Policy,
-  ProfileActivatePage,
-  ProfilePage,
-  RecoverPassword,
-  ResetPassword,
-  SignIn,
-  SignUp,
+  AboutPage, CompletedPayment, CreateOrder, Home,
+  NoMatchPage, Order, Orders,
+  Policy, ProfileActivatePage, ProfilePage, RecoverPassword, ResetPassword, SignIn, SignUp
 } from './pages';
 
 function App() {
@@ -30,10 +20,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='profile' element={<ProfilePage />} />
-              <Route
-                path='profile/:id/activate'
-                element={<ProfileActivatePage />}
-              />
+              <Route path='profile/:id/activate' element={<ProfileActivatePage />} />
               <Route path='sign-in' element={<SignIn />} />
               <Route path='sign-up' element={<SignUp />} />
               <Route path='recover-password' element={<RecoverPassword />} />
@@ -44,6 +31,7 @@ function App() {
               <Route path='orders' element={<Orders />} />
               <Route path='orders/:id' element={<Order />} />
               <Route path='orders/create' element={<CreateOrder />} />
+              <Route path='success-donate' element={<CompletedPayment />} />
             </Routes>
           </Sidebar>
         </CurrentUserContext.Provider>
