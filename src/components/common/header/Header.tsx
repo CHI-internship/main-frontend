@@ -9,9 +9,9 @@ export const Header: React.FC = () => (
     <Toolbar className={style.toolbar}>
       <div className={style.logo}>
         <img src={logo} alt='logo' />
-      <Typography variant='h5' sx={{ flexGrow: 1 }}>
-        KraudDonate
-      </Typography>
+        <Typography variant='h5' sx={{ flexGrow: 1 }}>
+          KraudDonate
+        </Typography>
       </div>
       <HeaderInfo />
     </Toolbar>
