@@ -1,35 +1,45 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react';
 
-import { userService } from '../api'
-import { IUser } from '../types'
+import { userService } from '../api';
+import { retrieveUser } from '../helpers/retrieveUser';
+import { IUser } from '../types';
 
 interface IUserContext {
-    user: IUser,
-    setUser: (user: IUser) => void,
-    isVolunteer?: boolean
-    setIsVolunteer?: (isVolunteer: boolean) => void,
+  user: IUser;
+  setUser: (user: IUser) => void;
+  isVolunteer?: boolean;
+  setIsVolunteer?: (isVolunteer: boolean) => void;
 }
 
 export function useCurrentUser() {
-    const [user, setUser] = useState<IUser>(null)
-    const [roleIsVolunteer, setRoleIsVolunteer] = useState(false);
+  const [user, setUser] = useState<IUser>(null);
+  const [roleIsVolunteer, setRoleIsVolunteer] = useState(false);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (token && !user) userService.retrieve(token)
-            .then((data: IUser) => { setUser(data) });
-    }, [])
+  useEffect(() => {
+    const token = localStorage.getItem('access-token');
 
-    useEffect(() => {
-      const token = localStorage.getItem('token')
-      if (token) userService.retrieve(token)
-        .then(async (data: IUser) => {
-          const res =  await userService.roleIsVolunteer(data.id);
-          if (res !== roleIsVolunteer) setRoleIsVolunteer(res);
-        });
-    }, [])
+    if (token && !user)
+      retrieveUser(setUser).then((data: IUser) => {
+        setUser(data);
+      });
+  }, []);
 
-    return { user, setUser, isVolunteer: roleIsVolunteer, setIsVolunteer: setRoleIsVolunteer }
+  useEffect(() => {
+    const token = localStorage.getItem('access-token');
+
+    if (token)
+      retrieveUser(setUser).then(async (data: IUser) => {
+        const res = await userService.roleIsVolunteer(data.id);
+        if (res !== roleIsVolunteer) setRoleIsVolunteer(res);
+      });
+  }, []);
+
+  return {
+    user,
+    setUser,
+    isVolunteer: roleIsVolunteer,
+    setIsVolunteer: setRoleIsVolunteer,
+  };
 }
 
-export const CurrentUserContext = createContext(null as IUserContext)
+export const CurrentUserContext = createContext(null as IUserContext);

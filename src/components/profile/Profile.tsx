@@ -20,7 +20,7 @@ export const Profile: React.FC = () => {
       setUser(userWithVolunteerAndOrders);
     }
     getUserWithVolunteer();
-  }) 
+  })
   return (
     <div className={style.profile}>
       <div className={style.info}>
@@ -28,18 +28,25 @@ export const Profile: React.FC = () => {
         <ProfileName />
         <div className={style.email}>{user?.email}</div>
 
-        {!user?.volunteer?.status &&
-          <Button variant='text'
-            onClick={() => { navigate(`/profile/${user?.id}/activate`) }}>
+        {!user?.volunteer?.status && (
+          <Button
+            variant='text'
+            onClick={() => {
+              navigate(`/profile/${user?.id}/activate`);
+            }}
+          >
             Activate profile
-          </Button>}
+          </Button>
+        )}
       </div>
-      {(user?.role === IUserRole.VOLUNTEER) &&
+      {user?.role === IUserRole.VOLUNTEER && (
         <div className={style.orders}>
           {!user?.orders.length && <div>No orders</div>}
-          {user?.orders?.map((item: IOrder) =>
-            <OrderCard key={item.id} order={item} />)}
-        </div>}
+          {user?.orders?.map((item: IOrder) => (
+            <OrderCard key={item.id} order={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

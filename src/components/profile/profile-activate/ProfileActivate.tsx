@@ -136,6 +136,3 @@ export const ProfileActivate: React.FC = () => {
     </Box>
   );
 };
-
-
-
