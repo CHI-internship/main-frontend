@@ -9,15 +9,15 @@ import { CurrentUserContext } from '../../../context';
 import { IHint } from '../../../types/hint.types';
 import style from './Hints.module.scss';
 
-const Hints:FC = () => {
+const Hints: FC = () => {
 
-  const { user } = useContext(CurrentUserContext)
+  const { user } = useContext(CurrentUserContext);
   const [hints, setHints] = useState<IHint[]>([]);
   const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
 
-  const getHints = async (page = 1) => {
-    await hintService.getHints(page).then(value => {
+  const getHints = (page = 1) => {
+    hintService.getHints(page).then(value => {
       setHints(value.data);
       setTotalPages(value.totalPages);
       return value;
@@ -36,9 +36,7 @@ const Hints:FC = () => {
   }, []);
 
   return (
-    <div >
-      {user?.role === 'volunteer' &&
-      <div className={style.container}>
+    <div className={style.container}>
       {error && <ErrorAlert error={error} />}
       <h2>Volonteers Hints</h2>
       {hints?.map(hint =>
@@ -50,8 +48,6 @@ const Hints:FC = () => {
         </Link>
       )}
       <Pagination totalCount={totalPages} getPage={handlePagination} />
-      </div>
-      }
     </div>
   );
 };
