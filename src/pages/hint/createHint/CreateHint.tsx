@@ -2,6 +2,7 @@ import { Button, TextField } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
 import { hintService } from '../../../api';
@@ -12,6 +13,7 @@ const CreateHint: FC = () => {
   const [error, setError] = useState('');
   const [imgErr, setImgErr] = useState(false);
   const [img, setImg] = useState('');
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +30,7 @@ const CreateHint: FC = () => {
             photo: values.photo
           })
           formikHelpers.resetForm();
+          navigate('/hints')
         }
       } catch (err: any) {
         const error = err as AxiosError;
