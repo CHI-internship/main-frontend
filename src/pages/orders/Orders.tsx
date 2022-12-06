@@ -33,18 +33,23 @@ export const Orders: React.FC = () => {
         setTotalPages(data.totalPages);
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         setError(err);
         setOrders([]);
       });
   };
 
   const handlePagination = (page: number) => {
-    getOrders({ page, statusFilter: selectedFilter });
+    if (selectedFilter === 'all' || !selectedFilter) {
+      getOrders({ page });
+    } else {
+      getOrders({ page, statusFilter: selectedFilter });
+    }
   };
 
   const handleStatusFilter = (statusFilter: string) => {
     if (statusFilter === 'all') {
+      setSelectedFilter(statusFilter);
       getOrders({});
     } else {
       setSelectedFilter(statusFilter);
