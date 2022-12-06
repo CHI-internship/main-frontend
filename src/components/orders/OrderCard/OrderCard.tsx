@@ -11,6 +11,7 @@ interface IOrderCardProps {
 export const OrderCard: React.FC<IOrderCardProps> = ({ order }) => (
   <Link to={`/projects/${String(order.id)}`} state={order}>
     <div className={style.card}>
+      <p>{order.id}</p>
       <div
         className={style.img}
         style={{ backgroundImage: `url(${order.photo})` }}
