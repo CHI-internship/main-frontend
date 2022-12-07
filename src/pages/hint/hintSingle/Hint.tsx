@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { FC, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { hintService } from '../../../api';
+import { hintsService } from '../../../api';
 import ErrorAlert from '../../../components/ErrorAlert/ErrorAlert';
 import { CurrentUserContext } from '../../../context';
 import { IHint } from '../../../types/hint.types';
@@ -16,7 +16,7 @@ const Hint: FC = () => {
   const { id } = useParams();
 
   const getHint = () => {
-    hintService.getHintById(id).then(value => {
+    hintsService.getHintById(id).then(value => {
       setHint(value);
     }).catch(error => {
       setError(error);
@@ -38,8 +38,7 @@ const Hint: FC = () => {
             key={value.id}
             className={style.image}
             style={{ backgroundImage: `url(${value?.photo})` }}
-          >
-          </div>
+           />
         )}
       </div>
     </div>
