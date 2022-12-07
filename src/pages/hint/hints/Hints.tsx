@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import { AxiosError } from 'axios';
 import { FC, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { hintService } from '../../../api';
 import ErrorAlert from '../../../components/ErrorAlert/ErrorAlert';
 import Pagination from '../../../components/pagination/Pagination';
 import { CurrentUserContext } from '../../../context';
+import logo from '../../../images/Logo.svg'
 import { IHint } from '../../../types/hint.types';
 import style from './Hints.module.scss';
 
@@ -37,7 +39,7 @@ const Hints: FC = () => {
   }, []);
 
   const createHint = () => {
-   navigate('/about')
+   navigate('/hints/create')
   }
 
   return (
@@ -45,22 +47,30 @@ const Hints: FC = () => {
       {error && <ErrorAlert error={error} />}
       <h2>Volonteers Hints</h2>
       {user?.role === 'volunteer' &&
-        <button
+        <Button
           className={style.createButton}
           onClick={createHint}
+          color='success'
+          variant='outlined'
         >Create Hint
-        </button>
+        </Button>
       }
       {hints?.map(hint =>
         <Link key={hint.id} to={hint.id.toString()}>
           <div className={style.hint}>
-            <h4>{hint.title}</h4>
-            {hint.info}
+            <div
+              className={style.avatar}
+              style={{ backgroundImage: `url(${hint?.hint_photo[1].photo ?? logo})` }}
+            />
+            <div className={style.title}>
+              <h4>{hint.title}</h4>
+              {hint.info}
+            </div>
           </div>
         </Link>
       )}
       {hints.length ?
-      <Pagination totalCount={totalPages} getPage={handlePagination} />: ''
+      <Pagination totalCount={totalPages} getPage={handlePagination} />: <h3>Sorry, no hints </h3>
       }
     </div>
   );
