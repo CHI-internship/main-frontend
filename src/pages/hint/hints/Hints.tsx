@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { FC, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { hintService } from '../../../api';
 import ErrorAlert from '../../../components/ErrorAlert/ErrorAlert';
@@ -10,11 +10,12 @@ import { IHint } from '../../../types/hint.types';
 import style from './Hints.module.scss';
 
 const Hints: FC = () => {
-
   const { user } = useContext(CurrentUserContext);
   const [hints, setHints] = useState<IHint[]>([]);
   const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
+
+  const navigate = useNavigate();
 
   const getHints = (page = 1) => {
     hintService.getHints(page).then(value => {
@@ -35,10 +36,21 @@ const Hints: FC = () => {
     getHints();
   }, []);
 
+  const createHint = () => {
+   navigate('/about')
+  }
+
   return (
     <div className={style.container}>
       {error && <ErrorAlert error={error} />}
       <h2>Volonteers Hints</h2>
+      {user?.role === 'volunteer' &&
+        <button
+          className={style.createButton}
+          onClick={createHint}
+        >Create Hint
+        </button>
+      }
       {hints?.map(hint =>
         <Link key={hint.id} to={hint.id.toString()}>
           <div className={style.hint}>
@@ -47,7 +59,9 @@ const Hints: FC = () => {
           </div>
         </Link>
       )}
-      <Pagination totalCount={totalPages} getPage={handlePagination} />
+      {hints.length ?
+      <Pagination totalCount={totalPages} getPage={handlePagination} />: ''
+      }
     </div>
   );
 };
