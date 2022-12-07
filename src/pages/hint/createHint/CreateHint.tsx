@@ -1,11 +1,10 @@
 import { Button, TextField } from '@mui/material';
-import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { hintService } from '../../../api';
+import { hintsService } from '../../../api';
 import { FileUpload } from '../../../components/common';
 import style from './CreateHint.module.scss';
 
@@ -24,7 +23,7 @@ const CreateHint: FC = () => {
     onSubmit: async (values, formikHelpers) => {
       try {
         if (values) {
-          await hintService.createHint({
+          await hintsService.createHint({
             title: values.title,
             info: values.info,
             photo: values.photo
@@ -33,8 +32,7 @@ const CreateHint: FC = () => {
           navigate('/hints')
         }
       } catch (err: any) {
-        const error = err as AxiosError;
-        setError(error.message);
+        setError(err.response.data.message);
       } finally {
         setImg('')
         setImgErr(false)

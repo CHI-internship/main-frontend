@@ -7,6 +7,7 @@ import { CurrentUserContext, useCurrentUser } from './context';
 import {
   AboutPage,
   CompletedPayment,
+  CreateHint,
   CreateOrder,
   Hint,
   Hints,
@@ -49,6 +50,7 @@ function App() {
               <Route path='hints' element={<Hints/>}/>
               <Route path='hints/:id' element={<Hint/>}/>
               <Route path='success-donate' element={<CompletedPayment />} />
+              <Route path='hints/create' element={<CreateHint/>}/>
             </Routes>
           </Sidebar>
         </CurrentUserContext.Provider>

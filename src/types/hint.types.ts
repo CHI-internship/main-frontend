@@ -4,12 +4,17 @@ export interface IHint {
   info: string,
   user_id: number,
   createdAt: Date
-  hint_photo: IHintPhoto[]
+  hint_photo?: IHintPhoto[]
 }
 
 interface IHintPhoto {
   id: number,
-  text: string,
   photo: string,
   createdAt: Date
+}
+
+export interface ICreateHint {
+  title: string,
+  info: string,
+  photo?: string | string[]
 }

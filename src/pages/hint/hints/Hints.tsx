@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { FC, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { hintService } from '../../../api';
+import { hintsService } from '../../../api';
 import ErrorAlert from '../../../components/ErrorAlert/ErrorAlert';
 import Pagination from '../../../components/pagination/Pagination';
 import { CurrentUserContext } from '../../../context';
@@ -20,7 +20,7 @@ const Hints: FC = () => {
   const navigate = useNavigate();
 
   const getHints = (page = 1) => {
-    hintService.getHints(page).then(value => {
+    hintsService.getHints(page).then(value => {
       setHints(value.data);
       setTotalPages(value.totalPages);
       return value;
@@ -52,7 +52,7 @@ const Hints: FC = () => {
           onClick={createHint}
           color='success'
           variant='outlined'
-        >Create Hint
+        >Create
         </Button>
       }
       {hints?.map(hint =>
@@ -60,7 +60,7 @@ const Hints: FC = () => {
           <div className={style.hint}>
             <div
               className={style.avatar}
-              style={{ backgroundImage: `url(${hint?.hint_photo[1].photo ?? logo})` }}
+              style={{ backgroundImage: `url(${hint?.hint_photo[0].photo ?? logo})` }}
             />
             <div className={style.title}>
               <h4>{hint.title}</h4>

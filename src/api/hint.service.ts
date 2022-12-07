@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 
+import { ICreateHint } from '../types/hint.types';
 import { axiosInstance } from './axios-instance';
 
 class HintService {
@@ -17,7 +18,13 @@ class HintService {
         throw err;
       });
   }
+
+  async createHint(data: ICreateHint) {
+    return axiosInstance.post('hint', data).then(value => value.data)
+      .catch((err: AxiosError) => {
+        throw err
+      })
+  }
 }
 
-const hintService = new HintService();
-export default hintService;
+export const hintsService = new HintService();
