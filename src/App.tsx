@@ -19,6 +19,8 @@ import {
   ResetPassword,
   SignIn,
   SignUp,
+  Hint, 
+  Hints
 } from './pages';
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
               <Route path='projects' element={<Orders />} />
               <Route path='projects/:id' element={<Order />} />
               <Route path='orders/create' element={<CreateOrder />} />
+              <Route path='hints' element={<Hints/>}/>
+              <Route path='hints/:id' element={<Hint/>}/>
               <Route path='success-donate' element={<CompletedPayment />} />
             </Routes>
           </Sidebar>

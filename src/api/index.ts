@@ -1,5 +1,7 @@
+import hintService from './hint.service';
 import orderService from './orders.service';
-import { paymentService } from './payment.service'
 import userService from './user.service';
+import { paymentService } from './payment.service'
 
-export { userService, orderService, paymentService }
+export { userService, orderService,hintService,paymentService }
+
