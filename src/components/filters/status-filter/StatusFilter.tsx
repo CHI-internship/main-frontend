@@ -1,4 +1,4 @@
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FC, useState } from 'react';
 
 type StatusFilterProps = {
@@ -14,7 +14,7 @@ const StatusFilter: FC<StatusFilterProps> = ({ getStatusFilter }) => {
   };
 
   return (
-    <>
+    <Box sx={{ margin: '2rem' }}>
       <Select
         label='Status'
         value={selectedFilter}
@@ -27,7 +27,7 @@ const StatusFilter: FC<StatusFilterProps> = ({ getStatusFilter }) => {
         <MenuItem value={'open'}>Open</MenuItem>
         <MenuItem value={'closed'}>Closed</MenuItem>
       </Select>
-    </>
+    </Box>
   );
 };
 
