@@ -6,8 +6,10 @@ import { Footer, Header, Sidebar } from './components/common';
 import { CurrentUserContext, useCurrentUser } from './context';
 import {
   AboutPage,
-  CompletedPayment, CreateHint,
+  CompletedPayment,
   CreateOrder,
+  Hint,
+  Hints,
   Home,
   NoMatchPage,
   Order,
@@ -18,8 +20,7 @@ import {
   RecoverPassword,
   ResetPassword,
   SignIn,
-  SignUp
-} from './pages';
+  SignUp } from './pages';
 
 function App() {
   return (
@@ -45,8 +46,9 @@ function App() {
               <Route path='projects' element={<Orders />} />
               <Route path='projects/:id' element={<Order />} />
               <Route path='orders/create' element={<CreateOrder />} />
+              <Route path='hints' element={<Hints/>}/>
+              <Route path='hints/:id' element={<Hint/>}/>
               <Route path='success-donate' element={<CompletedPayment />} />
-              <Route path='hints/create' element={<CreateHint />} />
             </Routes>
           </Sidebar>
         </CurrentUserContext.Provider>
