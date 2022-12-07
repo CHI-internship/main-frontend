@@ -1,11 +1,12 @@
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from '@mui/material';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { IconButton, TextField } from '@mui/material';
+import cn from 'classnames';
+import { Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 
-import { orderService, userService } from '../../../api';
-import { IOrder } from '../../../types';
+import { CurrentUserContext } from '../../../context';
+import { IOrder, IPaymentPayload } from '../../../types';
 import { ProgressBar } from '../../common';
+import { Payment } from '../../payment/Payment';
 import UpdateOrder from '../UpdateOrder/UpdateOrder';
 import style from './OrderDetails.module.scss';
 
@@ -13,72 +14,77 @@ import style from './OrderDetails.module.scss';
 interface IOrderCardProps {
   order: IOrder;
   setOrder: Dispatch<SetStateAction<IOrder>>;
-  id: number;
 }
 
-const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder, id }) => {
+const OrderDetails: FC<IOrderCardProps> = ({ order, setOrder }) => {
+  const { user } = useContext(CurrentUserContext)
+  const [open, setOpen] = useState(false);
+  const [payment, setPayment] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [paymentPayload, setPaymentPayload] = useState<IPaymentPayload>()
 
-  const [orderDb, setOrderDb] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
-
-  const getUser = async () => {
-    const userFromDb = await userService.retrieve(localStorage.getItem('token'));
-    if (userFromDb.role === 'volunteer') {
-      const orderFromDB = await orderService.getUserOrder(id);
-      if (orderFromDB) {
-        setOrderDb(true);
-      }
+  const submitPayment = () => {
+    if (amount >= 20 && order?.title && order?.id) {
+      setPaymentPayload(
+        { amount, currency: 'UAH', description: order?.title, orderId: order?.id })
+      setPayment(true)
     }
-  };
+  }
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      getUser();
-    } else {
-      navigate('/sign-in');
-    }
-  }, []);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   return (
     <div className={style.container}>
-      <div className={style.title}>
-        <h1>{order?.title}</h1>
-        <p>{order?.info}</p>
-      </div>
-      <div className={style.main}>
-        <div className={style.image}
-          style={{ backgroundImage: `url(${order?.photo})` }}>
-        </div>
-        <div className={style.content}>
-          <div className={style.content_header}>
-            <div className=
-              {order?.status === 'open' ?
-                style.gathering_open : style.gathering_close}>
-              <h4>{order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}</h4>
+      {
+        payment ?
+          <Payment paymentPayload={paymentPayload} /> :
+          <div>
+            <ProgressBar
+              size='large'
+              moneyHave={order?.sum}
+              moneyNeed={order?.goal_amount}
+              closedAt={new Date(order?.finished_at)}
+            />
+            <div className={style.info}>
+              <div className={style.image} style={{ backgroundImage: `url(${order?.photo})` }}>
+                <span className={cn(style.status, { [style.gatheringOpen]: order?.status === 'open' })}>
+                  {order?.status === 'open' ? 'Відкритий збір' : 'Збір закрито'}
+                </span>
+              </div>
+              <div className={style.details}>
+                <div>
+                  <h1>{order?.title}</h1>
+                  <p className={style.infoItem}>{order?.short_info}</p>
+                </div>
+                <div className={style.payment}>
+                  <div className={style.minDonate}>Min donate: 20 UAH</div>
+                  <TextField
+                    id='amount'
+                    type='number'
+                    size='small'
+                    sx={{ width: '100px' }}
+                    onChange={(e) => setAmount(+e.target.value)}
+                  />
+                  <button className={style.gatherButton} onClick={submitPayment}>
+                    Підтримати
+                  </button>
+                </div>
+              </div>
             </div>
-            <IconButton
-              style={{ display: orderDb ? 'block' : 'none' }}
-              onClick={handleOpen}
-            >
-              <EditIcon />
-            </IconButton>
+            <p className={style.longInfo}>{order?.info}</p>
+            {
+              (user?.role === 'volunteer' && order?.user_id === user?.id) &&
+              <div className={style.editing}>
+                <UpdateOrder open={open} handleClose={handleClose}
+                  order={order} setOrder={setOrder} />
+                <IconButton onClick={() => setOpen(true)}>
+                  <EditIcon />
+                </IconButton>
+              </div>
+            }
           </div>
-          <ProgressBar moneyHave={order?.sum} moneyNeed={order?.goal_amount}
-            closedAt={new Date(order?.finished_at)} size='large' />
-          <p>{order?.short_info}</p>
-          <button className={style.gather_button}>Підтримати</button>
-        </div>
-      </div>
-      <UpdateOrder open={open} handleClose={handleClose} order={order} setOrder={setOrder} />
-    </div>
+      }
+    </div >
   );
 };
 

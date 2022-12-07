@@ -15,7 +15,6 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["react", "simple-import-sort"],
-
   "rules": {
     "no-console": "warn",
     "react/react-in-jsx-scope": "off",
@@ -49,8 +48,12 @@
     "max-len": [
       "warn",
       {
-        "code": 100
+        "code": 140
       }
-    ]
+    ],
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }]
   }
 }

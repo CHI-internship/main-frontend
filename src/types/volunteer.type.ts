@@ -3,7 +3,7 @@ export interface IVolunteer {
     userId: number
     country: string
     city: string
-    card_number: string
+    cardNumber: string
     document: string
     status: boolean
 }

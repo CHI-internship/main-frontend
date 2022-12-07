@@ -1,11 +1,12 @@
-import { FC, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { AxiosError, AxiosResponse } from 'axios';
-import { OrderCard } from '../../orders';
-import ErrorAlert from '../../ErrorAlert/ErrorAlert';
+import { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import orderService from '../../../api/orders.service';
 import { IOrder } from '../../../types';
+import ErrorAlert from '../../ErrorAlert/ErrorAlert';
+import { OrderCard } from '../../orders';
 import style from './OrderList.module.scss';
 
 const OrderList: FC = () => {
@@ -36,7 +37,7 @@ const OrderList: FC = () => {
       </Box>
       <Box>
         <Typography className={style.link}>
-          <Link to='orders' className={style.link_text}>
+          <Link to='projects' className={style.link_text}>
             See more...
           </Link>
         </Typography>
