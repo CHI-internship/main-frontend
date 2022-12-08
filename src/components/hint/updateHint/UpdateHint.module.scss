@@ -1,0 +1,33 @@
+.dialogTitle {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  row-gap: 20px;
+  height: 250px;
+}
+
+.dialogActions {
+  justify-content: center;
+}
+
+.error {
+  text-align: center;
+  color: #d21e1e;
+  font-size: 14px;
+}
