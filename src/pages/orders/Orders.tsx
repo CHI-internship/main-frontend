@@ -16,12 +16,12 @@ export const Orders: React.FC = () => {
   const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [sortValue, setSortValue] = useState(undefined as string);
+  const [sortValue, setSortValue] = useState('');
   const [sortType, setSortType] = useState('asc');
   const [page, setPage] = useState(1);
 
   const getOrders = async (page = 1) => {
-    await orderService
+    return orderService
       .getOrders(page)
       .then((data: IOrderResponse) => {
         setOrders(data.data);
@@ -35,7 +35,7 @@ export const Orders: React.FC = () => {
   };
 
   const getSortOrders = async (page = 1, sortBy: string, sort: string) => {
-    await orderService
+    return orderService
       .getSortOrders(page, sortBy, sort)
       .then((data: IOrderResponse) => {
         setOrders(data.data);
@@ -53,10 +53,6 @@ export const Orders: React.FC = () => {
   };
 
   const handleSorting = (sortValue: string) => {
-    if (sortValue === '') {
-      setSortValue(undefined as string);
-      return;
-    };
     setSortValue(sortValue);
   };
 
