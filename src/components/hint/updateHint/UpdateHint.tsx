@@ -9,10 +9,10 @@ import {
 import { useFormik } from 'formik';
 import { FC, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import * as yup from 'yup';
 
 import { hintsService } from '../../../api';
 import { FileUpload } from '../../common';
+import { config } from './config';
 import style from './UpdateHint.module.scss';
 
 interface IProps {
@@ -29,11 +29,7 @@ const UpdateHint: FC<IProps> = ({ open, handleClose }) => {
   const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      info: '',
-      photo: ''
-    },
+    initialValues: config.initialValues,
     onSubmit: async (values, formikHelpers) => {
       try {
         if (values) {
@@ -53,12 +49,16 @@ const UpdateHint: FC<IProps> = ({ open, handleClose }) => {
         setImgErr(false);
       }
     },
-    validationSchema: yup.object({
-      title: yup.string().min(3).required('Title is required'),
-      info: yup.string().min(5).required('Info is required'),
-      photo: yup.array().of(yup.string())
-    })
+    validationSchema: config.validationSchema
   });
+
+  const getPhoto = (fileBase64:string) => {
+    if (fileBase64) {
+      setImg(fileBase64);
+      setImgErr(false);
+      formik.values.photo = fileBase64;
+    }
+  }
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -83,13 +83,7 @@ const UpdateHint: FC<IProps> = ({ open, handleClose }) => {
               FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
             <FileUpload
               multiple
-              callback={fileBase64 => {
-                if (fileBase64) {
-                  setImg(fileBase64);
-                  setImgErr(false);
-                  formik.values.photo = fileBase64;
-                }
-              }}
+              callback={fileBase64 => getPhoto(fileBase64)}
             />
           </DialogContent>
           <DialogActions className={style.dialogActions}>
