@@ -8,12 +8,19 @@
   gap: 20px;
 }
 
-.container h2 {
-  text-align: center;
-}
-
 .container p {
   font-size: 18px;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  display: flex;
+  justify-content: center;
+  width: 95%;
 }
 
 .images {
@@ -29,4 +36,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.editing {
+  text-align: right;
+  width: 5%;
 }

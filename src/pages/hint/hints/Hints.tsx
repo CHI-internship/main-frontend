@@ -60,7 +60,7 @@ const Hints: FC = () => {
           <div className={style.hint}>
             <div
               className={style.avatar}
-              style={{ backgroundImage: `url(${hint?.hint_photo[0].photo ?? logo})` }}
+              style={{ backgroundImage: `url(${hint.hint_photo.length ? hint?.hint_photo[0].photo : logo})` }}
             />
             <div className={style.title}>
               <h4>{hint.title}</h4>
