@@ -10,7 +10,6 @@ import Pagination from '../../components/pagination/Pagination';
 import { IOrder, IOrderResponse } from '../../types';
 import style from './Orders.module.scss';
 
-
 export const Orders: React.FC = () => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [error, setError] = useState(null as AxiosError);
