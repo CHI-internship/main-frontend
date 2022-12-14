@@ -1,11 +1,26 @@
-import { axiosInstance } from './axios-instance';
 import { AxiosError, AxiosResponse } from 'axios';
+
 import { IOrderDto } from '../types';
+import { axiosInstance } from './axios-instance';
+
+interface IGetOrdersConfig {
+  page: number;
+  limit: number;
+  sort?: string;
+  status?: string;
+}
 
 class OrderService {
-  async getOrders(page = 1, limit = 10, sort = 'asc') {
+  async getOrders(config: IGetOrdersConfig) {
     return axiosInstance
-      .get('orders', { params: { limit, page, sort } })
+      .get('orders', {
+        params: {
+          page: config.page,
+          limit: config.limit,
+          sort: config.sort,
+          status: config.status,
+        },
+      })
       .then((data: AxiosResponse) => data.data)
       .catch((err: AxiosError) => {
         throw err;
@@ -21,23 +36,25 @@ class OrderService {
       });
   }
 
-  async updateOrder(id:number,data:any) {
+  async updateOrder(id: number, data: any) {
     return axiosInstance
       .patch(`orders/${id}`, data)
-      .then(value => value.data)
+      .then((value) => value.data);
   }
 
   async createOrder(orderDto: IOrderDto) {
-    return axiosInstance.post('orders', orderDto)
-      .then(value => value.data).catch(() => false)
+    return axiosInstance
+      .post('orders', orderDto)
+      .then((value) => value.data)
+      .catch(() => false);
   }
 
   async getUserOrder(id: number) {
     return axiosInstance
       .get(`orders/${id}/ownership}`)
-      .then(value => value.data)
-      .catch((err:AxiosError) => {
-        throw err
+      .then((value) => value.data)
+      .catch((err: AxiosError) => {
+        throw err;
       });
   }
 }

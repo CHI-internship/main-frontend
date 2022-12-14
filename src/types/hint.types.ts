@@ -18,3 +18,9 @@ export interface ICreateHint {
   info: string,
   photo?: string | string[]
 }
+
+export interface IUpdateHint {
+  title: string,
+  info: string,
+  photo?: string | string[]
+}

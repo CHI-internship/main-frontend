@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-import { ICreateHint } from '../types/hint.types';
+import { ICreateHint, IUpdateHint } from '../types/hint.types';
 import { axiosInstance } from './axios-instance';
 
 class HintService {
@@ -24,6 +24,13 @@ class HintService {
       .catch((err: AxiosError) => {
         throw err
       })
+  }
+
+  async updateHint(id:string, data: IUpdateHint){
+    return axiosInstance.patch(`hint/${id}`,data).then(value => value.data)
+      .catch((err: AxiosError) => {
+        throw err
+      } )
   }
 }
 
