@@ -86,23 +86,10 @@ class UserService {
       });
   }
 
-  async activateVolunteer(volunteer: IActivateVolunteer) {
-    const { userId, country, city, cardNumber, document, expansion } =
-      volunteer;
-    const acvivatedVolunteer = await axiosInstance
-      .post('volunteer', {
-        userId,
-        country,
-        city,
-        cardNumber,
-        document,
-        expansion,
-      })
+  async activateVolunteer(payload: IActivateVolunteer) {
+    return axiosInstance.post('volunteer', payload)
       .then((data: any) => data.data)
-      .catch(e => {
-        throw new Error(e.response.data.message);
-      });
-    return acvivatedVolunteer;
+      .catch((err: AxiosError) => { throw new Error(err.message) });
   }
 
   async forgotPassword({ email, recaptchaToken }: IForgotPassword) {
@@ -131,7 +118,7 @@ class UserService {
       .then((data: AxiosResponse) => data.data);
   }
 
-  async roleIsVolunteer(id: number)  {
+  async roleIsVolunteer(id: number) {
     const params = {
       id,
     }

@@ -1,5 +1,5 @@
 import { IOrder } from './order.types';
-import { IVolunteer } from './volunteer.type';
+import { IBase64Documents, IVolunteer } from './volunteer.type';
 
 export interface IUser {
   id: number;
@@ -24,8 +24,7 @@ export interface IActivateVolunteer {
   country: string;
   city: string;
   cardNumber: string;
-  document: string;
-  expansion: string;
+  documents: IBase64Documents[];
 }
 
 export interface IResetPassword {

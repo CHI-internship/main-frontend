@@ -8,7 +8,8 @@ import * as yup from 'yup';
 import { userService } from '../../../api';
 import { CurrentUserContext } from '../../../context';
 import { formStyles, inputStyles } from '../../../styles';
-import { base64 } from '../../../utils';
+import { IBase64Documents } from '../../../types';
+import { base64, multipleBase64 } from '../../../utils';
 
 
 export const ProfileActivate: React.FC = () => {
@@ -23,16 +24,19 @@ export const ProfileActivate: React.FC = () => {
       country: '',
       city: '',
       cardNumber: '',
-      document: '',
-      expansion: ''
+      documents: []
     },
     onSubmit: async (values, formikHelpers) => {
-      await submitRequest(values, formikHelpers);
+      if (!formik.values.documents.length) return;
+      await userService.activateVolunteer(values)
+        .then(() => navigate('/profile'))
+        .catch((err: unknown) => {
+          const error = err as AxiosError;
+          setError(error.message);
+        })
+        .finally(() => formikHelpers.resetForm());
     },
     validationSchema: yup.object({
-      document: yup.string()
-        .min(1, 'Select at least 1 file')
-        .required('Document is required'),
       cardNumber: yup.number()
         .integer()
         .min(15, 'Card should be of minimum 15 characters length')
@@ -46,26 +50,10 @@ export const ProfileActivate: React.FC = () => {
     })
   });
 
-  function setFile(e: React.ChangeEvent<HTMLInputElement>) {
+  async function setFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.currentTarget.files) return;
-    const type = e.currentTarget.files[0].type.split('/')[1];
-    formik.setFieldValue('expansion', type);
-    base64(e.currentTarget.files[0]).then(data => {
-      formik.setFieldValue('document', data);
-    });
-  }
-
-  async function submitRequest(values: any, formikHelpers: any) {
-    try {
-      formikHelpers.resetForm();
-      values.userId = user?.id;
-      await userService.activateVolunteer(values);
-      formikHelpers.resetForm();
-      if (!error) navigate('/profile');
-    } catch (err: unknown) {
-      const error = err as AxiosError;
-      setError(error.message);
-    }
+    const base64Files = await multipleBase64(e.currentTarget.files);
+    formik.setFieldValue('documents', base64Files);
   }
 
   return (
@@ -105,14 +93,14 @@ export const ProfileActivate: React.FC = () => {
           label='Card number'
           helperText={formik.touched.cardNumber && formik.errors.cardNumber}
           FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
-        <Box sx={{ display:'flex', flexDirection:'column',gap:'15px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <input
             accept='application/pdf, image/*'
             style={{ display: 'none' }}
             id='raised-button-file'
             multiple
             type='file'
-            name='document'
+            name='documents'
             onChange={setFile} />
           <label htmlFor='raised-button-file'>
             <Button variant='outlined' component='span'>
