@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
-import { Alert, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Alert, IconButton, Snackbar } from '@mui/material';
 import { AxiosError } from 'axios';
+import { FC, useState } from 'react';
 
 type ErrorAlertProps = {
   error: AxiosError;

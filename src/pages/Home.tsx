@@ -1,5 +1,6 @@
-import { FC } from 'react';
 import { Box, Typography } from '@mui/material';
+import { FC } from 'react';
+
 import { GetStarted, LastReports, OrderList, ShortAbout } from '../components/home';
 
 const Home: FC = () => {
