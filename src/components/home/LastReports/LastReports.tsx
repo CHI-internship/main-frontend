@@ -1,7 +1,8 @@
+import { Box } from '@mui/material';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+
 import style from './LastReports.module.scss';
-import { Box } from '@mui/material';
 
 const LastReports: FC = () => {
   const reports = [

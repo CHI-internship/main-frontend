@@ -1,5 +1,5 @@
-import { FC, ReactElement } from 'react';
 import { Typography } from '@mui/material';
+import { FC, ReactElement } from 'react';
 
 const NoMatchPage: FC<{}> = (): ReactElement => {
   return (

@@ -1,7 +1,8 @@
+import { Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { linkStyles } from '../../styles';
-import { Typography } from '@mui/material';
 
 type FormLinkProps = {
   path: string;

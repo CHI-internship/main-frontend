@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { Box, Typography, Link } from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import CopyrightIcon from '@mui/icons-material/Copyright';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import { Box, Link,Typography } from '@mui/material';
+import { FC } from 'react';
 
 const Footer: FC = () => {
   return (
