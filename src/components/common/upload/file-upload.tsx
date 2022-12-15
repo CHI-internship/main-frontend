@@ -1,5 +1,6 @@
-import { ChangeEvent } from 'react';
 import { Box, Button } from '@mui/material';
+import { ChangeEvent } from 'react';
+
 import { base64 } from '../../../utils';
 
 interface IFileUploadProps {

@@ -11,12 +11,13 @@ import { userService } from '../../api';
 import { CurrentUserContext } from '../../context';
 import { formStyles, inputStyles } from '../../styles';
 import { IUser } from '../../types';
-import ErrorAlert from '../ErrorAlert/ErrorAlert';
-
+import ErrorAlert from '../Alerts/ErrorAlert';
+import SuccessAlert from '../Alerts/SuccessAlert';
 
 const SignUpForm: FC = () => {
   const { setUser, setIsVolunteer, isVolunteer } = useContext(CurrentUserContext)
   const [error, setError] = useState(null as AxiosError);
+  const [success, setSuccess] = useState(null as boolean);
   const { executeRecaptcha } = useGoogleReCaptcha()
   const navigate = useNavigate();
 
@@ -27,6 +28,10 @@ const SignUpForm: FC = () => {
     },
     onSubmit: async (values, formikHelpers) => {
       await signUp(values)
+        .then(() => {
+          setError(null);
+          setSuccess(null);
+        });
       formikHelpers.resetForm()
     },
     validationSchema: yup.object({
@@ -45,6 +50,14 @@ const SignUpForm: FC = () => {
     })
   })
 
+  const handleError = (err: AxiosError) => {
+    if (!err.response || err.response.status >= 500) {
+      setError(err);
+    } else {
+      setSuccess(true)
+    }
+  }
+
   const signUp = async (values: FormikValues) => {
     const recaptchaToken = await executeRecaptcha('action')
     userService.signUp({
@@ -53,24 +66,28 @@ const SignUpForm: FC = () => {
       lastname: values.lastname,
       password: values.password,
       recaptchaToken
-    }).catch(err => setError(err))
+    }).catch(err => handleError(err))
       .then(() => {
         userService.retrieve(localStorage.getItem('token'))
           .then((data: IUser) => {
             setUser(data);
+            if (data) {
+              setSuccess(true);
+              navigate('/profile', { replace: true })
+            };
             return data.id;
            })
            .then(async (id) => {
             const res = await userService.roleIsVolunteer(id);
             if (res !== isVolunteer) setIsVolunteer(res);
           })
-        navigate('/profile', { replace: true })
       })
   };
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       {error && <ErrorAlert error={error} />}
+      {success && <SuccessAlert/>}
       <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Sign Up

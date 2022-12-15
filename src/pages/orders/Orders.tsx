@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
 import orderService from '../../api/orders.service';
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import StatusFilter from '../../components/filters/status-filter/StatusFilter';
 import { OrderCard } from '../../components/orders';
 import Pagination from '../../components/pagination/Pagination';

@@ -1,6 +1,7 @@
-import { FC } from 'react';
 import { Box, Typography } from '@mui/material';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
+
 import style from './ShortAbout.module.scss';
 
 const ShortAbout: FC = () => {

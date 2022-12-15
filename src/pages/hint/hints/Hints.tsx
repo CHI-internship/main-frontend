@@ -4,7 +4,7 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { hintsService } from '../../../api';
-import ErrorAlert from '../../../components/ErrorAlert/ErrorAlert';
+import ErrorAlert from '../../../components/Alerts/ErrorAlert';
 import Pagination from '../../../components/pagination/Pagination';
 import { CurrentUserContext } from '../../../context';
 import logo from '../../../images/Logo.svg'

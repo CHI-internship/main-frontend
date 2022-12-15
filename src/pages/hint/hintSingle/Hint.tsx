@@ -5,7 +5,7 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { hintsService } from '../../../api';
-import ErrorAlert from '../../../components/ErrorAlert/ErrorAlert';
+import ErrorAlert from '../../../components/Alerts/ErrorAlert';
 import UpdateHint from '../../../components/hint/updateHint/UpdateHint';
 import { CurrentUserContext } from '../../../context';
 import { IHint } from '../../../types/hint.types';

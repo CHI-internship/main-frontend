@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+
+import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root')
