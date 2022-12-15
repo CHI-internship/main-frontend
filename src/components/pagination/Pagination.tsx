@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import { Box, Pagination as PaginationMUI } from '@mui/material';
+import { FC } from 'react';
 
 type PaginationProps = {
   totalCount: number;

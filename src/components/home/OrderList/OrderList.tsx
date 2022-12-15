@@ -15,9 +15,9 @@ const OrderList: FC = () => {
 
   const getOrders = async () => {
     await orderService
-      .getOrders(1, 3)
+      .getOrders({ page: 1, limit: 3 })
       .then((data: AxiosResponse) => setOrders(data.data))
-      .catch(err => {
+      .catch((err) => {
         setError(err);
         setOrders([]);
       });
@@ -37,7 +37,7 @@ const OrderList: FC = () => {
       </Box>
       <Box>
         <Typography className={style.link}>
-          <Link to='orders' className={style.link_text}>
+          <Link to='projects' className={style.link_text}>
             See more...
           </Link>
         </Typography>

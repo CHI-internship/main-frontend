@@ -1,26 +1,21 @@
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { userService } from '../../api';
 import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import { Profile } from '../../components/profile';
-
+import { CurrentUserContext } from '../../context';
+import { checkIsUserAuthorized } from '../../helpers/isUserAuthorized';
+import { retrieveUser } from '../../helpers/retrieveUser';
 
 const ProfilePage: React.FC = () => {
+  const { setUser } = useContext(CurrentUserContext);
   const [error, setError] = useState(null as AxiosError);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('token'))
-      userService.retrieve(localStorage.getItem('token'))
-        .catch(err => {
-          if (typeof err === 'string') {
-            localStorage.removeItem('token');
-            navigate('/sign-in');
-          } else setError(err)
-        })
-    else navigate('/sign-in')
+    retrieveUser(setUser, () => navigate('/sign-in'), setError);
+    checkIsUserAuthorized(() => navigate('/sign-in'));
   }, []);
 
   return (
