@@ -8,10 +8,19 @@ interface IGetOrdersConfig {
   limit: number;
   sort?: string;
   status?: string;
+  sortBy?: string;
 }
 
 class OrderService {
   async getOrders(config: IGetOrdersConfig) {
+    if (config.status === 'all') {
+      delete config.status;
+    }
+
+    if (!config.sortBy) {
+      config.sortBy = 'name';
+    }
+
     return axiosInstance
       .get('orders', {
         params: {
@@ -19,17 +28,9 @@ class OrderService {
           limit: config.limit,
           sort: config.sort,
           status: config.status,
+          sortBy: config.sortBy,
         },
       })
-      .then((data: AxiosResponse) => data.data)
-      .catch((err: AxiosError) => {
-        throw err;
-      });
-  }
-
-  async getSortOrders(page = 1, sortBy: string, sort = 'asc', limit = 10) {
-    return axiosInstance
-      .get('orders/sorted', { params: { limit, page, sort, sortBy } })
       .then((data: AxiosResponse) => data.data)
       .catch((err: AxiosError) => {
         throw err;
@@ -46,22 +47,20 @@ class OrderService {
   }
 
   async updateOrder(id: number, data: any) {
-    return axiosInstance
-      .patch(`orders/${id}`, data)
-      .then((value) => value.data);
+    return axiosInstance.patch(`orders/${id}`, data).then(value => value.data);
   }
 
   async createOrder(orderDto: IOrderDto) {
     return axiosInstance
       .post('orders', orderDto)
-      .then((value) => value.data)
+      .then(value => value.data)
       .catch(() => false);
   }
 
   async getUserOrder(id: number) {
     return axiosInstance
       .get(`orders/${id}/ownership}`)
-      .then((value) => value.data)
+      .then(value => value.data)
       .catch((err: AxiosError) => {
         throw err;
       });

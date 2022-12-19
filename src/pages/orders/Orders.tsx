@@ -1,5 +1,5 @@
-import { ArrowDownward,ArrowUpward } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
+import { Box, IconButton } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -15,38 +15,30 @@ interface IGetOrders {
   page?: number;
   limit?: number;
   statusFilter?: string;
+  sort?: string;
+  sortBy?: string;
 }
 
 export const Orders: React.FC = () => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState('all');
   const [sortValue, setSortValue] = useState('');
   const [sortType, setSortType] = useState('asc');
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
 
   const getOrders = async (config: IGetOrders) => {
+    console.log(config);
     await orderService
       .getOrders({
-        page: config.page || 1,
+        page: config.page,
         limit: config.limit || 10,
         status: config.statusFilter,
+        sortBy: config.sortBy,
+        sort: config.sort,
       })
-      .then((data: IOrderResponse) => {
-        setOrders(data.data);
-        setTotalPages(data.totalPages);
-        return data;
-      })
-      .catch(err => {
-        setError(err);
-        setOrders([]);
-      });
-  };
-
-  const getSortOrders = async (page = 1, sortBy: string, sort: string) => {
-    return orderService
-      .getSortOrders(page, sortBy, sort)
       .then((data: IOrderResponse) => {
         setOrders(data.data);
         setTotalPages(data.totalPages);
@@ -59,21 +51,11 @@ export const Orders: React.FC = () => {
   };
 
   const handlePagination = (page: number) => {
-    if (selectedFilter === 'all' || !selectedFilter) {
-      getOrders({ page });
-    } else {
-      getOrders({ page, statusFilter: selectedFilter });
-    }
+    setPage(page);
   };
 
   const handleStatusFilter = (statusFilter: string) => {
-    if (statusFilter === 'all') {
-      setSelectedFilter(statusFilter);
-      getOrders({});
-    } else {
-      setSelectedFilter(statusFilter);
-      getOrders({ statusFilter });
-    }
+    setSelectedFilter(statusFilter);
   };
 
   const handleSorting = (sortValue: string) => {
@@ -82,21 +64,51 @@ export const Orders: React.FC = () => {
 
   const handleClick = () => {
     sortType === 'asc' ? setSortType('desc') : setSortType('asc');
-  }
+  };
 
   useEffect(() => {
-    getOrders({});
-  }, []);
+    getOrders({
+      page,
+      limit,
+      statusFilter: selectedFilter,
+      sortBy: sortValue,
+      sort: sortType,
+    });
+  }, [page, selectedFilter, sortValue, sortType]);
   return (
     <>
-      <StatusFilter getStatusFilter={handleStatusFilter} />
-     <SortOrders getSortValue={handleSorting}/>
-     <IconButton color='primary' aria-label='sorting' onClick={handleClick}>
-      {sortType === 'asc'
-        ? ( <ArrowDownward />)
-        : ( <ArrowUpward/> )
-      }
-    </IconButton>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <StatusFilter getStatusFilter={handleStatusFilter} />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <SortOrders getSortValue={handleSorting} />
+            <IconButton
+              color='primary'
+              aria-label='sorting'
+              onClick={handleClick}
+              sx={{ height: '40px' }}
+            >
+              {sortType === 'asc' ? <ArrowDownward /> : <ArrowUpward />}
+            </IconButton>
+          </Box>
+        </Box>
+      </Box>
       <div className={style.orders}>
         {error && <ErrorAlert error={error} />}
         {orders.map((item: IOrder) => (
