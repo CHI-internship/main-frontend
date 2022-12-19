@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import orderService from '../../../api/orders.service';
 import { IOrder } from '../../../types';
-import ErrorAlert from '../../ErrorAlert/ErrorAlert';
+import ErrorAlert from '../../Alerts/ErrorAlert';
 import { OrderCard } from '../../orders';
 import style from './OrderList.module.scss';
 
@@ -15,9 +15,9 @@ const OrderList: FC = () => {
 
   const getOrders = async () => {
     await orderService
-      .getOrders(1, 3)
+      .getOrders({ page: 1, limit: 3 })
       .then((data: AxiosResponse) => setOrders(data.data))
-      .catch(err => {
+      .catch((err) => {
         setError(err);
         setOrders([]);
       });

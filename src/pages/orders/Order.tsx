@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { orderService } from '../../api';
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import { OrderDetails } from '../../components/orders';
 import { IOrder } from '../../types';
 

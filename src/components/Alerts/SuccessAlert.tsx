@@ -1,13 +1,8 @@
-import { FC, useState } from 'react';
-import { Alert, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { AxiosError } from 'axios';
+import { Alert, IconButton, Snackbar } from '@mui/material';
+import { useState } from 'react';
 
-type ErrorAlertProps = {
-  error: AxiosError;
-};
-
-const ErrorAlert: FC<ErrorAlertProps> = ({ error }) => {
+const SuccessAlert = () => {
   const [open, setOpen] = useState(true);
 
   const handleClose = () => setOpen(false);
@@ -20,7 +15,7 @@ const ErrorAlert: FC<ErrorAlertProps> = ({ error }) => {
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     >
       <Alert
-        severity='error'
+        severity='success'
         action={
           <IconButton
             aria-label='close'
@@ -34,10 +29,10 @@ const ErrorAlert: FC<ErrorAlertProps> = ({ error }) => {
           </IconButton>
         }
       >
-        {`Error ${error?.code ? 'Something went wrong' : ''}`}
+        {'Success!'}
       </Alert>
     </Snackbar>
   );
 };
 
-export default ErrorAlert;
+export default SuccessAlert;

@@ -1,7 +1,8 @@
-import { FC } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import style from './GetStarted.module.scss';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import style from './GetStarted.module.scss';
 
 const GetStarted: FC = () => {
   const navigate = useNavigate();

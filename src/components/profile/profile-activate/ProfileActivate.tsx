@@ -22,7 +22,7 @@ export const ProfileActivate: React.FC = () => {
       userId: user?.id,
       country: '',
       city: '',
-      card_number: '',
+      cardNumber: '',
       document: '',
       expansion: ''
     },
@@ -33,7 +33,7 @@ export const ProfileActivate: React.FC = () => {
       document: yup.string()
         .min(1, 'Select at least 1 file')
         .required('Document is required'),
-      card_number: yup.number()
+      cardNumber: yup.number()
         .integer()
         .min(15, 'Card should be of minimum 15 characters length')
         .required('Card number is required'),
@@ -97,13 +97,13 @@ export const ProfileActivate: React.FC = () => {
           FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
         <TextField
           fullWidth
-          id='card_number'
-          value={formik.values.card_number}
+          id='cardNumber'
+          value={formik.values.cardNumber}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           style={inputStyles.default}
           label='Card number'
-          helperText={formik.touched.card_number && formik.errors.card_number}
+          helperText={formik.touched.cardNumber && formik.errors.cardNumber}
           FormHelperTextProps={{ style: { color: 'red', fontSize: '11px' } }} />
         <Box sx={{ display:'flex', flexDirection:'column',gap:'15px' }}>
           <input
