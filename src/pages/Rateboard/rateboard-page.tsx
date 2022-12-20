@@ -9,8 +9,8 @@ const RateboardPage: React.FC = () => {
   const [userData, setUserData] = useState([] as IUserScore[]);
   const [role, setRole] = useState('user');
 
-  const getUsers = async (role: string) => {
-    await userService.getUsersForRateboard(role)
+  const getUsers = (role: string) => {
+    userService.getUsersForRateboard(role)
       .then((data: IUserScore[]) => setUserData(data));
   };
 
@@ -24,8 +24,8 @@ const RateboardPage: React.FC = () => {
 
   return(
     <>
-    <ChooseRole getRole={handleRole}/>
-    <Rateboard users={userData} role={role}/>
+      <ChooseRole getRole={handleRole}/>
+      <Rateboard users={userData} role={role}/>
     </>
   );
 };
