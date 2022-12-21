@@ -17,10 +17,6 @@ class OrderService {
       delete config.status;
     }
 
-    if (!config.sortBy) {
-      config.sortBy = 'name';
-    }
-
     return axiosInstance
       .get('orders', {
         params: {

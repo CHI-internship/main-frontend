@@ -2,15 +2,14 @@ import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { useQuery } from 'react-query';
 
 import orderService from '../../api/orders.service';
 import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import StatusFilter from '../../components/filters/status-filter/StatusFilter';
 import { OrderCard, SortOrders } from '../../components/orders';
 import Pagination from '../../components/pagination/Pagination';
-import { IOrder, IOrderResponse } from '../../types';
+import { IOrder } from '../../types';
 import style from './Orders.module.scss';
 
 interface IGetOrders {
@@ -22,48 +21,58 @@ interface IGetOrders {
 }
 
 export const Orders: React.FC = () => {
-  const { data } = useQuery<IGetOrders[]>(
-    'orders',
-    async () =>
-      getOrders({
+  // const [orders, setOrders] = useState<IOrder[]>([]);
+  // const [error, setError] = useState(null as AxiosError);
+  const [totalPages, setTotalPages] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [sortValue, setSortValue] = useState('name');
+  const [sortType, setSortType] = useState('asc');
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  const { data, error } = useQuery(
+    [
+      'orders',
+      {
         page,
         limit,
         statusFilter: selectedFilter,
         sortBy: sortValue,
         sort: sortType,
-      }),
+      },
+    ],
+    async () => {
+      const orders = await getOrders({
+        page,
+        limit,
+        statusFilter: selectedFilter,
+        sortBy: sortValue,
+        sort: sortType,
+      });
+
+      return orders;
+    },
     {
-      cacheTime: 50000,
+      cacheTime: 20000,
+      keepPreviousData: true,
     }
   );
 
-  // const [orders, setOrders] = useState<IOrder[]>([]);
-  const [error, setError] = useState(null as AxiosError);
-  const [totalPages, setTotalPages] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState('all');
-  const [sortValue, setSortValue] = useState('');
-  const [sortType, setSortType] = useState('asc');
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const orders = data ?? [];
 
   const getOrders = async (config: IGetOrders) => {
-    try {
-      const res = await orderService.getOrders({
-        page: config.page,
-        limit: config.limit || 10,
-        status: config.statusFilter,
-        sortBy: config.sortBy,
-        sort: config.sort,
-      });
+    const res = await orderService.getOrders({
+      page: config.page,
+      limit: config.limit || 10,
+      status: config.statusFilter,
+      sortBy: config.sortBy,
+      sort: config.sort,
+    });
 
-      setTotalPages(res.data.totalPages);
+    setTotalPages(res.totalPages);
 
-      return res.data;
-    } catch (err: any) {
-      setError(err);
-
-      return [];
-    }
+    console.log(res);
+    return res.data;
     // await orderService
     //   .getOrders({
     //     page: config.page,
@@ -89,6 +98,7 @@ export const Orders: React.FC = () => {
   };
 
   const handleStatusFilter = (statusFilter: string) => {
+    setPage(1);
     setSelectedFilter(statusFilter);
   };
 
@@ -101,7 +111,6 @@ export const Orders: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(data);
     // getOrders({
     //   page,
     //   limit,
@@ -109,7 +118,8 @@ export const Orders: React.FC = () => {
     //   sortBy: sortValue,
     //   sort: sortType,
     // });
-  }, [page, selectedFilter, sortValue, sortType]);
+  });
+
   return (
     <>
       <Box
@@ -145,12 +155,16 @@ export const Orders: React.FC = () => {
         </Box>
       </Box>
       <div className={style.orders}>
-        {error && <ErrorAlert error={error} />}
-        {/* {data.map((item: IOrder) => ( */}
-        {/*  <OrderCard key={item.id} order={item} /> */}
-        {/* ))} */}
+        {/* {error && <ErrorAlert error={error} />} */}
+        {orders.map((item: IOrder) => (
+          <OrderCard key={item.id} order={item} />
+        ))}
       </div>
-      <Pagination totalCount={totalPages} getPage={handlePagination} />
+      <Pagination
+        currentPage={page}
+        totalCount={totalPages}
+        getPage={handlePagination}
+      />
     </>
   );
 };
