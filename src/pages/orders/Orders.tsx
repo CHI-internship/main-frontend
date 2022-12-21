@@ -2,6 +2,8 @@ import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import { Box, IconButton } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import orderService from '../../api/orders.service';
 import ErrorAlert from '../../components/Alerts/ErrorAlert';
@@ -20,7 +22,22 @@ interface IGetOrders {
 }
 
 export const Orders: React.FC = () => {
-  const [orders, setOrders] = useState<IOrder[]>([]);
+  const { data } = useQuery<IGetOrders[]>(
+    'orders',
+    async () =>
+      getOrders({
+        page,
+        limit,
+        statusFilter: selectedFilter,
+        sortBy: sortValue,
+        sort: sortType,
+      }),
+    {
+      cacheTime: 50000,
+    }
+  );
+
+  // const [orders, setOrders] = useState<IOrder[]>([]);
   const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -30,24 +47,41 @@ export const Orders: React.FC = () => {
   const [limit, setLimit] = useState(10);
 
   const getOrders = async (config: IGetOrders) => {
-    console.log(config);
-    await orderService
-      .getOrders({
+    try {
+      const res = await orderService.getOrders({
         page: config.page,
         limit: config.limit || 10,
         status: config.statusFilter,
         sortBy: config.sortBy,
         sort: config.sort,
-      })
-      .then((data: IOrderResponse) => {
-        setOrders(data.data);
-        setTotalPages(data.totalPages);
-        return data;
-      })
-      .catch(err => {
-        setError(err);
-        setOrders([]);
       });
+
+      setTotalPages(res.data.totalPages);
+
+      return res.data;
+    } catch (err: any) {
+      setError(err);
+
+      return [];
+    }
+    // await orderService
+    //   .getOrders({
+    //     page: config.page,
+    //     limit: config.limit || 10,
+    //     status: config.statusFilter,
+    //     sortBy: config.sortBy,
+    //     sort: config.sort,
+    //   })
+    //   .then((data: IOrderResponse) => {
+    //     // setOrders(data.data);
+    //     setTotalPages(data.totalPages);
+    //     return data;
+    //   })
+    //   .catch(err => {
+    //     setError(err);
+    //     // setOrders([]);
+    //     return [];
+    //   });
   };
 
   const handlePagination = (page: number) => {
@@ -67,13 +101,14 @@ export const Orders: React.FC = () => {
   };
 
   useEffect(() => {
-    getOrders({
-      page,
-      limit,
-      statusFilter: selectedFilter,
-      sortBy: sortValue,
-      sort: sortType,
-    });
+    console.log(data);
+    // getOrders({
+    //   page,
+    //   limit,
+    //   statusFilter: selectedFilter,
+    //   sortBy: sortValue,
+    //   sort: sortType,
+    // });
   }, [page, selectedFilter, sortValue, sortType]);
   return (
     <>
@@ -111,9 +146,9 @@ export const Orders: React.FC = () => {
       </Box>
       <div className={style.orders}>
         {error && <ErrorAlert error={error} />}
-        {orders.map((item: IOrder) => (
-          <OrderCard key={item.id} order={item} />
-        ))}
+        {/* {data.map((item: IOrder) => ( */}
+        {/*  <OrderCard key={item.id} order={item} /> */}
+        {/* ))} */}
       </div>
       <Pagination totalCount={totalPages} getPage={handlePagination} />
     </>
