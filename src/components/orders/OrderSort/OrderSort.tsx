@@ -13,7 +13,7 @@ type SortProps = {
 };
 
 const SortOrders: FC<SortProps> = ({ getSortValue }) => {
-  const [value, setValue] = useState('' as string);
+  const [value, setValue] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     getSortValue(event.target.value);
