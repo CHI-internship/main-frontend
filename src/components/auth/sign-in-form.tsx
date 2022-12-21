@@ -49,7 +49,7 @@ const SignInForm: FC = () => {
       })
       .then(() => {
         setIsError(false)
-        userService.retrieve(localStorage.getItem('token'))
+        userService.retrieve(localStorage.getItem('access-token'))
           .then((data: IUser) => {
             setUser(data);
             return data.id; })

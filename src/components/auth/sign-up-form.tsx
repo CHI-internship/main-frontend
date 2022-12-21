@@ -68,7 +68,7 @@ const SignUpForm: FC = () => {
       recaptchaToken
     }).catch(err => handleError(err))
       .then(() => {
-        userService.retrieve(localStorage.getItem('token'))
+        userService.retrieve(localStorage.getItem('access-token'))
           .then((data: IUser) => {
             setUser(data);
             if (data) {
