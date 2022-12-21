@@ -7,3 +7,8 @@ export interface IVolunteer {
     document: string
     status: boolean
 }
+
+export interface IBase64Documents {
+    base64File: string
+    ext: string
+}

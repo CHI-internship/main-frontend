@@ -76,8 +76,8 @@ const SignUpForm: FC = () => {
               navigate('/profile', { replace: true })
             };
             return data.id;
-           })
-           .then(async (id) => {
+          })
+          .then(async (id) => {
             const res = await userService.roleIsVolunteer(id);
             if (res !== isVolunteer) setIsVolunteer(res);
           })
@@ -87,7 +87,7 @@ const SignUpForm: FC = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       {error && <ErrorAlert error={error} />}
-      {success && <SuccessAlert/>}
+      {success && <SuccessAlert />}
       <Box sx={formStyles}>
         <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
           Sign Up

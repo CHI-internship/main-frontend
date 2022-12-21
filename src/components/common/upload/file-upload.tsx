@@ -9,7 +9,6 @@ interface IFileUploadProps {
 }
 
 export const FileUpload: React.FC<IFileUploadProps> = ({ callback, multiple }) => {
-
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       let result

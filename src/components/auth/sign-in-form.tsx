@@ -13,8 +13,6 @@ import { IUser } from '../../types';
 import ErrorAlert from '../Alerts/ErrorAlert';
 import FormLink from './form-link';
 
-
-
 const SignInForm: FC = () => {
   const { setUser, setIsVolunteer, isVolunteer } = useContext(CurrentUserContext)
   const { executeRecaptcha } = useGoogleReCaptcha()

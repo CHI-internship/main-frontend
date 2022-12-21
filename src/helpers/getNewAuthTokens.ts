@@ -1,5 +1,3 @@
-import { AxiosError } from 'axios';
-
 import userService from '../api/user.service';
 import { AuthTokensType } from '../types/auth-tokens.type';
 

@@ -7,7 +7,6 @@ import * as yup from 'yup'
 
 import userService from '../../api/user.service'
 
-
 export const ResetPassword: React.FC = () => {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
