@@ -10,7 +10,7 @@ import { userService } from '../../api';
 import { CurrentUserContext } from '../../context';
 import { formStyles, inputStyles } from '../../styles';
 import { IUser } from '../../types';
-import ErrorAlert from '../ErrorAlert/ErrorAlert';
+import ErrorAlert from '../Alerts/ErrorAlert';
 import FormLink from './form-link';
 
 const SignInForm: FC = () => {
@@ -47,7 +47,7 @@ const SignInForm: FC = () => {
       })
       .then(() => {
         setIsError(false)
-        userService.retrieve(localStorage.getItem('token'))
+        userService.retrieve(localStorage.getItem('access-token'))
           .then((data: IUser) => {
             setUser(data);
             return data.id; })

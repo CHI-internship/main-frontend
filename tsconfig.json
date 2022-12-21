@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "types": ["node"],
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "typeRoots": ["node_modules/yup"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

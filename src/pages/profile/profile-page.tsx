@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ErrorAlert from '../../components/ErrorAlert/ErrorAlert';
+import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import { Profile } from '../../components/profile';
 import { CurrentUserContext } from '../../context';
 import { checkIsUserAuthorized } from '../../helpers/isUserAuthorized';
