@@ -9,7 +9,6 @@ type ErrorAlertProps = {
 
 const ErrorAlert: FC<ErrorAlertProps> = ({ error }) => {
   const [open, setOpen] = useState(true);
-
   const handleClose = () => setOpen(false);
 
   return (

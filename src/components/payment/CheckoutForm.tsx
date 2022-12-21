@@ -8,7 +8,6 @@ import { paymentService } from '../../api'
 import { IApproveDonatePayload } from '../../types'
 import style from './Payment.module.scss'
 
-
 export const CheckoutForm: React.FC<IApproveDonatePayload> = ({ amount, orderId }) => {
     const stripe = useStripe()
     const elements = useElements()

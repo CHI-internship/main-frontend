@@ -2,7 +2,6 @@ import { FC } from 'react';
 
 import style from './About.module.scss';
 
-
 const AboutPage: FC = () => {
   return (
     <div className={style.container_text}>

@@ -13,7 +13,6 @@ import { formStyles, inputStyles } from '../../styles';
 import { IUser } from '../../types';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
-
 const SignUpForm: FC = () => {
   const { setUser, setIsVolunteer, isVolunteer } = useContext(CurrentUserContext)
   const [error, setError] = useState(null as AxiosError);

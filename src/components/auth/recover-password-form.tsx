@@ -7,13 +7,11 @@ import * as yup from 'yup';
 import userService from '../../api/user.service';
 import { inputStyles } from '../../styles'
 
-
 const RecoverPasswordForm: FC = () => {
   const { executeRecaptcha } = useGoogleReCaptcha()
   const [success, setSuccess] = useState(false)
   const [err, setErr] = useState(false)
   const [disableSend, setDisableSend] = useState(false)
-
 
   const formik = useFormik({
     initialValues: { email: '' },

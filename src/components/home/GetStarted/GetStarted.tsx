@@ -6,7 +6,6 @@ import style from './GetStarted.module.scss';
 
 const GetStarted: FC = () => {
   const navigate = useNavigate();
-
   const handleGetStarted = () => navigate('/sign-up');
 
   return (

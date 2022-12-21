@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios'
 import { IApproveDonatePayload, IPaymentPayload } from '../types'
 import { axiosInstance } from './axios-instance'
 
-
 class PaymentService {
     async sendPayment(paymentPayload: IPaymentPayload) {
         const secretKey = axiosInstance.post('payment', paymentPayload)

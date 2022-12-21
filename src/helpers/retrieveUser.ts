@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 import userService from '../api/user.service';
 import { getNewAuthTokens } from './getNewAuthTokens';
 

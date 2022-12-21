@@ -8,15 +8,12 @@ import * as yup from 'yup';
 import { userService } from '../../../api';
 import { CurrentUserContext } from '../../../context';
 import { formStyles, inputStyles } from '../../../styles';
-import { IBase64Documents } from '../../../types';
-import { base64, multipleBase64 } from '../../../utils';
-
+import { multipleBase64 } from '../../../utils';
 
 export const ProfileActivate: React.FC = () => {
   const { user } = useContext(CurrentUserContext);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
 
   const formik = useFormik({
     initialValues: {
