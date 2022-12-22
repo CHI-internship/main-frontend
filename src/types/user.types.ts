@@ -49,3 +49,10 @@ export enum IUserRole {
   CUSTOMER = 'customer',
   VOLUNTEER = 'volunteer',
 }
+
+export interface IUserScore {
+  firstName: string,
+  lastName: string,
+  image?: any,
+  score: string,
+}

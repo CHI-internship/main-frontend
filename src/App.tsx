@@ -25,6 +25,7 @@ import {
   SignIn,
   SignUp,
 } from './pages';
+import RateboardPage from './pages/Rateboard/rateboard-page';
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ function App() {
                 <Route path='hints/:id' element={<Hint />} />
                 <Route path='success-donate' element={<CompletedPayment />} />
                 <Route path='hints/create' element={<CreateHint />} />
+                <Route path='rateboard' element={<RateboardPage/>} />
               </Routes>
             </Sidebar>
           </CurrentUserContext.Provider>

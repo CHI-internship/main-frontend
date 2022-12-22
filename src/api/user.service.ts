@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { AxiosError, AxiosResponse } from 'axios';
 
 import {
@@ -6,6 +7,7 @@ import {
   IResetPassword,
   IUpdatePassword,
   IUpdateProfile,
+  IUserScore,
   RegisterType,
   SignInType,
 } from '../types';
@@ -125,6 +127,21 @@ class UserService {
     return axiosInstance
       .get('user/role-check', { params })
       .then((data: AxiosResponse) => data.data)
+  }
+
+  async getUsersForRateboard(role: string) {
+    const users: IUserScore[] = [];
+
+    for(let i = 0; i < 6; i++) {
+      users.push({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        image: faker.image.avatar(),
+        score: faker.random.numeric(5),
+      })
+    }
+
+    return users;
   }
 }
 
