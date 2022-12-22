@@ -8,7 +8,7 @@ interface IGetOrdersConfig {
   limit: number;
   sort?: string;
   status?: string;
-  sortBy?: string;
+  sortBy: string;
 }
 
 class OrderService {

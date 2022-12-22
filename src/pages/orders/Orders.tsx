@@ -1,5 +1,5 @@
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
-import { Box, IconButton } from '@mui/material';
+import { Box, CircularProgress, IconButton } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -21,8 +21,6 @@ interface IGetOrders {
 }
 
 export const Orders: React.FC = () => {
-  // const [orders, setOrders] = useState<IOrder[]>([]);
-  // const [error, setError] = useState(null as AxiosError);
   const [totalPages, setTotalPages] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [sortValue, setSortValue] = useState('name');
@@ -30,7 +28,7 @@ export const Orders: React.FC = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const { data, error } = useQuery(
+  const { isLoading, data, error, isError } = useQuery<IOrder[], AxiosError>(
     [
       'orders',
       {
@@ -58,8 +56,6 @@ export const Orders: React.FC = () => {
     }
   );
 
-  const orders = data ?? [];
-
   const getOrders = async (config: IGetOrders) => {
     const res = await orderService.getOrders({
       page: config.page,
@@ -71,26 +67,7 @@ export const Orders: React.FC = () => {
 
     setTotalPages(res.totalPages);
 
-    console.log(res);
     return res.data;
-    // await orderService
-    //   .getOrders({
-    //     page: config.page,
-    //     limit: config.limit || 10,
-    //     status: config.statusFilter,
-    //     sortBy: config.sortBy,
-    //     sort: config.sort,
-    //   })
-    //   .then((data: IOrderResponse) => {
-    //     // setOrders(data.data);
-    //     setTotalPages(data.totalPages);
-    //     return data;
-    //   })
-    //   .catch(err => {
-    //     setError(err);
-    //     // setOrders([]);
-    //     return [];
-    //   });
   };
 
   const handlePagination = (page: number) => {
@@ -109,16 +86,6 @@ export const Orders: React.FC = () => {
   const handleClick = () => {
     sortType === 'asc' ? setSortType('desc') : setSortType('asc');
   };
-
-  useEffect(() => {
-    // getOrders({
-    //   page,
-    //   limit,
-    //   statusFilter: selectedFilter,
-    //   sortBy: sortValue,
-    //   sort: sortType,
-    // });
-  });
 
   return (
     <>
@@ -155,11 +122,16 @@ export const Orders: React.FC = () => {
         </Box>
       </Box>
       <div className={style.orders}>
-        {/* {error && <ErrorAlert error={error} />} */}
-        {orders.map((item: IOrder) => (
+        {isError && <ErrorAlert error={error} />}
+        {data?.map((item: IOrder) => (
           <OrderCard key={item.id} order={item} />
         ))}
       </div>
+      {isLoading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      )}
       <Pagination
         currentPage={page}
         totalCount={totalPages}
