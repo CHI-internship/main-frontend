@@ -1,40 +1,26 @@
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 
-import { IGetOrdersHookConfig, IOrder } from '../types';
+import { orderService } from '../api';
+import { IGetOrdersHookConfig, IOrder, IOrderResponse } from '../types';
 
-export const UseOrders = (config: IGetOrdersHookConfig, fn: Function) => {
-  const { page, limit, selectedFilter, sortValue, sortType } = config;
+export const UseOrders = (config: IGetOrdersHookConfig) => {
+  const requestParams = {
+    page: config.page,
+    limit: config.limit,
+    status: config.selectedFilter,
+    sortBy: config.sortValue,
+    sort: config.sortType,
+  };
 
-  const { isLoading, data, error, isError } = useQuery<IOrder[], AxiosError>(
-    [
-      'orders',
-      {
-        page,
-        limit,
-        statusFilter: selectedFilter,
-        sortBy: sortValue,
-        sort: sortType,
-      },
-    ],
+  return useQuery<IOrderResponse, AxiosError>(
+    ['orders', requestParams],
     async () => {
-      const orders = await fn({
-        page,
-        limit,
-        statusFilter: selectedFilter,
-        sortBy: sortValue,
-        sort: sortType,
-      });
-
-      return orders;
+      return orderService.getOrders(requestParams);
     },
     {
       cacheTime: 20000,
       keepPreviousData: true,
     }
   );
-
-  const orders = data ?? [];
-
-  return { isLoading, orders, error, isError };
 };

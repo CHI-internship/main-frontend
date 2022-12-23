@@ -6,39 +6,26 @@ import ErrorAlert from '../../components/Alerts/ErrorAlert';
 import StatusFilter from '../../components/filters/status-filter/StatusFilter';
 import { OrderCard, SortOrders } from '../../components/orders';
 import Pagination from '../../components/pagination/Pagination';
-import { getOrders } from '../../helpers/getOrders';
 import { UseOrders } from '../../hooks/orders.hook';
 import { IOrder } from '../../types';
 import style from './Orders.module.scss';
 
 export const Orders: React.FC = () => {
-  const [totalPages, setTotalPages] = useState(0);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [sortValue, setSortValue] = useState('name');
   const [sortType, setSortType] = useState('asc');
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const { isLoading, orders, error, isError } = UseOrders(
-    {
-      page,
-      limit,
-      selectedFilter,
-      sortValue,
-      sortType,
-    },
-    async () =>
-      getOrders(
-        {
-          page,
-          limit,
-          statusFilter: selectedFilter,
-          sortBy: sortValue,
-          sort: sortType,
-        },
-        setTotalPages
-      )
-  );
+  const { isLoading, data, error, isError } = UseOrders({
+    page,
+    limit,
+    selectedFilter,
+    sortValue,
+    sortType,
+  });
+
+  const { data: orders, totalPages } = data || {};
 
   const handlePagination = (page: number) => {
     setPage(page);
