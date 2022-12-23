@@ -8,17 +8,13 @@ interface IGetOrdersConfig {
   limit: number;
   sort?: string;
   status?: string;
-  sortBy?: string;
+  sortBy: string;
 }
 
 class OrderService {
   async getOrders(config: IGetOrdersConfig) {
     if (config.status === 'all') {
       delete config.status;
-    }
-
-    if (!config.sortBy) {
-      config.sortBy = 'name';
     }
 
     return axiosInstance
