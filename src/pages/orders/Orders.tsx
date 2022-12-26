@@ -25,7 +25,7 @@ export const Orders: React.FC = () => {
     sortType,
   });
 
-  const { data: orders, totalPages } = data || {};
+  const { data: orders, totalPages } = data ?? {};
 
   const handlePagination = (page: number) => {
     setPage(page);
