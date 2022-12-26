@@ -15,6 +15,6 @@ jobs:
           name: Run lint check
           command: npm run lint:fix
 workflows:
-  auth-workflow:
+  main-workflow:
     jobs:
       - lint_check
