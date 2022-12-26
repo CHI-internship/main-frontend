@@ -2,7 +2,7 @@ import { Box, Pagination as PaginationMUI } from '@mui/material';
 import { FC } from 'react';
 
 type PaginationProps = {
-  totalCount: number;
+  totalCount?: number;
   currentPage?: number;
   getPage: (page: number) => void;
 };
