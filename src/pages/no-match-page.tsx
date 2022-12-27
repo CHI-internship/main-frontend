@@ -3,7 +3,7 @@ import { FC, ReactElement } from 'react';
 
 const NoMatchPage: FC<{}> = (): ReactElement => {
   return (
-    <Typography sx={{ textAlign: 'center', fontSize: '2rem' }}>
+    <Typography sx={{ textAlign: 'center', fontSize: '3rem' }}>
       Page Not Found
     </Typography>
   );
