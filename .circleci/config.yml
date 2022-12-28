@@ -13,7 +13,7 @@ jobs:
           name: Run installation of packages
       - run:
           name: Run lint check
-          command: npm run lint:fix
+          command: npm run lint
 workflows:
   main-workflow:
     jobs:
